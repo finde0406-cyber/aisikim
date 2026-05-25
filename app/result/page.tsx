@@ -1,6 +1,7 @@
 // 무료 결과 페이지 - 선택형 진단 결과로 기본 작업지시서 1개 생성
 import Link from 'next/link'
 import CopyButton from '@/components/result/CopyButton'
+import EmailForm from '@/components/email/EmailForm'
 import { generateInstruction, getAnswerSummary } from '@/lib/result-generator'
 import type { QuizAnswers } from '@/lib/quiz-data'
 
@@ -117,19 +118,15 @@ export default async function ResultPage({
         {/* 구분 */}
         <div className="mt-12 mb-8 border-t border-gray-100" />
 
-        {/* 무료 샘플팩 섹션 */}
+        {/* 무료 샘플팩 이메일 수집 섹션 */}
         <p className="text-xs font-medium text-gray-400 mb-2">무료 샘플팩</p>
         <p className="text-base font-semibold text-gray-900 mb-2">
-          더 많은 샘플이 필요하신가요?
+          더 많은 작업지시서가 필요하신가요?
         </p>
         <p className="text-sm text-gray-500 mb-5 leading-relaxed">
-          바로 복사해서 쓸 수 있는 작업지시서 샘플 5개를 무료로 받아보세요.<br />
-          AI에 대충 묻고 실망하지 않도록 도와드립니다.
+          바로 복사해서 쓸 수 있는 작업지시서 샘플 5개를 이메일로 보내드립니다.
         </p>
-        <div className="border border-dashed border-gray-200 rounded-xl px-4 py-5 text-center">
-          <p className="text-sm text-gray-400 mb-1">무료 샘플팩 신청</p>
-          <p className="text-xs text-gray-300">이메일 수집 연동 준비 중 — Sprint 4에서 활성화 예정</p>
-        </div>
+        <EmailForm />
 
       </div>
     </main>

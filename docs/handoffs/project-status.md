@@ -1,12 +1,12 @@
 # AI시킴 프로젝트 상태
 
-갱신: 2026-05-25 / Claude Code (Sprint 3 결과 페이지 구현 완료)
+갱신: 2026-05-25 / Claude Code (Sprint 4 이메일 수집 UI 구현 완료)
 
 ---
 
 ## 현재 단계
 
-**Sprint 3 구현 완료. 커밋 승인 대기 중.**
+**Sprint 4 UI 구현 완료. 커밋 승인 대기 중.**
 
 ---
 
@@ -14,11 +14,11 @@
 
 | 해시 | 메시지 | 날짜 |
 |------|--------|------|
+| `aa1eec8` | feat: implement Sprint 3 result page | 2026-05-25 |
 | `eb07acc` | feat: implement Sprint 2 quiz flow | 2026-05-25 |
 | `703b0a4` | feat: implement Sprint 1 landing page | 2026-05-25 |
 | `13b9c5a` | docs: update claude and codex handoff reports | 2026-05-25 |
 | `8881a65` | docs: add handoff workflow for claude and codex | 2026-05-24 |
-| `72e3c52` | docs: initialize aisikim project planning documents | 2026-05-24 |
 
 ---
 
@@ -27,7 +27,7 @@
 ```
 브랜치: main
 원격: origin/main (https://github.com/finde0406-cyber/aisikim.git)
-원격 동기화: eb07acc까지 push 완료
+원격 동기화: aa1eec8까지 push 완료
 
 modified (미커밋):
   app/result/page.tsx
@@ -35,8 +35,7 @@ modified (미커밋):
   docs/handoffs/project-status.md
 
 untracked (신규):
-  components/result/
-  lib/result-generator.ts
+  components/email/
 ```
 
 ---
@@ -60,13 +59,11 @@ untracked (신규):
 - Sprint 0: 기준 문서 전체 커밋 완료
 - Sprint 1: 랜딩페이지 구현 완료 — `703b0a4` 커밋됨
 - Sprint 2: 선택형 진단 구현 완료 — `eb07acc` 커밋됨
-  - `lib/quiz-data.ts` — 질문 5개 + 선택지 상수
-  - `app/quiz/page.tsx` — 5단계 선택형 진단
-  - `app/result/page.tsx` — Sprint 3 플레이스홀더로 커밋됨
-- Sprint 3: 결과 페이지 구현 완료 (미커밋)
-  - `lib/result-generator.ts` — 작업지시서 템플릿 합성 유틸
-  - `components/result/CopyButton.tsx` — 클립보드 복사 클라이언트 컴포넌트
-  - `app/result/page.tsx` — 선택 요약·결과 박스·복사·무료/유료 비교·스타터팩 CTA·샘플팩 UI 초안
+- Sprint 3: 결과 페이지 구현 완료 — `aa1eec8` 커밋됨
+- Sprint 4: 이메일 수집 UI 구현 완료 (미커밋)
+  - `components/email/EmailForm.tsx` — 이메일 입력·동의 문구·제출·성공 상태 포함
+  - `app/result/page.tsx` — 샘플팩 플레이스홀더 → EmailForm 교체
+  - 환경변수 `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` 기반 외부 연동 교체 구조
   - TypeScript 타입 검사 통과
 
 ---
@@ -75,27 +72,25 @@ untracked (신규):
 
 | 항목 | 긴급도 | 비고 |
 |------|--------|------|
-| Sprint 3 구현 파일 커밋 | 높음 | 사용자 승인 후 진행 |
-| 실제 모바일 화면 확인 | 높음 | `npm run dev` 후 퀴즈→결과 전체 흐름 확인 필요 |
-| 이메일 수집 도구 확정 | 중간 | Tally 우선안, Sprint 4 전 결정 필요 |
+| Sprint 4 구현 파일 커밋 | 높음 | 사용자 승인 후 진행 |
+| Tally 폼 생성 + URL 설정 | 높음 | 설정 전까지 실제 이메일 수집 불가 |
+| 이메일 수집 도구 확정 | 높음 | Tally 우선안 — 조기 결정 필요 |
+| 샘플팩 5개 콘텐츠 실물 | 높음 | 폼 연동 완료돼도 발송할 자료 필요 |
 | 결제 채널 확정 및 가입 착수 | 중간 | 크몽·스마트스토어 심사 기간 존재 |
-| 샘플팩 5개 콘텐츠 실물 | 중간 | Sprint 4 전 준비 필요 |
 | 스타터팩 50개 콘텐츠 실물 | 중간 | Sprint 5 전 준비 필요 |
 | 개인정보 처리방침·이용약관 초안 | 중간 | Sprint 5 전 필요 |
-| GitHub 원격 저장소 연결 | 완료 | origin/main 연결 및 push 완료 |
+| Vercel 프로젝트 생성 | 낮음 | Sprint 7 전 필요 |
 | 도메인 확보 | 낮음 | Sprint 7 전 가능 |
 
 ---
 
 ## 다음 단계
 
-1. `npm run dev` 실행 → 퀴즈 → 결과 전체 흐름 모바일 확인
-2. 커밋 승인 후 `feat: implement Sprint 3 result page` 커밋
-3. 병렬 진행 (Sprint 4 착수 전)
-   - 이메일 수집 도구 확정 (Tally 우선 검토)
-   - 결제 채널 1개 확정 및 가입 착수
-   - 샘플팩 5개 콘텐츠 작성 시작
-4. Sprint 4: 이메일 수집 폼 실제 연동
+1. `npm run dev` 실행 → 이메일 폼 동작 확인 (입력·검증·제출·성공 상태)
+2. 커밋 승인 후 `feat: implement Sprint 4 email collection UI` 커밋
+3. Tally 폼 생성 → `.env.local`에 `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` 설정
+4. 샘플팩 5개 콘텐츠 실물 준비
+5. Sprint 5 착수: `/starter-pack` 상세 페이지 설득 구조 강화
 
 ---
 

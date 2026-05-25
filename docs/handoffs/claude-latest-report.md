@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-05-25 / Claude Code (Sprint 3 결과 페이지 구현 완료)
+갱신: 2026-05-25 / Claude Code (Sprint 4 이메일 수집 UI 구현 완료)
 
 ---
 
@@ -10,85 +10,88 @@
 |------|---|
 | 저장소 경로 | `c:\Users\win10\Documents\AI시킴\` |
 | 브랜치 | `main` |
-| 원격 | `origin/main` (https://github.com/finde0406-cyber/aisikim.git) — `eb07acc`까지 push 완료 |
-| 최신 커밋 | `eb07acc` `feat: implement Sprint 2 quiz flow` |
-| Next.js | 16.2.6 (App Router, Tailwind v4) |
-| Sprint 3 미커밋 | `app/result/page.tsx` 수정, `components/result/` + `lib/result-generator.ts` 신규 |
+| 원격 | `origin/main` (https://github.com/finde0406-cyber/aisikim.git) — `aa1eec8`까지 push 완료 |
+| 최신 커밋 | `aa1eec8` `feat: implement Sprint 3 result page` |
+| Sprint 4 미커밋 | `app/result/page.tsx` 수정, `components/email/` 신규 |
 
 ---
 
 ## 현재 단계 판단
 
-**Sprint 3 결과 페이지 구현 완료. 커밋 대기 중.**
+**Sprint 4 이메일 수집 UI 구현 완료. 커밋 대기 중.**
 
 mvp-roadmap.md 기준:
 
 - Sprint 0 (문서 세팅): ✅ 완료 (커밋됨)
 - Sprint 1 (랜딩페이지): ✅ 완료 — `703b0a4` 커밋됨
 - Sprint 2 (선택형 진단): ✅ 완료 — `eb07acc` 커밋됨
-- Sprint 3 (결과 페이지): ✅ 구현 완료 — 커밋 승인 대기
-- Sprint 4 이후: ⬜ 미시작
+- Sprint 3 (결과 페이지): ✅ 완료 — `aa1eec8` 커밋됨
+- Sprint 4 (이메일 수집): ✅ UI 구현 완료 — 커밋 승인 대기 / 외부 폼 연동 미완료
+- Sprint 5 이후: ⬜ 미시작
 
 ---
 
 ## 이미 완료된 것
 
-### Sprint 3 (이번 세션)
-- `lib/result-generator.ts` — 신규
-  - `generateInstruction(answers)` — 5개 선택값 → 작업지시서 문장 합성 (템플릿 기반, AI API 없음)
-  - `getAnswerSummary(answers)` — 선택 요약 칩 데이터 반환 (Sprint 3 결과 페이지 전용)
-- `components/result/CopyButton.tsx` — 신규 Client Component
-  - `navigator.clipboard.writeText` 기반 복사
-  - 복사 완료 시 2초간 "복사됐습니다" 피드백
-- `app/result/page.tsx` — 전면 교체 (Server Component, `await searchParams`)
-  - URLSearchParams 5개 읽기 (category, blocker, output, ai_tool, style)
-  - 파라미터 없을 경우 fallback 화면 제공
-  - 선택 요약 칩 5개
-  - 기본 작업지시서 1개 결과 박스
-  - 복사 버튼 (CopyButton 클라이언트 컴포넌트)
-  - 다시 진단하기 링크
-  - 무료 vs 유료 비교 (2열)
-  - 스타터팩 CTA → `/starter-pack`
-  - 무료 샘플팩 섹션 UI 초안 (이메일 연동 Sprint 4 예정 안내)
-- TypeScript 타입 검사 통과 (`npx tsc --noEmit` 오류 없음)
+### Sprint 4 (이번 세션)
+- `components/email/EmailForm.tsx` — 신규 Client Component
+  - 이메일 입력 필드 (type=email, inputMode=email, 형식 검증)
+  - 샘플팩 5개 구성 목록 (`product-pack-structure.md §3` 기준)
+  - 동의 체크박스 + 동의 문구 (`email-funnel.md` 기준)
+    - 샘플팩 발송을 위한 이메일 수집 동의
+    - 향후 서비스 업데이트/유료 상품 안내 수신 안내
+    - 언제든지 수신 거부 가능 문구
+  - 입력 오류 인라인 메시지 처리
+  - 제출 후 성공 상태 UI ("신청이 접수되었습니다" + 스타터팩 링크)
+  - 환경변수 `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` 설정 시 Tally 등 외부 폼으로 자동 연결
+  - 미설정 시 성공 UI만 노출 (하드코딩 가짜 연동 없음)
+- `app/result/page.tsx` — 샘플팩 플레이스홀더 → `<EmailForm />` 교체
+- TypeScript 타입 검사 통과
+
+---
+
+## 실제 이메일 발송 연동 방법 (추후 작업)
+
+1. `.env.local`에 추가:
+   ```
+   NEXT_PUBLIC_SAMPLE_PACK_FORM_URL=https://tally.so/r/YOUR_FORM_ID
+   ```
+2. Tally 폼 생성 시 `email` 파라미터 pre-fill 설정
+3. 로컬 재시작 후 폼 제출 → 외부 Tally 탭 자동 열림
 
 ---
 
 ## 아직 미완료인 것
 
-### 결정 미완료 항목
-
 | 항목 | 긴급도 |
 |------|--------|
-| Sprint 3 커밋 승인 | 높음 |
-| 이메일 수집 도구 확정 (Tally vs 자체 API) | 중간 |
+| Sprint 4 커밋 승인 | 높음 |
+| Tally 폼 생성 + URL 설정 | 높음 — 설정 전까지 실제 이메일 수집 불가 |
+| 이메일 수집 도구 확정 (Tally 우선안) | 높음 |
 | 결제 채널 확정 및 가입 착수 | 중간 |
 | 샘플팩 5개 콘텐츠 실물 준비 | 중간 |
 | 스타터팩 50개 콘텐츠 실물 준비 | 중간 |
 | 개인정보 처리방침·이용약관 초안 작성 | 중간 |
-| GitHub 원격 연결 | 완료 — origin/main push 완료 |
 | Vercel 프로젝트 생성 | 낮음 |
+| 도메인 확보 | 낮음 |
 
 ---
 
-## 변경 파일 (Sprint 3)
+## 변경 파일 (Sprint 4)
 
 ```
-app/result/page.tsx           (수정 — Sprint 2 플레이스홀더 → Sprint 3 전면 구현)
-components/result/CopyButton.tsx  (신규 — untracked)
-lib/result-generator.ts       (신규 — untracked)
+app/result/page.tsx           (수정 — 샘플팩 플레이스홀더 → EmailForm 교체)
+components/email/EmailForm.tsx  (신규 — untracked)
 ```
 
 ---
 
 ## 기준 문서와의 일치 여부
 
-- PRD §13.1 무료 제공: 기본 작업지시서 1개만 노출 ✓
-- PRD §13.2 유료 제공: "결과물을 완성하기 위한 단계별 작업지시서 50개" 메시지 유지 ✓
-- PRD §18 모바일 UI: 단일 컬럼, 복사 쉬운 구조, 가로 2열은 요약 비교 영역에만 사용 ✓
-- AGENTS.md: 이메일 수집·결제·로그인 없음 ✓
-- "작업지시서" 표현 우선: "프롬프트" 표현 없음 ✓
-- user-flow.md §2 무료 결과 흐름: 결과 확인 → 이메일 CTA → 유료 유도 구조 구현 ✓
+- PRD §15 이메일 수집 구조: 목적 명시, 동의 문구 포함, 이메일만 수집 ✓
+- email-funnel.md §1~2 수집 문구 + 동의 문구: 그대로 반영 ✓
+- PRD §21 개인정보 입력 최소화: 이메일만, 이름/전화번호 없음 ✓
+- AGENTS.md: 로그인·결제·DB 없음 ✓
 
 ---
 
@@ -96,15 +99,15 @@ lib/result-generator.ts       (신규 — untracked)
 
 | 위험 | 심각도 | 설명 |
 |------|--------|------|
-| 이메일 섹션 UI만 있고 미연동 | 중간 | Sprint 4에서 실제 Tally 연동 필요 |
-| 결과 문구 품질 | 중간 | 템플릿 합성 결과물이 모든 조합에서 자연스러운지 실제 테스트 필요 |
-| 콘텐츠 미준비 | 높음 | 스타터팩 50개·샘플팩 5개 실물 없으면 판매 페이지 의미 없음 |
-| 결제 채널 미확정 | 높음 | 크몽·스마트스토어 심사 기간 존재. 조기 착수 권장 |
+| Tally URL 미설정 | 높음 | 설정 전까지 폼 제출이 실제 전송되지 않음 — 이메일 미수신 상태 |
+| 샘플팩 콘텐츠 미준비 | 높음 | 이메일 연동 완료돼도 발송할 샘플팩 실물이 없음 |
+| 결제 채널 미확정 | 중간 | 스타터팩 CTA 클릭 후 실제 결제 불가 상태 |
 
 ---
 
 ## 다음 단계 제안
 
-1. Sprint 3 커밋 승인 요청 (`feat: implement Sprint 3 result page`)
-2. `npm run dev` 구동 후 퀴즈 → 결과 전체 흐름 모바일 확인
-3. Sprint 4 착수: 이메일 수집 폼 실제 연동 (Tally 또는 자체 API)
+1. Sprint 4 커밋 승인 요청
+2. Tally 폼 생성 → `.env.local`에 `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` 설정
+3. 샘플팩 5개 콘텐츠 실물 준비 (email-funnel.md §3 기준)
+4. Sprint 5 착수: `/starter-pack` 페이지 개선 (현재 구성 목록만 있음 → 상세 설득 구조 추가)
