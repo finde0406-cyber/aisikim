@@ -1,4 +1,4 @@
-// 유료 스타터팩 상세 페이지 - 설득형 상세 구조
+// 유료 스타터팩 상세 페이지 - 입문용 유료 상품 포지셔닝
 import Link from 'next/link'
 
 const PACK_CATEGORIES = [
@@ -57,6 +57,7 @@ const WHO_NEEDS = [
   '첫 질문만 하고 중간에 막혀버리는 분',
   '블로그·업무·개발 중에 단계적으로 AI를 활용하고 싶은 분',
   '따로 배우기보다 바로 복사해서 써볼 수 있는 자료가 필요한 분',
+  'AI시킴의 작업지시서 방식이 실제로 자신에게 맞는지 시험해보고 싶은 분',
 ]
 
 export default function StarterPackPage() {
@@ -99,8 +100,11 @@ export default function StarterPackPage() {
           AI 작업지시서 스타터팩
         </h1>
         <p className="text-3xl font-bold text-indigo-600 mb-3">9,900원</p>
-        <p className="text-sm text-gray-600 leading-relaxed mb-2">
+        <p className="text-sm text-gray-600 leading-relaxed mb-1">
           결과물을 완성하기 위한 단계별 작업지시서 50개
+        </p>
+        <p className="text-xs text-gray-400 mb-2">
+          AI시킴 방식이 나와 맞는지 처음 확인해보는 입문용 상품입니다.
         </p>
         <p className="text-xs text-gray-400 mb-8">PDF + Notion 링크로 제공</p>
 
@@ -238,9 +242,17 @@ export default function StarterPackPage() {
                   결제 채널 연결이 완료되면 이 자리에서 바로 구매하실 수 있습니다.
                 </p>
               </div>
-              <p className="text-xs text-gray-400 text-center mt-3">
-                지금은 무료 샘플팩 신청으로 먼저 확인해보세요.
-              </p>
+              <div className="mt-4 text-center">
+                <p className="text-xs text-gray-400 mb-2">
+                  그 전에 무료 샘플팩 5개로 먼저 확인해보세요.
+                </p>
+                <Link
+                  href="/quiz"
+                  className="text-sm text-indigo-600 underline underline-offset-2"
+                >
+                  무료 진단 후 샘플팩 신청하기
+                </Link>
+              </div>
             </>
           )}
         </div>
@@ -264,6 +276,14 @@ export default function StarterPackPage() {
               </details>
             ))}
           </div>
+        </div>
+
+        {/* --- 딥팩 간접 암시 --- */}
+        <div className="mb-10 bg-gray-50 rounded-xl px-4 py-4">
+          <p className="text-xs text-gray-500 leading-relaxed">
+            스타터팩으로 AI시킴 방식을 경험해보신 뒤, 자주 쓰는 분야가 생기면
+            해당 분야를 더 깊게 이어갈 수 있도록 준비하고 있습니다.
+          </p>
         </div>
 
         {/* --- 섹션 9: 하단 CTA --- */}

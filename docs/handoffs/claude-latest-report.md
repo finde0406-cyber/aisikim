@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-05-25 / Claude Code (랜딩페이지 압축 + UI/브랜딩 개선)
+갱신: 2026-05-25 / Claude Code (전환 구조 개선 — 결과 페이지 + 스타터팩 페이지)
 
 ---
 
@@ -9,58 +9,62 @@
 | 항목 | 값 |
 |------|---|
 | 브랜치 | `main` |
-| 최신 커밋 | `38df64a` `ux: auto-advance quiz and strengthen instruction output` |
-| 미커밋 변경 | 랜딩 컴포넌트 8개 수정/신규/삭제 + handoff 파일 2개 |
+| 최신 커밋 | `95df97d` `docs: refine monetization and pack strategy` |
+| 미커밋 변경 | `app/result/page.tsx`, `app/starter-pack/page.tsx` |
 
 ---
 
 ## 현재 단계
 
-**랜딩 UI/브랜딩 개선 완료. 커밋 승인 대기 중.**
+**전환 구조 개선 완료. 커밋 승인 대기 중.**
 
 ---
 
 ## 이번 세션에서 완료한 것
 
-### 랜딩페이지 구조 압축
+### 개선 1: 결과 페이지 (`app/result/page.tsx`)
 
-**Before:** Hero → Problem(3카드) → HowItWorks(3단계) → CategoryPreview(3카드+CTA) → FreeVsPaid(2카드) → StarterPackTeaser(5줄+CTA) → FinalCTA → Footer
+**섹션 순서 변경 (핵심):**
+- Before: 결과 → [구분] → 무료vs유료 비교 → **스타터팩 CTA(filled)** → [구분] → **샘플팩 이메일폼**
+- After: 결과 → 다음단계 훅 → [구분] → **샘플팩 이메일폼(우선)** → [구분] → 무료vs유료 비교 → **스타터팩 링크(outline, 소프트)**
 
-**After:** Hero → Problem(3줄) → HowItWorks(압축) → CategoryPreview(인라인+CTA) → PackPreview(2열 압축) → FinalCTA → Footer
+revenue-model.md §3 수익화 순서 기준 정렬: 무료 결과 → 샘플팩(신뢰형성) → 스타터팩(첫 구매)
 
-섹션 수: 8 → 7 (FreeVsPaid + StarterPackTeaser → PackPreview 1개로 합침)
+**문구 변경:**
+- `h1` "내 맞춤 작업지시서" → "첫 번째 작업지시서" (첫 단계임을 명시)
+- 서브헤더: "선택하신 내용을 바탕으로" → "선택하신 조건으로 기본 작업지시서 1개를 만들었습니다."
+- 다음단계 훅 추가: "지금은 첫 번째 작업지시서 1개만 열려 있습니다. 실제 결과물을 완성하려면 후속 질문, 수정 요청, 검수 단계가 더 필요합니다."
+- 샘플팩 레이블: "무료 샘플팩" → "다음 단계"
+- 샘플팩 헤더: "더 많은 작업지시서가 필요하신가요?" → "5개를 더 받아서 다른 상황에서도 바로 써보세요"
+- 샘플팩 설명: 후속·수정·검수 흐름 포함 명시
+- 스타터팩 CTA: `bg-indigo-600 text-white` filled → `border-2 border-indigo-600 text-indigo-600` outline (소프트)
+- "다시 진단하기" 링크: `text-sm` → `text-xs` (시각적 무게 감소)
 
-### 파일별 변경 내용
+### 개선 2: 스타터팩 페이지 (`app/starter-pack/page.tsx`)
 
-| 파일 | 변경 |
-|------|------|
-| `HeroSection.tsx` | 배지 chip 제거, h1 `font-extrabold`·PRD §7.1 원문 메시지 적용("직접 쓰지 말고 선택하세요."), CTA에 `→` 추가 |
-| `ProblemSection.tsx` | 3개 white shadow-card 제거 → `·` 인라인 3줄로 압축 |
-| `HowItWorksSection.tsx` | `text-xl` h2 제거 + 스텝 circle 크기 축소 (`w-8 h-8` → `w-6 h-6`) + 설명 1줄로 압축 |
-| `CategoryPreviewSection.tsx` | 3개 card → 구분선 인라인 목록으로 교체, CTA에 `→` 추가 |
-| `FreeVsPaidSection.tsx` | **삭제** (PackPreviewSection에 내용 보존) |
-| `StarterPackTeaserSection.tsx` | **삭제** (PackPreviewSection에 내용 보존) |
-| `PackPreviewSection.tsx` | **신규** — 무료/유료 2열 미니 비교 + `/starter-pack` 링크 |
-| `FinalCTASection.tsx` | 서브텍스트 1줄로 압축, `font-extrabold` 적용 |
-| `app/page.tsx` | import 구조 갱신 (FreeVsPaid·StarterPackTeaser 제거, PackPreview 추가) |
+**포지셔닝 강화:**
+- 히어로에 "AI시킴 방식이 나와 맞는지 처음 확인해보는 입문용 상품입니다." 추가 (9,900원 + 기존 설명 아래)
 
-- TypeScript 타입 검사 통과
+**WHO_NEEDS 항목 추가:**
+- "AI시킴의 작업지시서 방식이 실제로 자신에게 맞는지 시험해보고 싶은 분" (5번째 항목)
+
+**null fallback CTA 개선 (결제 URL 미설정 시):**
+- "그 전에 무료 샘플팩 5개로 먼저 확인해보세요." 문구 추가
+- "무료 진단 후 샘플팩 신청하기" 링크 추가 (`/quiz` 연결 — `/result` 직접 접근 시 "진단 필요" 화면만 표시되므로)
+
+**딥팩 간접 암시 블록 추가 (FAQ 아래):**
+- `bg-gray-50 rounded-xl` 블록에 "스타터팩으로 AI시킴 방식을 경험해보신 뒤, 자주 쓰는 분야가 생기면 해당 분야를 더 깊게 이어갈 수 있도록 준비하고 있습니다." — 상품 약속 없이 방향만 암시
 
 ---
 
-## 변경 파일 (git status)
+## 변경 파일
 
 ```
- M app/page.tsx
- M components/home/CategoryPreviewSection.tsx
- M components/home/FinalCTASection.tsx
- D components/home/FreeVsPaidSection.tsx
- M components/home/HeroSection.tsx
- M components/home/HowItWorksSection.tsx
- M components/home/ProblemSection.tsx
- D components/home/StarterPackTeaserSection.tsx
-?? components/home/PackPreviewSection.tsx
+ M app/result/page.tsx
+ M app/starter-pack/page.tsx
 ```
+
+TypeScript 타입 검사 통과.
 
 ---
 
@@ -68,7 +72,7 @@
 
 | 항목 | 긴급도 |
 |------|--------|
-| 랜딩 개선 커밋 승인 | 높음 |
+| 전환 구조 개선 커밋 승인 | 높음 |
 | 결제 채널 확정 + `.env.local` 설정 | 높음 |
 | Tally 폼 생성 + URL 설정 | 높음 |
 | 샘플팩 5개 콘텐츠 실물 | 높음 |
@@ -81,7 +85,7 @@
 
 ## 다음 단계 제안
 
-1. 랜딩 개선 커밋 승인
+1. 전환 구조 개선 커밋 승인
 2. 결제 채널 확정 → `.env.local`에 `NEXT_PUBLIC_PAYMENT_URL` 설정
 3. Sprint 7: Vercel 배포
 4. 콘텐츠 실물 준비 (스타터팩 50개, 샘플팩 5개)
