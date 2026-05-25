@@ -65,3 +65,7 @@ AI에게 대충 묻고 실망하지 않도록, 바로 복사해서 쓸 수 있�
 - MVP에서는 자동화 수준보다 명확한 문구가 중요
 - 발송 빈도는 과도하지 않게 유지
 - 정보성 메일과 판매 메일의 균형 필요
+
+## 8. 연결 문서
+- 샘플팩 및 유료팩 품질 기준: `docs/content-quality-standard.md`
+- 이메일 발송 운영 구조: `docs/email-delivery-operations.md`
