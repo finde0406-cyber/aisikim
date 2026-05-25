@@ -1,12 +1,12 @@
 # AI시킴 프로젝트 상태
 
-갱신: 2026-05-25 / Claude Code (UX 개선 — 진단 자동 이동 + 작업지시서 품질 강화)
+갱신: 2026-05-25 / Claude Code (랜딩페이지 압축 + UI/브랜딩 개선)
 
 ---
 
 ## 현재 단계
 
-**UX 개선 구현 완료. 커밋 승인 대기 중.**
+**랜딩 UI/브랜딩 개선 완료. 커밋 승인 대기 중.**
 
 ---
 
@@ -14,11 +14,11 @@
 
 | 해시 | 메시지 | 날짜 |
 |------|--------|------|
+| `38df64a` | ux: auto-advance quiz and strengthen instruction output | 2026-05-25 |
 | `a9e143c` | feat: implement Sprint 6 payment link integration | 2026-05-25 |
 | `971ae9e` | feat: implement Sprint 5 starter pack detail page | 2026-05-25 |
 | `7695bbe` | feat: implement Sprint 4 email collection UI | 2026-05-25 |
 | `aa1eec8` | feat: implement Sprint 3 result page | 2026-05-25 |
-| `eb07acc` | feat: implement Sprint 2 quiz flow | 2026-05-25 |
 
 ---
 
@@ -26,29 +26,34 @@
 
 ```
 브랜치: main
-원격: origin/main — a9e143c까지 push 완료
+원격: origin/main — 38df64a까지 push 완료
 
-modified (미커밋):
-  app/quiz/page.tsx
-  lib/result-generator.ts
-  docs/handoffs/claude-latest-report.md
-  docs/handoffs/project-status.md
+modified/new/deleted (미커밋):
+  M app/page.tsx
+  M components/home/CategoryPreviewSection.tsx
+  M components/home/FinalCTASection.tsx
+  D components/home/FreeVsPaidSection.tsx
+  M components/home/HeroSection.tsx
+  M components/home/HowItWorksSection.tsx
+  M components/home/ProblemSection.tsx
+  D components/home/StarterPackTeaserSection.tsx
+  ?? components/home/PackPreviewSection.tsx
+  M docs/handoffs/claude-latest-report.md
+  M docs/handoffs/project-status.md
 ```
 
 ---
 
 ## 완료된 것
 
-- Sprint 0: 기준 문서 전체 커밋 완료
-- Sprint 1: 랜딩페이지 — `703b0a4`
-- Sprint 2: 선택형 진단 — `eb07acc`
-- Sprint 3: 결과 페이지 — `aa1eec8`
-- Sprint 4: 이메일 수집 UI — `7695bbe`
-- Sprint 5: 스타터팩 상세 페이지 — `971ae9e`
-- Sprint 6: 외부 결제 링크 연결 — `a9e143c`
-- UX 개선 (미커밋):
-  - `app/quiz/page.tsx` — 선택 즉시 자동 이동, "다음" 버튼 제거, timer cleanup
-  - `lib/result-generator.ts` — 작업지시서 5개 섹션 블록 구조, ai_tool 반영
+- Sprint 0~6: 모두 커밋 완료
+- UX 개선 (진단 자동 이동 + 작업지시서 품질): `38df64a` 커밋됨
+- 랜딩 UI/브랜딩 개선 (미커밋):
+  - 섹션 7개로 압축 (8→7), 반복 카드 구조 해체
+  - h1 원문 메시지 강화 ("직접 쓰지 말고 선택하세요.")
+  - FreeVsPaid + StarterPackTeaser → PackPreviewSection 1개로 합침
+  - Problem 3카드 → 인라인 3줄, Category 3카드 → 인라인 목록
+  - CTA 버튼 `→` 추가, `font-extrabold` 타이포 강화
 
 ---
 
@@ -56,10 +61,10 @@ modified (미커밋):
 
 | 항목 | 긴급도 | 비고 |
 |------|--------|------|
-| UX 개선 커밋 승인 | 높음 | 사용자 승인 후 진행 |
+| 랜딩 개선 커밋 승인 | 높음 | 사용자 승인 후 진행 |
 | 결제 채널 확정 + `.env.local` 설정 | 높음 | `NEXT_PUBLIC_PAYMENT_URL` 값 필요 |
-| Tally 폼 생성 + URL 설정 | 높음 | 이메일 수집 미작동 상태 |
-| 샘플팩 5개 콘텐츠 실물 | 높음 | 발송할 자료 없음 |
+| Tally 폼 생성 + URL 설정 | 높음 | 이메일 수집 미작동 |
+| 샘플팩 5개 콘텐츠 실물 | 높음 | 발송 자료 없음 |
 | 스타터팩 50개 콘텐츠 실물 | 높음 | 결제 연결 전 필요 |
 | 개인정보 처리방침·이용약관 초안 | 중간 | |
 | Vercel 프로젝트 생성 | 낮음 | Sprint 7 전 필요 |
@@ -69,10 +74,10 @@ modified (미커밋):
 
 ## 다음 단계
 
-1. UX 개선 커밋 승인 후 `ux: auto-advance quiz and strengthen instruction output` 커밋
+1. 랜딩 개선 커밋 승인 후 `ux: compress landing and strengthen visual hierarchy` 커밋
 2. 결제 채널 확정 → `.env.local`에 `NEXT_PUBLIC_PAYMENT_URL` 설정
-3. 병렬: 콘텐츠 실물 준비 + Tally 폼 연동
-4. Sprint 7: Vercel 배포
+3. Sprint 7: Vercel 배포
+4. 콘텐츠 실물 준비
 
 ---
 
