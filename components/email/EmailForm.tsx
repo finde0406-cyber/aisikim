@@ -1,7 +1,5 @@
 'use client'
 // 무료 샘플팩 신청 이메일 수집 폼
-// 외부 폼 URL: .env.local에 NEXT_PUBLIC_SAMPLE_PACK_FORM_URL 설정 시 Tally 등 외부 폼으로 연결
-// 미설정 시 제출 접수 상태 UI만 노출 (실제 발송은 외부 연동 후 활성화)
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -17,10 +15,36 @@ const SAMPLE_PACK_ITEMS = [
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function EmailForm() {
+  const formUrl = process.env.NEXT_PUBLIC_SAMPLE_PACK_FORM_URL
+
+  // hooks는 조건 분기 이전에 모두 선언
   const [email, setEmail] = useState('')
   const [agreed, setAgreed] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+  const [redirected, setRedirected] = useState(false)
   const [error, setError] = useState('')
+
+  // 외부 폼 연결 전: 준비 중 안내만 노출
+  if (!formUrl) {
+    return (
+      <div className="border border-dashed border-gray-200 rounded-xl px-4 py-5">
+        <p className="text-xs font-medium text-gray-400 mb-3">샘플팩 구성 5개</p>
+        <ul className="space-y-2 mb-5">
+          {SAMPLE_PACK_ITEMS.map((item) => (
+            <li key={item} className="flex items-start gap-2 text-sm text-gray-500">
+              <span className="text-indigo-300 flex-shrink-0 mt-0.5">·</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+        <div className="bg-gray-50 rounded-xl px-4 py-4 text-center">
+          <p className="text-sm font-medium text-gray-600 mb-1">신청 연결 준비 중</p>
+          <p className="text-xs text-gray-400 leading-relaxed">
+            샘플팩 발송 연결이 완료되면 이 자리에서 바로 신청하실 수 있습니다.
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -39,27 +63,23 @@ export default function EmailForm() {
     }
 
     setError('')
-
-    const formUrl = process.env.NEXT_PUBLIC_SAMPLE_PACK_FORM_URL
-    if (formUrl) {
-      window.open(
-        `${formUrl}?email=${encodeURIComponent(email.trim())}`,
-        '_blank',
-        'noopener,noreferrer'
-      )
-    }
-
-    setSubmitted(true)
+    window.open(
+      `${formUrl}?email=${encodeURIComponent(email.trim())}`,
+      '_blank',
+      'noopener,noreferrer'
+    )
+    setRedirected(true)
   }
 
-  if (submitted) {
+  // 외부 폼으로 이동한 뒤: 제출 완료 안내 (접수 완료가 아님)
+  if (redirected) {
     return (
-      <div className="border border-green-200 bg-green-50 rounded-xl px-4 py-6 text-center">
-        <p className="text-sm font-semibold text-gray-900 mb-2">신청이 접수되었습니다.</p>
+      <div className="border border-indigo-100 bg-indigo-50 rounded-xl px-4 py-6 text-center">
+        <p className="text-sm font-semibold text-gray-900 mb-2">신청 페이지가 열렸습니다</p>
         <p className="text-sm text-gray-500 leading-relaxed mb-5">
-          입력하신 이메일로 무료 작업지시서 샘플팩 5개를 보내드립니다.
+          새 탭에서 열린 신청 페이지에서 제출을 완료해 주세요.
           <br />
-          영업일 기준 1~2일 내 발송됩니다.
+          제출이 완료되면 영업일 기준 1~2일 내 이메일로 샘플팩을 보내드립니다.
         </p>
         <Link
           href="/starter-pack"
