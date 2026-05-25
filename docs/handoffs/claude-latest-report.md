@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-05-25 / Claude Code (전환 구조 개선 — 결과 페이지 + 스타터팩 페이지)
+갱신: 2026-05-25 / Claude Code (AI 선택지 단순화 + 홈 CTA 구조 압축)
 
 ---
 
@@ -9,62 +9,58 @@
 | 항목 | 값 |
 |------|---|
 | 브랜치 | `main` |
-| 최신 커밋 | `95df97d` `docs: refine monetization and pack strategy` |
-| 미커밋 변경 | `app/result/page.tsx`, `app/starter-pack/page.tsx` |
+| 최신 커밋 | `32d6fae` `ux: improve conversion flow for result and starter pack` |
+| 미커밋 변경 | `lib/quiz-data.ts`, `lib/result-generator.ts`, `components/home/CategoryPreviewSection.tsx`, `components/home/FinalCTASection.tsx` |
 
 ---
 
 ## 현재 단계
 
-**전환 구조 개선 완료. 커밋 승인 대기 중.**
+**AI 선택지 단순화 + 홈 CTA 구조 압축 완료. 커밋 승인 대기 중.**
 
 ---
 
 ## 이번 세션에서 완료한 것
 
-### 개선 1: 결과 페이지 (`app/result/page.tsx`)
+### 개선 1: AI 선택지 단순화
 
-**섹션 순서 변경 (핵심):**
-- Before: 결과 → [구분] → 무료vs유료 비교 → **스타터팩 CTA(filled)** → [구분] → **샘플팩 이메일폼**
-- After: 결과 → 다음단계 훅 → [구분] → **샘플팩 이메일폼(우선)** → [구분] → 무료vs유료 비교 → **스타터팩 링크(outline, 소프트)**
+**`lib/quiz-data.ts`:**
+- `ai_tool` 선택지에서 `{ label: 'Claude Code', value: 'claude_code' }` 제거
+- 5개로 단순화: ChatGPT / Claude / Gemini / Codex / 잘 모르겠어요
 
-revenue-model.md §3 수익화 순서 기준 정렬: 무료 결과 → 샘플팩(신뢰형성) → 스타터팩(첫 구매)
+**`lib/result-generator.ts`:**
+- `AI_TOOL_LABEL`에서 `claude_code: 'Claude Code'` 제거
 
-**문구 변경:**
-- `h1` "내 맞춤 작업지시서" → "첫 번째 작업지시서" (첫 단계임을 명시)
-- 서브헤더: "선택하신 내용을 바탕으로" → "선택하신 조건으로 기본 작업지시서 1개를 만들었습니다."
-- 다음단계 훅 추가: "지금은 첫 번째 작업지시서 1개만 열려 있습니다. 실제 결과물을 완성하려면 후속 질문, 수정 요청, 검수 단계가 더 필요합니다."
-- 샘플팩 레이블: "무료 샘플팩" → "다음 단계"
-- 샘플팩 헤더: "더 많은 작업지시서가 필요하신가요?" → "5개를 더 받아서 다른 상황에서도 바로 써보세요"
-- 샘플팩 설명: 후속·수정·검수 흐름 포함 명시
-- 스타터팩 CTA: `bg-indigo-600 text-white` filled → `border-2 border-indigo-600 text-indigo-600` outline (소프트)
-- "다시 진단하기" 링크: `text-sm` → `text-xs` (시각적 무게 감소)
+### 개선 2: 홈 CTA 구조 압축
 
-### 개선 2: 스타터팩 페이지 (`app/starter-pack/page.tsx`)
+**`components/home/CategoryPreviewSection.tsx`:**
+- `<Button>` → `<a>` 텍스트 링크로 교체 (시각적 무게 감소)
+- 문구: "무료 진단 시작하기 →" → "내 작업 분야로 진단하기 →"
+- 불필요해진 `Button` import 제거
 
-**포지셔닝 강화:**
-- 히어로에 "AI시킴 방식이 나와 맞는지 처음 확인해보는 입문용 상품입니다." 추가 (9,900원 + 기존 설명 아래)
+**`components/home/FinalCTASection.tsx`:**
+- 버튼 문구만 변경: "무료 진단 시작하기 →" → "지금 내 작업지시서 만들기 →"
+- Hero CTA와 차별화
 
-**WHO_NEEDS 항목 추가:**
-- "AI시킴의 작업지시서 방식이 실제로 자신에게 맞는지 시험해보고 싶은 분" (5번째 항목)
-
-**null fallback CTA 개선 (결제 URL 미설정 시):**
-- "그 전에 무료 샘플팩 5개로 먼저 확인해보세요." 문구 추가
-- "무료 진단 후 샘플팩 신청하기" 링크 추가 (`/quiz` 연결 — `/result` 직접 접근 시 "진단 필요" 화면만 표시되므로)
-
-**딥팩 간접 암시 블록 추가 (FAQ 아래):**
-- `bg-gray-50 rounded-xl` 블록에 "스타터팩으로 AI시킴 방식을 경험해보신 뒤, 자주 쓰는 분야가 생기면 해당 분야를 더 깊게 이어갈 수 있도록 준비하고 있습니다." — 상품 약속 없이 방향만 암시
+**결과:**
+| 위치 | 형태 | 문구 |
+|------|------|------|
+| HeroSection | filled Button (강) | "무료로 진단 시작하기 →" |
+| CategoryPreviewSection | 텍스트 링크 (약) | "내 작업 분야로 진단하기 →" |
+| FinalCTASection | filled Button (강) | "지금 내 작업지시서 만들기 →" |
 
 ---
 
 ## 변경 파일
 
 ```
- M app/result/page.tsx
- M app/starter-pack/page.tsx
+ M lib/quiz-data.ts
+ M lib/result-generator.ts
+ M components/home/CategoryPreviewSection.tsx
+ M components/home/FinalCTASection.tsx
 ```
 
-TypeScript 타입 검사 통과.
+TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 
 ---
 
@@ -72,7 +68,7 @@ TypeScript 타입 검사 통과.
 
 | 항목 | 긴급도 |
 |------|--------|
-| 전환 구조 개선 커밋 승인 | 높음 |
+| 이번 변경 커밋 승인 | 높음 |
 | 결제 채널 확정 + `.env.local` 설정 | 높음 |
 | Tally 폼 생성 + URL 설정 | 높음 |
 | 샘플팩 5개 콘텐츠 실물 | 높음 |
@@ -85,7 +81,7 @@ TypeScript 타입 검사 통과.
 
 ## 다음 단계 제안
 
-1. 전환 구조 개선 커밋 승인
+1. 이번 변경 커밋 승인 → `feat: simplify ai tool options and differentiate home CTAs`
 2. 결제 채널 확정 → `.env.local`에 `NEXT_PUBLIC_PAYMENT_URL` 설정
 3. Sprint 7: Vercel 배포
 4. 콘텐츠 실물 준비 (스타터팩 50개, 샘플팩 5개)

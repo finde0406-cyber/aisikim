@@ -1,5 +1,4 @@
 // 초기 MVP 카테고리 3개 미리보기 섹션
-import Button from '@/components/ui/Button'
 
 const CATEGORIES = [
   {
@@ -38,9 +37,11 @@ export default function CategoryPreviewSection() {
             </div>
           ))}
         </div>
-        <Button href="/quiz" className="w-full">
-          무료 진단 시작하기 →
-        </Button>
+        <div className="text-center">
+          <a href="/quiz" className="text-sm text-indigo-600 underline underline-offset-2">
+            내 작업 분야로 진단하기 →
+          </a>
+        </div>
       </div>
     </section>
   )

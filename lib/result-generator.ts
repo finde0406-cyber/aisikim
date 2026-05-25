@@ -50,7 +50,6 @@ const AI_TOOL_LABEL: Record<string, string> = {
   claude: 'Claude',
   gemini: 'Gemini',
   codex: 'Codex',
-  claude_code: 'Claude Code',
   unknown: 'AI',
 }
 

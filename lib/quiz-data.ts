@@ -57,7 +57,6 @@ export const QUIZ_STEPS: QuizStep[] = [
       { label: 'Claude', value: 'claude' },
       { label: 'Gemini', value: 'gemini' },
       { label: 'Codex', value: 'codex' },
-      { label: 'Claude Code', value: 'claude_code' },
       { label: '잘 모르겠어요', value: 'unknown' },
     ],
   },

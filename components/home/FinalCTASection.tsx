@@ -12,7 +12,7 @@ export default function FinalCTASection() {
           선택만으로 3분 만에 작업지시서 1개를 받아보세요.
         </p>
         <Button href="/quiz" className="w-full">
-          무료 진단 시작하기 →
+          지금 내 작업지시서 만들기 →
         </Button>
       </div>
     </section>
