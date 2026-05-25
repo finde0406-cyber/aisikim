@@ -1,47 +1,53 @@
 # Codex 최신 검토
 
-갱신: 2026-05-24 / Codex
+갱신: 2026-05-25 / Codex
 
 ## 검토 대상
 - `docs/handoffs/claude-latest-report.md`
 - `docs/handoffs/project-status.md`
-- 현재 Git 상태 `## master` / unstaged 변경 2건
+- Sprint 1 구현 파일 일체
+- 현재 Git 상태 `## master` / 구현 파일 및 handoff 변경 미커밋
 
 ## PRD 일치 여부
-- 전반적으로 일치함
-- Sprint 0 완료, Sprint 1 착수 대기 판단은 [docs/mvp-roadmap.md](C:\Users\win10\Documents\AI시킴\docs\mvp-roadmap.md)와 맞음
-- 초기 MVP 카테고리 3개만 반영한 점이 [docs/aisikim-prd-v1.md](C:\Users\win10\Documents\AI시킴\docs\aisikim-prd-v1.md)와 일치함
-- 자체 결제 제외, 외부 결제 비교, Tally+수동 우선안도 기준 문서와 일치함
+- 전반적인 Sprint 1 방향은 PRD와 일치함
+- 초기 카테고리 3개, 모바일 우선 구조, "작업지시서" 중심 표현, 자체 결제/로그인 제외는 잘 지켜짐
+- 다만 `app/starter-pack/page.tsx`의 스타터팩 구성 문구가 기준 문서와 불일치함
 
 ## MVP 범위 초과 여부
-- 현재 보고에는 범위 초과 없음
-- 구현 코드는 아직 없고, 프로젝트 생성도 아직 시작하지 않았음
-- 로그인, 회원가입, 자체 결제, 대시보드, 관리자 페이지 제안 없음
+- 범위 초과 구현은 없음
+- 다만 Sprint 5용 상세 페이지 플레이스홀더에 들어간 상품 구성 문구는 기준 문서를 그대로 따라야 함
 
 ## 이메일/결제 구조 점검
-- 이메일 수집 도구는 아직 미확정으로 두었고 Tally 우선안을 유지한 점이 적절함
-- 결제 채널은 비교 후 확정하도록 남겨두었고, 성급한 특정 결제 수단 확정이 없어 적절함
-- 다만 Sprint 1 이후에도 판매 실험 일정에 맞추려면 결제 채널 가입 착수 시점은 너무 늦지 않게 관리할 필요가 있음
+- 결제 연결 자체는 아직 구현하지 않았고, 준비 중 안내 수준으로 유지한 점은 적절함
+- `/starter-pack` 페이지에서 PDF + Notion 제공 안내를 유지한 점도 적절함
+- `/quiz` 페이지에서 "홈에서 이메일을 남겨주세요"라고 안내하지만, 현재 홈에는 실제 이메일 입력 CTA가 없으므로 이후 Sprint 3~4에서 연결 필요
 
 ## 모바일 UI 점검
-- 이번 handoff는 상태 보고 중심이라 모바일 UI 구체 설계는 아직 충분하지 않음
-- Sprint 1 착수 전 Claude Code가 랜딩페이지 모바일 정보 구조를 더 구체적으로 제안하면 좋음
-- 특히 첫 화면 메시지, CTA 배치, 섹션 순서, 모바일 스크롤 흐름을 다음 단계에서 명시할 필요가 있음
+- 랜딩페이지 섹션 구성은 모바일 단일 컬럼 기준으로 무난함
+- CTA와 카드형 섹션도 기본 방향은 적절함
+- 실제 모바일 렌더링 검증은 아직 필요함
 
 ## 구현 리스크
 - 높은 리스크
-- 샘플팩 5개와 스타터팩 50개 실물이 아직 없어 판매 페이지 설득력이 약해질 수 있음
-- 결제 채널 미확정 상태가 길어지면 Sprint 6 일정에 영향 가능
+- `app/starter-pack/page.tsx`의 상품 구성 문구가 PRD/상품 구조 문서와 다르면 이후 판매 메시지 일관성이 깨짐
 - 중간 리스크
-- 질문 5단계 조합을 모두 세밀하게 매핑하려 하면 범위가 커질 수 있음
-- 외부 결제 링크에 대한 사용자 신뢰 확보 문구가 추후 구현 단계에서 중요함
+- 실제 모바일 브라우저 확인 전까지는 간격, 폰트 크기, CTA 가시성 문제가 숨어 있을 수 있음
+- 이메일 CTA가 아직 홈 랜딩에 없어서 `/quiz`, `/starter-pack` 안내 문구와 사용자 기대가 일부 어긋남
 
 ## 수정 필요사항
-- 이번 보고 자체는 저장소 최신 상태를 올바르게 반영했으므로 큰 수정 필요는 없음
-- 다음 handoff부터는 `변경 파일`, `현재 단계`, `다음 승인 필요 항목`을 더 짧고 선명하게 정리하면 검토가 더 쉬워짐
+- [app/starter-pack/page.tsx](C:\Users\win10\Documents\AI시킴\app\starter-pack\page.tsx) 의 `packItems` 구성을 아래 기준 문서와 동일하게 맞춰야 함
+- 기준 문서
+- [docs/aisikim-prd-v1.md](C:\Users\win10\Documents\AI시킴\docs\aisikim-prd-v1.md)
+- [docs/product-pack-structure.md](C:\Users\win10\Documents\AI시킴\docs\product-pack-structure.md)
+- 올바른 구성
+- 블로그/콘텐츠 작업지시서 10개
+- 업무/보고서 작업지시서 10개
+- 앱/웹사이트 개발 작업지시서 10개
+- 결과물 검수/수정 작업지시서 10개
+- 공통 AI 활용/작업설계 작업지시서 10개
 
 ## 다음 단계 제안
-1. 현재 handoff 파일 2개 변경분을 커밋할지 사용자 승인 받기
-2. Next.js 프로젝트 생성 승인 여부를 사용자에게 확인
-3. 승인 후 Claude Code에게 Sprint 1 랜딩페이지 구현 전용 프롬프트 전달
-4. Sprint 1 착수 시 모바일 UI 구조와 섹션 설계를 먼저 보고하게 한 뒤 구현 시작
+1. Claude Code가 `/starter-pack` 구성 문구를 기준 문서대로 수정
+2. handoff 파일 갱신
+3. 수정 후 Codex 재검토
+4. 이상 없으면 Sprint 1 구현 파일과 handoff 파일을 함께 커밋 검토
