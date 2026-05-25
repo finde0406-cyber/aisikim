@@ -59,26 +59,29 @@ const WHO_NEEDS = [
   '따로 배우기보다 바로 복사해서 써볼 수 있는 자료가 필요한 분',
 ]
 
-const FAQ = [
-  {
-    q: '어떤 형식으로 제공되나요?',
-    a: 'PDF 파일과 Notion 보조 링크로 제공됩니다. PDF는 전달과 보관이 쉽고, Notion은 내용을 탐색하고 복사하기 편합니다.',
-  },
-  {
-    q: '바로 AI에 붙여 넣을 수 있나요?',
-    a: '네. ChatGPT, Claude, Gemini, Codex에 바로 복사해서 넣을 수 있도록 구성되어 있습니다. 내 상황에 맞게 일부만 수정해서 사용하셔도 됩니다.',
-  },
-  {
-    q: '결제와 자료 수령은 어떻게 되나요?',
-    a: '현재 결제 채널 연결을 준비 중입니다. 연결 완료 후 결제 방법과 자료 수령 방법을 안내해 드릴 예정입니다.',
-  },
-  {
-    q: '디지털 상품 환불은 어떻게 되나요?',
-    a: '본 상품은 디지털 자료 상품입니다. 자료가 전달된 이후에는 상품 특성상 환불이 제한될 수 있습니다. 상세 환불 기준은 결제 페이지에서 명확히 안내해 드립니다.',
-  },
-]
-
 export default function StarterPackPage() {
+  const paymentUrl = process.env.NEXT_PUBLIC_PAYMENT_URL ?? null
+  const FAQ = [
+    {
+      q: '어떤 형식으로 제공되나요?',
+      a: 'PDF 파일과 Notion 보조 링크로 제공됩니다. PDF는 전달과 보관이 쉽고, Notion은 내용을 탐색하고 복사하기 편합니다.',
+    },
+    {
+      q: '바로 AI에 붙여 넣을 수 있나요?',
+      a: 'ChatGPT, Claude, Gemini, Codex에 바로 복사해서 넣을 수 있도록 구성되어 있습니다. 내 상황에 맞게 일부만 수정해서 사용하셔도 됩니다.',
+    },
+    {
+      q: '결제와 자료 수령은 어떻게 되나요?',
+      a: paymentUrl
+        ? 'PDF 파일과 Notion 링크를 이메일로 보내드립니다. 결제 완료 후 영업일 기준 1~2일 내 발송됩니다. 결제 시 이메일 주소를 정확히 입력해주세요.'
+        : '현재 결제 채널 연결을 준비 중입니다. 연결 완료 후 결제 방법과 자료 수령 방법을 안내해 드릴 예정입니다.',
+    },
+    {
+      q: '디지털 상품 환불은 어떻게 되나요?',
+      a: '본 상품은 디지털 자료 상품입니다. 자료가 전달된 이후에는 상품 특성상 환불이 제한될 수 있습니다. 상세 환불 기준은 결제 페이지에서 명확히 안내해 드립니다.',
+    },
+  ]
+
   return (
     <main className="flex flex-col px-4 py-10 pb-20">
       <div className="max-w-sm mx-auto w-full">
@@ -89,8 +92,8 @@ export default function StarterPackPage() {
         </Link>
 
         {/* --- 섹션 1: 히어로 --- */}
-        <span className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium mb-4">
-          구매 신청 준비 중
+        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 ${paymentUrl ? 'bg-indigo-100 text-indigo-700' : 'bg-indigo-50 text-indigo-700'}`}>
+          {paymentUrl ? '구매하기' : '구매 신청 준비 중'}
         </span>
         <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-2">
           AI 작업지시서 스타터팩
@@ -206,18 +209,40 @@ export default function StarterPackPage() {
           </div>
         </div>
 
-        {/* --- 섹션 7: 구매 준비 CTA (Sprint 6에서 결제 버튼으로 교체) --- */}
+        {/* --- 섹션 7: 결제 CTA --- */}
         <div className="mb-10">
-          {/* Sprint 6: 이 영역을 외부 결제 링크 버튼으로 교체 */}
-          <div className="border border-dashed border-indigo-200 rounded-xl py-6 px-4 text-center">
-            <p className="text-sm font-semibold text-gray-700 mb-1">구매 신청 준비 중</p>
-            <p className="text-xs text-gray-400 leading-relaxed">
-              결제 채널 연결이 완료되면 이 자리에서 바로 구매하실 수 있습니다.
-            </p>
-          </div>
-          <p className="text-xs text-gray-400 text-center mt-3">
-            지금은 무료 샘플팩 신청으로 먼저 확인해보세요.
-          </p>
+          {paymentUrl ? (
+            <>
+              <a
+                href={paymentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px]"
+              >
+                9,900원으로 구매하기
+              </a>
+              <div className="mt-4 border border-gray-100 rounded-xl px-4 py-4 space-y-2">
+                <p className="text-xs font-medium text-gray-500">결제 후 자료 수령 방법</p>
+                <ul className="space-y-1.5">
+                  <li className="text-xs text-gray-600">결제 완료 후 영업일 기준 1~2일 내 이메일로 발송됩니다.</li>
+                  <li className="text-xs text-gray-600">PDF 파일 + Notion 보조 링크 형태로 제공됩니다.</li>
+                  <li className="text-xs text-gray-400">본 상품은 디지털 자료입니다. 자료 전달 후 환불이 제한될 수 있습니다.</li>
+                </ul>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="border border-dashed border-indigo-200 rounded-xl py-6 px-4 text-center">
+                <p className="text-sm font-semibold text-gray-700 mb-1">구매 신청 준비 중</p>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  결제 채널 연결이 완료되면 이 자리에서 바로 구매하실 수 있습니다.
+                </p>
+              </div>
+              <p className="text-xs text-gray-400 text-center mt-3">
+                지금은 무료 샘플팩 신청으로 먼저 확인해보세요.
+              </p>
+            </>
+          )}
         </div>
 
         {/* --- 섹션 8: FAQ --- */}
