@@ -92,3 +92,8 @@ AI에게 한 번에 대충 묻고 끝내는 문장 묶음이 아니라, 결과�
 - 업종별 특화팩
 - 번들 패키지 구성
 - 반응이 높은 카테고리부터 단독 판매 페이지 분리
+
+## 8. 연결 문서
+- 샘플팩 실물 설계: `docs/sample-pack-blueprint.md`
+- 스타터팩 작업지시서 템플릿: `docs/starter-pack-template.md`
+- 콘텐츠 품질 기준: `docs/content-quality-standard.md`
