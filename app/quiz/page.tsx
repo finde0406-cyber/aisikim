@@ -1,40 +1,113 @@
-// 선택형 진단 페이지 - Sprint 2에서 구현 예정
-import Link from 'next/link'
+'use client'
+// 선택형 진단 페이지 - 5단계 선택형 진단 흐름
 
-const categories = [
-  { label: '블로그·콘텐츠', desc: '블로그 글, SNS 게시물, 유튜브 스크립트' },
-  { label: '업무·보고서', desc: '회의록, 이메일, 기획서, 보고서' },
-  { label: '앱·웹사이트 개발', desc: '코드 작성, 리뷰, 버그 수정, API 연동' },
-]
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { QUIZ_STEPS, type QuizAnswers } from '@/lib/quiz-data'
 
 export default function QuizPage() {
-  return (
-    <main className="min-h-screen flex flex-col px-4 py-12">
-      <div className="max-w-sm mx-auto w-full">
-        <span className="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-medium mb-4">
-          곧 오픈
-        </span>
-        <h1 className="text-xl font-bold text-gray-900 mb-2">선택형 진단</h1>
-        <p className="text-gray-500 text-sm mb-6 leading-relaxed">
-          5단계 선택만으로 내 상황에 딱 맞는<br />작업지시서를 바로 완성합니다.
-        </p>
+  const router = useRouter()
+  const [step, setStep] = useState(0)
+  const [answers, setAnswers] = useState<QuizAnswers>({})
 
-        <div className="space-y-3 mb-8">
-          {categories.map((c) => (
-            <div key={c.label} className="border border-gray-200 rounded-xl px-4 py-4 text-left">
-              <p className="text-sm font-semibold text-gray-800 mb-1">{c.label}</p>
-              <p className="text-xs text-gray-500">{c.desc}</p>
-            </div>
+  const currentQ = QUIZ_STEPS[step]
+  const selected = answers[currentQ.id]
+  const isLast = step === QUIZ_STEPS.length - 1
+
+  function select(value: string) {
+    setAnswers(prev => ({ ...prev, [currentQ.id]: value }))
+  }
+
+  function handleNext() {
+    if (!selected) return
+    if (isLast) {
+      const params = new URLSearchParams(
+        Object.entries(answers).filter((entry): entry is [string, string] => entry[1] !== undefined)
+      )
+      router.push(`/result?${params.toString()}`)
+    } else {
+      setStep(prev => prev + 1)
+    }
+  }
+
+  function handlePrev() {
+    if (step > 0) setStep(prev => prev - 1)
+  }
+
+  return (
+    <main className="min-h-screen flex flex-col px-4 py-10">
+      <div className="max-w-sm mx-auto w-full flex flex-col min-h-screen">
+        {/* 상단 네비게이션 */}
+        <div className="flex items-center justify-between mb-8">
+          {step > 0 ? (
+            <button
+              onClick={handlePrev}
+              className="text-gray-400 text-sm py-2 pr-4"
+            >
+              ← 이전
+            </button>
+          ) : (
+            <Link href="/" className="text-gray-400 text-sm py-2 pr-4">
+              ← 홈
+            </Link>
+          )}
+          <span className="text-xs text-gray-400 font-medium">
+            {step + 1} / {QUIZ_STEPS.length}
+          </span>
+        </div>
+
+        {/* 진행 단계 바 */}
+        <div className="flex gap-1 mb-8">
+          {QUIZ_STEPS.map((_, i) => (
+            <div
+              key={i}
+              className={`h-1 flex-1 rounded-full transition-colors ${
+                i <= step ? 'bg-indigo-600' : 'bg-gray-100'
+              }`}
+            />
           ))}
         </div>
 
-        <p className="text-xs text-gray-400 mb-6 text-center">현재 준비 중입니다. 오픈 알림을 받으려면 홈에서 이메일을 남겨주세요.</p>
-        <Link
-          href="/"
-          className="block w-full text-center border-2 border-indigo-600 text-indigo-600 font-semibold rounded-xl px-6 py-4 text-sm"
-        >
-          홈으로 돌아가기
-        </Link>
+        {/* 질문 */}
+        <h2 className="text-xl font-bold text-gray-900 mb-6 leading-snug">
+          {currentQ.question}
+        </h2>
+
+        {/* 선택지 */}
+        <div className="space-y-3 mb-8 flex-1">
+          {currentQ.options.map((opt) => {
+            const isSelected = selected === opt.value
+            return (
+              <button
+                key={opt.value}
+                onClick={() => select(opt.value)}
+                className={`w-full text-left px-4 py-4 rounded-xl border-2 text-sm font-medium min-h-[52px] transition-colors ${
+                  isSelected
+                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
+                    : 'border-gray-200 text-gray-700 active:bg-gray-50'
+                }`}
+              >
+                {opt.label}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* 다음/완료 버튼 */}
+        <div className="pb-8">
+          <button
+            onClick={handleNext}
+            disabled={!selected}
+            className={`w-full py-4 rounded-xl text-sm font-semibold min-h-[52px] transition-colors ${
+              selected
+                ? 'bg-indigo-600 text-white active:bg-indigo-700'
+                : 'bg-gray-100 text-gray-400'
+            }`}
+          >
+            {isLast ? '작업지시서 받기' : '다음'}
+          </button>
+        </div>
       </div>
     </main>
   )
