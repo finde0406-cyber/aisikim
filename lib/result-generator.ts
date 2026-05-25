@@ -58,15 +58,26 @@ export function generateInstruction(answers: QuizAnswers): string {
   const category = CATEGORY_DESC[answers.category ?? ''] ?? '현재 작업'
   const blocker = BLOCKER_SENTENCE[answers.blocker ?? ''] ?? '진행 중에 막혀 있습니다.'
   const output = OUTPUT_LABEL[answers.output ?? ''] ?? '결과물'
+  const tool = AI_TOOL_LABEL[answers.ai_tool ?? ''] ?? 'AI'
   const style = STYLE_DESC[answers.style ?? ''] ?? '명확하게'
 
-  return `${category} 작업 중입니다. ${output} 작성이 필요합니다.
+  return `## 작업 배경
+${category} 관련 작업 중입니다. 이 작업에서 ${output} 형태의 결과물이 필요합니다.
+
+## 현재 막힌 부분
 ${blocker}
 
-다음 조건으로 도와주세요:
-- 결과물 스타일: ${style}
-- 한 번에 완성본을 요구하기보다 먼저 핵심 구조를 제시하고 단계적으로 완성해 주세요.
-- 시작 전에 제 상황을 더 잘 이해하기 위해 필요한 정보가 있으면 먼저 질문해 주세요.`
+## 요청 사항
+${output}를 만들 수 있도록 도와주세요.
+
+## 작업 조건
+- 사용 도구: ${tool}
+- 스타일: ${style}
+- 먼저 핵심 구조나 큰 틀을 제안해 주고, 이후 단계적으로 완성할 수 있게 안내해 주세요.
+
+## 시작 전 확인사항
+작업에 필요한 정보가 더 있다면 먼저 물어봐 주세요.
+특히 결과물의 목적, 대상 독자, 원하는 분량, 세부 방향을 우선 확인해 주세요.`
 }
 
 export function getAnswerSummary(

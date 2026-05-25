@@ -1,7 +1,7 @@
 'use client'
 // 선택형 진단 페이지 - 5단계 선택형 진단 흐름
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { QUIZ_STEPS, type QuizAnswers } from '@/lib/quiz-data'
@@ -10,28 +10,30 @@ export default function QuizPage() {
   const router = useRouter()
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<QuizAnswers>({})
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const currentQ = QUIZ_STEPS[step]
   const selected = answers[currentQ.id]
   const isLast = step === QUIZ_STEPS.length - 1
 
-  function select(value: string) {
-    setAnswers(prev => ({ ...prev, [currentQ.id]: value }))
-  }
-
-  function handleNext() {
-    if (!selected) return
-    if (isLast) {
-      const params = new URLSearchParams(
-        Object.entries(answers).filter((entry): entry is [string, string] => entry[1] !== undefined)
-      )
-      router.push(`/result?${params.toString()}`)
-    } else {
-      setStep(prev => prev + 1)
-    }
+  function handleSelect(value: string) {
+    if (timerRef.current) clearTimeout(timerRef.current)
+    const updated = { ...answers, [currentQ.id]: value }
+    setAnswers(updated)
+    timerRef.current = setTimeout(() => {
+      if (isLast) {
+        const params = new URLSearchParams(
+          Object.entries(updated).filter((e): e is [string, string] => e[1] !== undefined)
+        )
+        router.push(`/result?${params.toString()}`)
+      } else {
+        setStep(s => s + 1)
+      }
+    }, 180)
   }
 
   function handlePrev() {
+    if (timerRef.current) clearTimeout(timerRef.current)
     if (step > 0) setStep(prev => prev - 1)
   }
 
@@ -75,13 +77,13 @@ export default function QuizPage() {
         </h2>
 
         {/* 선택지 */}
-        <div className="space-y-3 mb-8 flex-1">
+        <div className="space-y-3 flex-1">
           {currentQ.options.map((opt) => {
             const isSelected = selected === opt.value
             return (
               <button
                 key={opt.value}
-                onClick={() => select(opt.value)}
+                onClick={() => handleSelect(opt.value)}
                 className={`w-full text-left px-4 py-4 rounded-xl border-2 text-sm font-medium min-h-[52px] transition-colors ${
                   isSelected
                     ? 'border-indigo-600 bg-indigo-50 text-indigo-700'
@@ -94,20 +96,6 @@ export default function QuizPage() {
           })}
         </div>
 
-        {/* 다음/완료 버튼 */}
-        <div className="pb-8">
-          <button
-            onClick={handleNext}
-            disabled={!selected}
-            className={`w-full py-4 rounded-xl text-sm font-semibold min-h-[52px] transition-colors ${
-              selected
-                ? 'bg-indigo-600 text-white active:bg-indigo-700'
-                : 'bg-gray-100 text-gray-400'
-            }`}
-          >
-            {isLast ? '작업지시서 받기' : '다음'}
-          </button>
-        </div>
       </div>
     </main>
   )
