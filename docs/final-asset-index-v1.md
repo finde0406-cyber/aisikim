@@ -106,6 +106,7 @@
 - 운영값 체크리스트: `docs/operations-decision-checklist-v1.md`
 - 운영값 입력 가이드: `docs/operations-value-input-guide-v1.md`
 - 운영값 질문표: `docs/operations-value-questionnaire-v1.md`
+- 자산 링크 레지스트리: `docs/asset-link-registry-v1.md`
 
 ---
 
