@@ -17,11 +17,15 @@
 - 샘플팩 발송용 정리본 있음
 - 샘플팩 PDF 최종 문안 있음
 - 샘플팩 Notion 최종 문안 있음
+- 샘플팩 PDF 실물 파일 있음
+- 샘플팩 Notion 업로드용 최종 원본 있음
 - 스타터팩 50개 분배표 있음
 - 우선 제작 15개 프리미엄 초안 있음
 - 스타터팩 PDF 최종 문안 있음
 - 스타터팩 Notion 최종 문안 있음
 - 스타터팩 사용 가이드 있음
+- 스타터팩 PDF 실물 파일 있음
+- 스타터팩 Notion 업로드용 최종 원본 있음
 
 ### 2.3 운영 문서
 - 이메일 발송 운영 기준 있음
@@ -72,6 +76,11 @@
 - 샘플팩 Notion 최종 문안: `docs/sample-pack-notion-final-copy-v1.md`
 - 샘플팩 발송용 마스터 원본: `docs/sample-pack-publish-master-v1.md`
 
+### 4.4 실물 산출물
+- 샘플팩 PDF 실물: `deliverables/sample-pack/AI시킴-무료-작업지시서-샘플팩-v1.pdf`
+- 샘플팩 최종 원본: `deliverables/sample-pack/AI시킴-무료-작업지시서-샘플팩-v1-final.md`
+- 샘플팩 Notion 최종 원본: `deliverables/sample-pack/AI시킴-무료-작업지시서-샘플팩-v1-notion-final.md`
+
 ---
 
 ## 5. 스타터팩 관련 문서
@@ -100,6 +109,11 @@
 - 스타터팩 코어 15 마스터 원본: `docs/starter-pack-core15-master-v1.md`
 - 스타터팩 나머지 35개 제작 계획: `docs/starter-pack-remaining-35-production-plan-v1.md`
 
+### 5.4 실물 산출물
+- 스타터팩 PDF 실물: `deliverables/starter-pack/AI시킴-스타터팩-v1.pdf`
+- 스타터팩 PDF 최종 조합본: `deliverables/starter-pack/AI시킴-스타터팩-v1-pdf-master.md`
+- 스타터팩 Notion 최종 원본: `deliverables/starter-pack/AI시킴-스타터팩-v1-notion-final.md`
+
 ---
 
 ## 6. 품질/운영/자동화 문서
@@ -117,15 +131,13 @@
 ## 7. 지금부터 실제로 해야 할 일
 문서는 대부분 준비된 상태이므로, 이제는 아래 순서로 넘어가는 것이 맞습니다.
 
-1. 샘플팩 PDF 실물 만들기
-2. 샘플팩 Notion 실물 만들기
-3. 스타터팩 PDF 실물 만들기
-4. 스타터팩 Notion 실물 만들기
-5. 실제 링크 생성
-6. 실제 발신 메일 주소 결정
-7. 실제 신청 폼 링크 결정
-8. 실제 결제 링크 결정
-9. 그다음 Claude Code에 운영 연결 구현 요청
+1. 조건부 출고 항목 2차 미세 보완
+2. 샘플팩/스타터팩 실제 Notion 페이지 생성
+3. 실제 링크 생성
+4. 실제 발신 메일 주소 결정
+5. 실제 신청 폼 링크 결정
+6. 실제 결제 링크 결정
+7. 그다음 Claude Code에 운영 연결 구현 요청
 
 ---
 
