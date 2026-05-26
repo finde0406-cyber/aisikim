@@ -69,6 +69,7 @@
 ### 4.3 최종 문안
 - 샘플팩 PDF 최종 문안: `docs/sample-pack-pdf-final-copy-v1.md`
 - 샘플팩 Notion 최종 문안: `docs/sample-pack-notion-final-copy-v1.md`
+- 샘플팩 발송용 마스터 원본: `docs/sample-pack-publish-master-v1.md`
 
 ---
 
@@ -95,6 +96,7 @@
 - 스타터팩 구매 후 메일: `docs/starter-pack-delivery-email-v1.md`
 - 스타터팩 PDF 최종 문안: `docs/starter-pack-pdf-final-copy-v1.md`
 - 스타터팩 Notion 최종 문안: `docs/starter-pack-notion-final-copy-v1.md`
+- 스타터팩 코어 15 마스터 원본: `docs/starter-pack-core15-master-v1.md`
 
 ---
 
