@@ -51,6 +51,7 @@
 - 이메일 퍼널: `docs/email-funnel.md`
 - 전환 카피 원칙: `docs/conversion-copy-principles-v1.md`
 - 최종 문서 자산 로드맵: `docs/final-document-asset-roadmap-v1.md`
+- 출시 가능 기준서: `docs/launch-readiness-standard-v1.md`
 
 ---
 
@@ -97,6 +98,7 @@
 - 스타터팩 PDF 최종 문안: `docs/starter-pack-pdf-final-copy-v1.md`
 - 스타터팩 Notion 최종 문안: `docs/starter-pack-notion-final-copy-v1.md`
 - 스타터팩 코어 15 마스터 원본: `docs/starter-pack-core15-master-v1.md`
+- 스타터팩 나머지 35개 제작 계획: `docs/starter-pack-remaining-35-production-plan-v1.md`
 
 ---
 
