@@ -119,6 +119,88 @@ STARTER_SOURCE_FILES = [
 ]
 
 
+FOCUSED_PACKS = [
+    {
+        "slug": "app-web-development",
+        "title": "AI시킴 앱/웹사이트 개발 집중팩",
+        "subtitle": "개발 요청, 기능 정의, 구조 제안, 최종 검수까지 한 흐름으로 정리한 실전 작업지시서",
+        "pdf_name": "AI시킴-앱-웹사이트-개발-집중팩-v1.pdf",
+        "md_name": "AI시킴-앱-웹사이트-개발-집중팩-v1-final.md",
+        "notion_name": "AI시킴-앱-웹사이트-개발-집중팩-v1-notion-final.md",
+        "target": [
+            "개발자에게 무엇을 어떻게 요청해야 할지 막막한 사람",
+            "기능 정의와 요구사항 정리를 더 명확하게 하고 싶은 사람",
+            "개발 결과물을 배포 전에 더 꼼꼼하게 검수하고 싶은 사람",
+        ],
+        "quick_start": [
+            "기능 정의가 막힌다면 `기능 요구사항을 처음 정리하고 싶을 때`부터 시작합니다.",
+            "개발자 전달 문장이 약하다면 `개발자에게 전달할 작업 지시문을 만들고 싶을 때`를 이어서 사용합니다.",
+            "결과물을 내보내기 전에는 `개발 결과물을 최종 검수하고 싶을 때`로 마무리합니다.",
+        ],
+        "core": STARTER_CATEGORY_MAP[2][1],
+        "support": [
+            "빠진 핵심 요소가 있는지 점검하고 싶을 때",
+            "수정 요청을 어떻게 이어갈지 설계하고 싶을 때",
+            "검수 질문을 어떻게 던질지 정리하고 싶을 때",
+            "같은 작업을 다른 AI 도구에 맞게 바꾸고 싶을 때",
+            "전체 작업 흐름을 한 번에 설계하고 싶을 때",
+        ],
+    },
+    {
+        "slug": "work-report",
+        "title": "AI시킴 업무/보고서 집중팩",
+        "subtitle": "보고서 초안, 상사 보고, 기획서 정리, 문제 보고, 최종 검수까지 실무 문서 흐름에 맞춘 작업지시서",
+        "pdf_name": "AI시킴-업무-보고서-집중팩-v1.pdf",
+        "md_name": "AI시킴-업무-보고서-집중팩-v1-final.md",
+        "notion_name": "AI시킴-업무-보고서-집중팩-v1-notion-final.md",
+        "target": [
+            "보고 문서 초안을 더 빨리 정리하고 싶은 직장인",
+            "상사나 이해관계자가 바로 이해하는 문장을 만들고 싶은 사람",
+            "실행안, 요약본, 문제 보고처럼 실무 문서를 반복 작성하는 사람",
+        ],
+        "quick_start": [
+            "보고서 뼈대가 막히면 `업무 보고서의 기본 구조를 잡고 싶을 때`부터 시작합니다.",
+            "상사 공유용으로 줄여야 하면 `상사 보고용 요약본을 짧게 만들고 싶을 때`를 이어서 사용합니다.",
+            "제출 직전에는 `완성된 보고서나 기획서를 최종 검수하고 싶을 때`로 마무리합니다.",
+        ],
+        "core": STARTER_CATEGORY_MAP[1][1],
+        "support": [
+            "원하는 결과물 형식을 먼저 고정하고 싶을 때",
+            "빠진 핵심 요소가 있는지 점검하고 싶을 때",
+            "수정 요청을 어떻게 이어갈지 설계하고 싶을 때",
+            "검수 질문을 어떻게 던질지 정리하고 싶을 때",
+            "전체 작업 흐름을 한 번에 설계하고 싶을 때",
+        ],
+    },
+    {
+        "slug": "blog-content",
+        "title": "AI시킴 블로그/콘텐츠 집중팩",
+        "subtitle": "제목, 도입부, 구조, CTA, 최종 검수까지 콘텐츠를 끝까지 다듬는 흐름형 작업지시서",
+        "pdf_name": "AI시킴-블로그-콘텐츠-집중팩-v1.pdf",
+        "md_name": "AI시킴-블로그-콘텐츠-집중팩-v1-final.md",
+        "notion_name": "AI시킴-블로그-콘텐츠-집중팩-v1-notion-final.md",
+        "target": [
+            "글 초안은 나오지만 도입부와 흐름이 늘 약한 사람",
+            "콘텐츠를 게시 직전까지 더 강하게 다듬고 싶은 사람",
+            "정보형 글과 판매형 문구를 자연스럽게 함께 쓰고 싶은 사람",
+        ],
+        "quick_start": [
+            "초안부터 막히면 `블로그 글의 첫 구조를 잡고 싶을 때`부터 시작합니다.",
+            "읽는 사람이 중간에 이탈하면 `블로그 도입부를 더 강하게 쓰고 싶을 때`와 `소제목 구조를 더 읽기 좋게 정리하고 싶을 때`를 이어서 사용합니다.",
+            "게시 직전에는 `완성된 글을 전체 검수하고 수정하고 싶을 때`로 마무리합니다.",
+        ],
+        "core": STARTER_CATEGORY_MAP[0][1],
+        "support": [
+            "독자나 대상에 맞게 톤을 바꾸고 싶을 때",
+            "빠진 핵심 요소가 있는지 점검하고 싶을 때",
+            "수정 요청을 어떻게 이어갈지 설계하고 싶을 때",
+            "검수 질문을 어떻게 던질지 정리하고 싶을 때",
+            "전체 작업 흐름을 한 번에 설계하고 싶을 때",
+        ],
+    },
+]
+
+
 def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
@@ -175,6 +257,78 @@ def build_starter_pack_master() -> Tuple[str, str]:
     notion_master_path = DELIVERABLES / "starter-pack" / "AI시킴-스타터팩-v1-notion-final.md"
     write_text(pdf_master_path, pdf_master)
     write_text(notion_master_path, notion_master)
+    return str(pdf_master_path), str(notion_master_path)
+
+
+def build_focused_pack_master(pack: Dict[str, object]) -> Tuple[str, str]:
+    section_map: Dict[str, str] = {}
+    for path in STARTER_SOURCE_FILES:
+        section_map.update(extract_numbered_sections(read_text(path)))
+
+    lines: List[str] = [
+        f"# {pack['title']}",
+        "",
+        f"{pack['subtitle']}",
+        "",
+        "---",
+        "",
+        "## 이 팩이 특히 잘 맞는 사람",
+    ]
+    for item in pack["target"]:  # type: ignore[index]
+        lines.append(f"- {item}")
+    lines.extend(
+        [
+            "",
+            "## 먼저 이렇게 사용하세요",
+        ]
+    )
+    quick_start = pack["quick_start"]  # type: ignore[index]
+    for idx, item in enumerate(quick_start, start=1):
+        lines.append(f"{idx}. {item}")
+
+    lines.extend(
+        [
+            "",
+            "## 이 팩은 왜 따로 존재하나요?",
+            "이 패키지는 특정 분야에서 바로 써먹을 수 있는 작업지시서만 빠르게 꺼내 쓰고 싶은 사용자를 위해 분리한 집중팩입니다.",
+            "즉, 안 쓸 분야까지 같이 사는 느낌보다 `내가 지금 필요한 문제를 바로 해결하는 느낌`이 먼저 오도록 구성합니다.",
+            "",
+            "## 핵심 작업지시서",
+        ]
+    )
+
+    for title in pack["core"]:  # type: ignore[index]
+        if title not in section_map:
+            raise KeyError(f"Missing focused-pack core section: {title}")
+        lines.append(section_map[title].strip())
+        lines.extend(["", "---", ""])
+
+    lines.extend(
+        [
+            "## 보조 작업지시서",
+            "아래 보조 작업지시서는 핵심 작업지시서를 더 오래, 더 깊게 쓰게 도와주는 연결 세트입니다.",
+        ]
+    )
+    for title in pack["support"]:  # type: ignore[index]
+        if title not in section_map:
+            raise KeyError(f"Missing focused-pack support section: {title}")
+        lines.append(section_map[title].strip())
+        lines.extend(["", "---", ""])
+
+    lines.extend(
+        [
+            "## 마지막 활용 팁",
+            "이 팩은 한 개 문장을 던지고 끝내는 자료가 아니라, 핵심 작업지시서와 보조 작업지시서를 조합해서 결과를 끝까지 다듬는 데 목적이 있습니다.",
+            "먼저 지금 가장 가까운 핵심 작업지시서 1개를 쓰고, 결과가 약하면 보조 작업지시서의 후속/수정/검수 흐름으로 이어가세요.",
+        ]
+    )
+
+    content = "\n".join(lines).strip()
+    base = DELIVERABLES / "focused-packs" / str(pack["slug"])
+    pdf_master_path = base / str(pack["md_name"])
+    notion_master_path = base / str(pack["notion_name"])
+    write_text(pdf_master_path, content)
+    write_text(notion_master_path, content)
     return str(pdf_master_path), str(notion_master_path)
 
 
@@ -407,10 +561,23 @@ def main() -> None:
         "AI시킴 스타터팩",
     )
 
+    focused_results = []
+    for pack in FOCUSED_PACKS:
+        pdf_master, notion_master = build_focused_pack_master(pack)
+        build_pdf(
+            Path(pdf_master),
+            DELIVERABLES / "focused-packs" / str(pack["slug"]) / str(pack["pdf_name"]),
+            str(pack["title"]),
+        )
+        focused_results.append((pack["slug"], pdf_master, notion_master))
+
     print("sample_pdf_master", sample_pdf_master)
     print("sample_notion_master", sample_notion_master)
     print("starter_pdf_master", starter_pdf_master)
     print("starter_notion_master", starter_notion_master)
+    for slug, pdf_master, notion_master in focused_results:
+        print(f"{slug}_pdf_master", pdf_master)
+        print(f"{slug}_notion_master", notion_master)
 
 
 if __name__ == "__main__":

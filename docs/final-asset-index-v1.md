@@ -19,6 +19,13 @@
 - 샘플팩 Notion 최종 문안 있음
 - 샘플팩 PDF 실물 파일 있음
 - 샘플팩 Notion 업로드용 최종 원본 있음
+- 집중팩 판매 구조 문서 있음
+- 앱/웹사이트 개발 집중팩 PDF 실물 파일 있음
+- 앱/웹사이트 개발 집중팩 Notion 업로드용 최종 원본 있음
+- 업무/보고서 집중팩 PDF 실물 파일 있음
+- 업무/보고서 집중팩 Notion 업로드용 최종 원본 있음
+- 블로그/콘텐츠 집중팩 PDF 실물 파일 있음
+- 블로그/콘텐츠 집중팩 Notion 업로드용 최종 원본 있음
 - 스타터팩 50개 분배표 있음
 - 우선 제작 15개 프리미엄 초안 있음
 - 스타터팩 PDF 최종 문안 있음
@@ -116,7 +123,32 @@
 
 ---
 
-## 6. 품질/운영/자동화 문서
+## 6. 집중팩 관련 문서
+
+### 6.1 상품 구조 및 제작 기준
+- 고객 판매용 상품 구조: `docs/customer-product-architecture-v1.md`
+- 카테고리별 PDF 분리 설계: `docs/category-pack-split-spec-v1.md`
+- 집중팩 우선 제작 순서: `docs/category-pack-production-priority-v1.md`
+- 집중팩 제작 로드맵: `docs/focused-pack-build-roadmap-v1.md`
+- 집중팩 변수 반응형 설계 기준: `docs/focused-pack-variable-response-spec-v1.md`
+- 개발 집중팩 제작 기준: `docs/development-pack-build-spec-v1.md`
+- 업무/보고서 집중팩 제작 기준: `docs/work-report-pack-build-spec-v1.md`
+- 블로그/콘텐츠 집중팩 제작 기준: `docs/blog-content-pack-build-spec-v1.md`
+
+### 6.2 실물 산출물
+- 앱/웹사이트 개발 집중팩 PDF: `deliverables/focused-packs/app-web-development/AI시킴-앱-웹사이트-개발-집중팩-v1.pdf`
+- 앱/웹사이트 개발 집중팩 최종 원본: `deliverables/focused-packs/app-web-development/AI시킴-앱-웹사이트-개발-집중팩-v1-final.md`
+- 앱/웹사이트 개발 집중팩 Notion 최종 원본: `deliverables/focused-packs/app-web-development/AI시킴-앱-웹사이트-개발-집중팩-v1-notion-final.md`
+- 업무/보고서 집중팩 PDF: `deliverables/focused-packs/work-report/AI시킴-업무-보고서-집중팩-v1.pdf`
+- 업무/보고서 집중팩 최종 원본: `deliverables/focused-packs/work-report/AI시킴-업무-보고서-집중팩-v1-final.md`
+- 업무/보고서 집중팩 Notion 최종 원본: `deliverables/focused-packs/work-report/AI시킴-업무-보고서-집중팩-v1-notion-final.md`
+- 블로그/콘텐츠 집중팩 PDF: `deliverables/focused-packs/blog-content/AI시킴-블로그-콘텐츠-집중팩-v1.pdf`
+- 블로그/콘텐츠 집중팩 최종 원본: `deliverables/focused-packs/blog-content/AI시킴-블로그-콘텐츠-집중팩-v1-final.md`
+- 블로그/콘텐츠 집중팩 Notion 최종 원본: `deliverables/focused-packs/blog-content/AI시킴-블로그-콘텐츠-집중팩-v1-notion-final.md`
+
+---
+
+## 7. 품질/운영/자동화 문서
 - 콘텐츠 품질 기준: `docs/content-quality-standard.md`
 - 이메일 발송 운영 기준: `docs/email-delivery-operations.md`
 - 자동화 구조: `docs/automation-architecture-v1.md`
@@ -128,11 +160,11 @@
 
 ---
 
-## 7. 지금부터 실제로 해야 할 일
+## 8. 지금부터 실제로 해야 할 일
 문서는 대부분 준비된 상태이므로, 이제는 아래 순서로 넘어가는 것이 맞습니다.
 
 1. 조건부 출고 항목 2차 미세 보완
-2. 샘플팩/스타터팩 실제 Notion 페이지 생성
+2. 샘플팩/집중팩/스타터팩 실제 Notion 페이지 생성
 3. 실제 링크 생성
 4. 실제 발신 메일 주소 결정
 5. 실제 신청 폼 링크 결정
@@ -141,6 +173,6 @@
 
 ---
 
-## 8. 현재 판단
+## 9. 현재 판단
 지금 상태는 `문서가 부족한 상태`가 아니라 `문서는 거의 다 있는 상태`입니다.  
 이제부터는 새 문서 종류를 늘리기보다, 이미 만든 문서를 실제 발송 자산과 실제 운영값으로 연결하는 단계가 우선입니다.
