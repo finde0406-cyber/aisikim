@@ -12,14 +12,13 @@ export default function HeroSection() {
         </h1>
         <p className="text-gray-500 text-sm leading-relaxed mb-8">
           목적·상황·결과물을 고르면<br />
-          ChatGPT·Claude·Gemini에 바로 넣을 수 있는<br />
-          작업지시서를 3분 만에 만들어드려요.
+          바로 써볼 작업지시서를 만들어드려요.
         </p>
         <Button href="/quiz" className="w-full">
           무료 작업지시서 만들기 →
         </Button>
         <p className="mt-3 text-xs text-gray-400">
-          이메일 · 회원가입 불필요
+          이메일·회원가입 없이 시작
         </p>
       </div>
     </section>
