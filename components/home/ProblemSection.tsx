@@ -3,6 +3,7 @@ const PROBLEMS = [
   'AI를 열었는데 뭐부터 물어봐야 할지 막막하다',
   '질문을 넣어봤는데 답변이 너무 뻔하게 나온다',
   '수정 요청을 어떻게 써야 할지 모르겠다',
+  '결국 "AI도 별거 없네" 하고 꺼버린다',
 ]
 
 export default function ProblemSection() {

@@ -16,7 +16,7 @@ export default function HeroSection() {
           작업지시서를 3분 만에 만들어드립니다.
         </p>
         <Button href="/quiz" className="w-full">
-          무료로 진단 시작하기 →
+          무료 작업지시서 만들기 →
         </Button>
         <p className="mt-3 text-xs text-gray-400">
           이메일 · 회원가입 불필요
