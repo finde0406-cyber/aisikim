@@ -20,8 +20,8 @@ export default function ProblemSection() {
           ))}
         </ul>
         <p className="text-sm text-gray-500 leading-relaxed">
-          AI시킴은 자유 입력이 아닌{' '}
-          <strong className="text-gray-700">선택 반응형</strong>으로 이 과정을 해결해요.
+          무엇을 물어봐야 할지 몰라도,{' '}
+          <strong className="text-gray-700">선택만 하면</strong> 바로 작업지시서를 만들 수 있어요.
         </p>
       </div>
     </section>

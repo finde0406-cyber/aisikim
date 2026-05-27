@@ -23,12 +23,15 @@ export default function EmailForm() {
   const [redirected, setRedirected] = useState(false)
   const [error, setError] = useState('')
 
-  // 외부 폼 연결 전: 준비 중 안내만 노출
   if (!formUrl) {
     return (
-      <div className="border border-dashed border-gray-200 rounded-xl px-4 py-5">
-        <p className="text-xs font-medium text-gray-400 mb-3">샘플팩 구성 5개</p>
-        <ul className="space-y-2 mb-5">
+      <div className="border border-gray-200 rounded-xl px-4 py-5">
+        <p className="text-sm font-semibold text-gray-900 mb-1">무료 샘플팩 받기</p>
+        <p className="text-xs text-gray-500 leading-relaxed mb-4">
+          이메일로 샘플 작업지시서 5개를 받아보세요.<br />
+          바로 써볼 수 있는 예시와 후속 흐름까지 함께 받아볼 수 있어요.
+        </p>
+        <ul className="space-y-2">
           {SAMPLE_PACK_ITEMS.map((item) => (
             <li key={item} className="flex items-start gap-2 text-sm text-gray-500">
               <span className="text-indigo-300 flex-shrink-0 mt-0.5">·</span>
@@ -36,12 +39,6 @@ export default function EmailForm() {
             </li>
           ))}
         </ul>
-        <div className="bg-gray-50 rounded-xl px-4 py-4 text-center">
-          <p className="text-sm font-medium text-gray-600 mb-1">신청 연결 준비 중</p>
-          <p className="text-xs text-gray-400 leading-relaxed">
-            샘플팩 발송 연결이 완료되면 이 자리에서 바로 신청하실 수 있습니다.
-          </p>
-        </div>
       </div>
     )
   }
