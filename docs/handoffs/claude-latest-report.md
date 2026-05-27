@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-05-27 / Claude Code (히어로 보조문구 축약 수정)
+갱신: 2026-05-27 / Claude Code (스타터팩 페이지 내부 상태 문구 제거)
 
 ---
 
@@ -9,29 +9,27 @@
 | 항목 | 값 |
 |------|---|
 | 브랜치 | `main` |
-| 최신 커밋 | `5d84c44` `docs: add hero copy options and update prompt` |
-| 직전 커밋 | `aca8ce0` `ux: compress homepage and align result page conversion` |
+| 최신 커밋 | `52b4f02` `copy: shorten hero subtitle to two lines` |
 | 미커밋 변경 | 아래 파일 목록 참조 |
 
 ---
 
 ## 현재 단계
 
-**히어로 보조문구 축약 완료. 커밋 승인 대기 중.**
+**스타터팩 페이지 내부 상태 문구 제거 완료. 커밋 승인 대기 중.**
 
 ---
 
 ## 이번 세션에서 완료한 것
 
-### 수정: `components/home/HeroSection.tsx`
+### 수정: `app/starter-pack/page.tsx`
 
-| 항목 | 전 | 후 |
+| 위치 | 전 | 후 |
 |------|----|----|
-| 보조문구 | 3줄 (목적·상황·결과물 / ChatGPT·Claude·Gemini에 바로 넣을 수 있는 / 작업지시서를 3분 만에 만들어드려요) | 2줄 (목적·상황·결과물을 고르면 / 바로 써볼 작업지시서를 만들어드려요) |
-| 하단 캡션 | `이메일 · 회원가입 불필요` | `이메일·회원가입 없이 시작` |
-
-- 헤드라인, CTA 버튼 변경 없음
-- 줄 수 감소로 첫 화면이 더 가볍게 보임
+| 상단 배지 | `paymentUrl` 없을 때 `구매 신청 준비 중` 표시 | `paymentUrl` 있을 때만 배지 렌더링 (없으면 배지 숨김) |
+| 결제 CTA (`!paymentUrl`) | `구매 신청 준비 중` + `결제 채널 연결이 완료되면...` | `먼저 무료 샘플팩으로 확인해보세요` + `내 작업에 맞는지 먼저 확인한 뒤 선택할 수 있어요.` |
+| FAQ "결제와 자료 수령" (`!paymentUrl`) | `현재 결제 채널 연결을 준비 중입니다...` | `결제 방법과 자료 수령 방법은 구매 페이지에서 확인할 수 있어요.` |
+| 딥팩 암시 블록 | `해당 분야를 더 깊게 이어갈 수 있도록 준비하고 있습니다.` | `필요한 분야를 더 깊게 활용하는 방식으로 이어갈 수 있어요.` |
 
 TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 
@@ -40,7 +38,7 @@ TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 ## 변경 파일 목록
 
 ```
- M components/home/HeroSection.tsx
+ M app/starter-pack/page.tsx
 ```
 
 ---
@@ -62,7 +60,7 @@ TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 
 ## 다음 단계 제안
 
-1. 커밋 승인 → `copy: shorten hero subtitle to two lines`
+1. 커밋 승인 → `copy: remove internal-status copy from starter pack page`
 2. 집중팩 3종 상세 페이지 제작
 3. Tally 폼 + 결제 채널 설정
 4. Sprint 7: Vercel 배포

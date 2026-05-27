@@ -75,7 +75,7 @@ export default function StarterPackPage() {
       q: '결제와 자료 수령은 어떻게 되나요?',
       a: paymentUrl
         ? 'PDF 파일과 Notion 링크를 이메일로 보내드립니다. 결제 완료 후 영업일 기준 1~2일 내 발송됩니다. 결제 시 이메일 주소를 정확히 입력해주세요.'
-        : '현재 결제 채널 연결을 준비 중입니다. 연결 완료 후 결제 방법과 자료 수령 방법을 안내해 드릴 예정입니다.',
+        : '결제 방법과 자료 수령 방법은 구매 페이지에서 확인할 수 있어요.',
     },
     {
       q: '디지털 상품 환불은 어떻게 되나요?',
@@ -93,9 +93,11 @@ export default function StarterPackPage() {
         </Link>
 
         {/* --- 섹션 1: 히어로 --- */}
-        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 ${paymentUrl ? 'bg-indigo-100 text-indigo-700' : 'bg-indigo-50 text-indigo-700'}`}>
-          {paymentUrl ? '구매하기' : '구매 신청 준비 중'}
-        </span>
+        {paymentUrl && (
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 bg-indigo-100 text-indigo-700">
+            구매하기
+          </span>
+        )}
         <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-2">
           AI 작업지시서 스타터팩
         </h1>
@@ -236,16 +238,15 @@ export default function StarterPackPage() {
             </>
           ) : (
             <>
-              <div className="border border-dashed border-indigo-200 rounded-xl py-6 px-4 text-center">
-                <p className="text-sm font-semibold text-gray-700 mb-1">구매 신청 준비 중</p>
+              <div className="border border-gray-100 rounded-xl py-5 px-4 text-center">
+                <p className="text-sm font-medium text-gray-700 mb-1">
+                  먼저 무료 샘플팩으로 확인해보세요
+                </p>
                 <p className="text-xs text-gray-400 leading-relaxed">
-                  결제 채널 연결이 완료되면 이 자리에서 바로 구매하실 수 있습니다.
+                  내 작업에 맞는지 먼저 확인한 뒤 선택할 수 있어요.
                 </p>
               </div>
               <div className="mt-4 text-center">
-                <p className="text-xs text-gray-400 mb-2">
-                  그 전에 무료 샘플팩 5개로 먼저 확인해보세요.
-                </p>
                 <Link
                   href="/quiz"
                   className="text-sm text-indigo-600 underline underline-offset-2"
@@ -282,7 +283,7 @@ export default function StarterPackPage() {
         <div className="mb-10 bg-gray-50 rounded-xl px-4 py-4">
           <p className="text-xs text-gray-500 leading-relaxed">
             스타터팩으로 AI시킴 방식을 경험해보신 뒤, 자주 쓰는 분야가 생기면
-            해당 분야를 더 깊게 이어갈 수 있도록 준비하고 있습니다.
+            필요한 분야를 더 깊게 활용하는 방식으로 이어갈 수 있어요.
           </p>
         </div>
 
