@@ -39,7 +39,7 @@ export default function CategoryPreviewSection() {
         </div>
         <div className="text-center">
           <a href="/quiz" className="text-sm text-indigo-600 underline underline-offset-2">
-            내 작업 분야로 진단하기 →
+            내 작업지시서 만들기 →
           </a>
         </div>
       </div>

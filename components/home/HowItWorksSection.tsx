@@ -3,17 +3,17 @@ const STEPS = [
   {
     number: '1',
     title: '선택만 하세요',
-    desc: '목적, 막힌 이유, 원하는 결과물을 선택지에서 고릅니다.',
+    desc: '목적, 막힌 이유, 원하는 결과물을 선택지에서 골라요.',
   },
   {
     number: '2',
     title: '작업지시서 자동 생성',
-    desc: 'AI에 바로 넣을 수 있는 작업지시서가 만들어집니다.',
+    desc: 'AI에 바로 넣을 수 있는 작업지시서가 만들어져요.',
   },
   {
     number: '3',
     title: 'AI에 바로 붙여넣기',
-    desc: 'ChatGPT, Claude, Gemini 등 원하는 AI에 복사하면 끝입니다.',
+    desc: 'ChatGPT, Claude, Gemini 등 원하는 AI에 복사하면 돼요.',
   },
 ]
 

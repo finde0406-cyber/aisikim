@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-05-27 / Claude Code (홈 유료 포지셔닝 + 운영 문구 정정)
+갱신: 2026-05-27 / Claude Code (홈 카피 2차 미세 수정 — HowItWorks + CategoryPreview 톤 통일)
 
 ---
 
@@ -16,53 +16,46 @@
 
 ## 현재 단계
 
-**홈 전환 설득력 보강 + 포지셔닝 정정 완료. 커밋 승인 대기 중.**
+**홈 카피 전체 `-요`체 통일 + CTA 일관성 정리 완료. 커밋 승인 대기 중.**
 
 ---
 
 ## 이번 세션에서 완료한 것
 
-### 이전 세션 (메인 페이지 전환 설득력 보강)
-- Hero CTA: "무료 작업지시서 만들기 →"
-- ProblemSection: "AI도 별거 없네 하고 꺼버린다" 추가
-- SamplePreviewSection 신규: 실제 작업지시서 형태 미리보기
-- StarterPackFlowSection 신규: 4단계 완성 흐름 설명
-- PackPreviewSection: 유료 카드 세부 항목 추가
-- Footer: 제공 방식·환불·문의 안내 추가
+### 1차 카피 수정 (이전 세션)
+- 전체 고객-facing 카피 `-다/-습니다` → `-요`체 통일 (6개 파일)
+- `분야별 순차 출시 예정` 제거 → `필요한 분야만 선택해 바로 활용할 수 있어요`
 
-### 이번 세션 (판매 전략 정합성 + 운영 문구 정정)
+### 2차 카피 수정 (이번 세션)
 
-#### 수정 1: `StarterPackFlowSection.tsx`
-- 라벨: "스타터팩 구성" → **"집중팩 구성"**
-- 하단 문구: "이 흐름 전체가 5개 분야 × 10개 = 작업지시서 50개에 담겨 있습니다." → **"이 흐름 전체를 분야에 맞게 담은 집중팩으로 제공됩니다."**
-- 근거: `focused-pack-build-roadmap-v1.md §4` — 집중팩이 메인 판매 상품
+#### `HowItWorksSection.tsx`
+- Step 1 desc: `선택지에서 고릅니다.` → `골라요.`
+- Step 2 desc: `작업지시서가 만들어집니다.` → `만들어져요.`
+- Step 3 desc: `복사하면 끝입니다.` → `복사하면 돼요.`
 
-#### 수정 2: `PackPreviewSection.tsx`
-- 유료 카드 라벨: "유료 스타터팩" → **"카테고리 집중팩"**
-- 유료 카드 내용: 앱/웹사이트 개발 / 업무/보고서 / 블로그/콘텐츠 3종 나열 + "분야별 순차 출시 예정"
-- 스타터팩 → 하단 번들 블록으로 격하: "더 넓게 써보고 싶다면" + "통합 스타터팩 50개 번들도 있습니다"
-- CTA 버튼: "스타터팩 자세히 보기" → **"통합 스타터팩 번들 보기"** (outline 유지)
-- 근거: `customer-product-architecture-v1.md §9` — 집중팩 먼저, 통합 번들은 업셀
+#### `CategoryPreviewSection.tsx`
+- CTA 링크: `내 작업 분야로 진단하기 →` → `내 작업지시서 만들기 →`
+- 근거: 홈 전체 방향이 `무료 작업지시서 만들기`로 통일되어 있어 `진단`이 톤과 맞지 않음
 
-#### 수정 3: `Footer.tsx`
-- 제거: "결제 완료 후 영업일 기준 1~2일 내 이메일로 발송됩니다" (미확정 운영값 단정)
-- 교체: "발송 방식 및 일정은 신청·결제 페이지에서 확인할 수 있습니다" (운영 확정 전 위임형)
+#### `FinalCTASection.tsx`
+- 변경 없음 — 이미 `-세요`체로 일관성 있음
+
+TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 
 ---
 
 ## 변경 파일 목록
 
 ```
- M app/page.tsx
+ M components/home/CategoryPreviewSection.tsx
  M components/home/Footer.tsx
  M components/home/HeroSection.tsx
+ M components/home/HowItWorksSection.tsx
  M components/home/PackPreviewSection.tsx
  M components/home/ProblemSection.tsx
-?? components/home/SamplePreviewSection.tsx
-?? components/home/StarterPackFlowSection.tsx
+ M components/home/SamplePreviewSection.tsx
+ M components/home/StarterPackFlowSection.tsx
 ```
-
-TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 
 ---
 
@@ -83,8 +76,8 @@ TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 
 ## 다음 단계 제안
 
-1. 커밋 승인 → `ux: align home with focused-pack strategy and fix unconfirmed ops copy`
-2. 집중팩 상세 페이지 제작 (1순위: 개발 집중팩)
+1. 커밋 승인 → `copy: unify home tone to -요 form and align CTAs`
+2. 집중팩 상세 페이지 제작 (1순위: 앱/웹사이트 개발 집중팩)
 3. Tally 폼 생성 → `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` 설정
 4. 결제 채널 확정 → `NEXT_PUBLIC_PAYMENT_URL` 설정
 5. Sprint 7: Vercel 배포

@@ -13,7 +13,7 @@ export default function HeroSection() {
         <p className="text-gray-500 text-sm leading-relaxed mb-8">
           목적·상황·결과물을 고르면<br />
           ChatGPT·Claude·Gemini에 바로 넣을 수 있는<br />
-          작업지시서를 3분 만에 만들어드립니다.
+          작업지시서를 3분 만에 만들어드려요.
         </p>
         <Button href="/quiz" className="w-full">
           무료 작업지시서 만들기 →

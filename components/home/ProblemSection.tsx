@@ -1,9 +1,9 @@
 // 문제 공감 섹션 - AI 초보자가 겪는 주요 막힘 상황
 const PROBLEMS = [
-  'AI를 열었는데 뭐부터 물어봐야 할지 막막하다',
-  '질문을 넣어봤는데 답변이 너무 뻔하게 나온다',
-  '수정 요청을 어떻게 써야 할지 모르겠다',
-  '결국 "AI도 별거 없네" 하고 꺼버린다',
+  'AI를 열었는데 뭐부터 물어봐야 할지 막막해요',
+  '질문을 넣어봤는데 답변이 너무 뻔하게 나와요',
+  '수정 요청을 어떻게 써야 할지 모르겠어요',
+  '결국 "AI도 별거 없네" 하고 꺼버려요',
 ]
 
 export default function ProblemSection() {
@@ -21,7 +21,7 @@ export default function ProblemSection() {
         </ul>
         <p className="text-sm text-gray-500 leading-relaxed">
           AI시킴은 자유 입력이 아닌{' '}
-          <strong className="text-gray-700">선택 반응형</strong>으로 이 과정을 해결합니다.
+          <strong className="text-gray-700">선택 반응형</strong>으로 이 과정을 해결해요.
         </p>
       </div>
     </section>

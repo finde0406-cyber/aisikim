@@ -31,7 +31,7 @@ export default function SamplePreviewSection() {
           미리보기
         </p>
         <h2 className="text-base font-bold text-gray-900 mb-4 text-center">
-          이런 형태의 작업지시서가 만들어집니다
+          이런 형태의 작업지시서가 만들어져요
         </h2>
         <div className="bg-white border border-gray-200 rounded-xl p-4">
           <p className="text-[10px] font-medium text-gray-400 mb-3">
@@ -42,7 +42,7 @@ export default function SamplePreviewSection() {
           </p>
         </div>
         <p className="text-xs text-gray-400 text-center mt-3">
-          선택한 5가지 값이 모두 반영된 맞춤형 작업지시서
+          선택한 5가지 값이 모두 반영된 맞춤형 작업지시서예요
         </p>
       </div>
     </section>

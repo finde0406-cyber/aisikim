@@ -31,11 +31,11 @@ export default function StarterPackFlowSection() {
           집중팩 구성
         </p>
         <h2 className="text-base font-bold text-gray-900 mb-1">
-          한 번 묻고 끝나지 않습니다.
+          한 번 묻고 끝나지 않아요.
         </h2>
         <p className="text-sm text-gray-500 mb-5 leading-relaxed">
           결과물을 완성하려면 후속 질문과<br />
-          수정·검수 단계가 더 필요합니다.
+          수정·검수 단계가 더 필요해요.
         </p>
         <div className="space-y-3 mb-5">
           {FLOW_STEPS.map((s) => (
@@ -51,7 +51,7 @@ export default function StarterPackFlowSection() {
           ))}
         </div>
         <p className="text-xs text-gray-400 leading-relaxed">
-          이 흐름 전체를 분야에 맞게 담은 집중팩으로 제공됩니다.
+          이 흐름 전체를 분야에 맞게 담은 집중팩으로 제공돼요.
         </p>
       </div>
     </section>

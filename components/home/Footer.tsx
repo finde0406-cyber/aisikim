@@ -11,13 +11,13 @@ export default function Footer() {
           <div className="flex items-start gap-2">
             <span className="text-gray-300 flex-shrink-0 mt-0.5">·</span>
             <p className="text-xs text-gray-400 leading-relaxed">
-              유료 상품은 PDF 파일 + Notion 링크 형태로 제공됩니다. 발송 방식 및 일정은 신청·결제 페이지에서 확인할 수 있습니다.
+              유료 상품은 PDF 파일 + Notion 링크 형태로 제공돼요. 발송 방식 및 일정은 신청·결제 페이지에서 확인할 수 있어요.
             </p>
           </div>
           <div className="flex items-start gap-2">
             <span className="text-gray-300 flex-shrink-0 mt-0.5">·</span>
             <p className="text-xs text-gray-400 leading-relaxed">
-              디지털 자료 특성상 자료 전달 후 교환·환불이 제한될 수 있습니다. 상세 환불 기준은 결제 페이지에서 확인하세요.
+              디지털 자료 특성상 자료 전달 후 교환·환불이 제한될 수 있어요. 상세 환불 기준은 결제 페이지에서 확인하세요.
             </p>
           </div>
           <div className="flex items-start gap-2">

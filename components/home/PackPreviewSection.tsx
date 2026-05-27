@@ -26,7 +26,7 @@ export default function PackPreviewSection() {
               <li className="text-xs text-gray-700">블로그/콘텐츠</li>
             </ul>
             <p className="text-xs text-gray-500">첫 질문·후속·수정·검수 포함</p>
-            <p className="text-[10px] text-indigo-400 mt-1.5">분야별 순차 출시 예정</p>
+            <p className="text-[10px] text-indigo-500 mt-1.5">필요한 분야만 선택해 바로 활용할 수 있어요</p>
           </div>
         </div>
 
@@ -34,7 +34,7 @@ export default function PackPreviewSection() {
         <div className="border border-gray-100 rounded-xl px-4 py-3 mb-4">
           <p className="text-xs text-gray-400 mb-1">더 넓게 써보고 싶다면</p>
           <p className="text-xs text-gray-600 leading-relaxed">
-            여러 분야를 한번에 체험할 수 있는 통합 스타터팩 50개 번들도 있습니다.
+            여러 분야를 한번에 체험할 수 있는 통합 스타터팩 50개 번들도 있어요.
           </p>
         </div>
 
