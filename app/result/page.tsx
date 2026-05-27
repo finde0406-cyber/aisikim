@@ -49,7 +49,7 @@ export default async function ResultPage({
         {/* 헤더 */}
         <h1 className="text-xl font-bold text-gray-900 mb-2">첫 번째 작업지시서</h1>
         <p className="text-gray-500 text-sm mb-6 leading-relaxed">
-          선택하신 조건으로 기본 작업지시서 1개를 만들었습니다.<br />
+          선택하신 조건으로 기본 작업지시서 1개를 만들어드렸어요.<br />
           아래 내용을 복사해서 AI에 바로 붙여 넣으세요.
         </p>
 
@@ -80,8 +80,8 @@ export default async function ResultPage({
         {/* 다음 단계 훅 */}
         <div className="mt-6 mb-2">
           <p className="text-sm text-gray-500 leading-relaxed">
-            지금은 <strong className="text-gray-700">첫 번째 작업지시서 1개</strong>만 열려 있습니다.
-            실제 결과물을 완성하려면 후속 질문, 수정 요청, 검수 단계가 더 필요합니다.
+            지금은 <strong className="text-gray-700">첫 번째 작업지시서 1개</strong>만 열려 있어요.
+            실제 결과물을 완성하려면 후속 질문, 수정 요청, 검수 단계가 더 필요해요.
           </p>
         </div>
 
@@ -109,9 +109,9 @@ export default async function ResultPage({
         {/* 구분 */}
         <div className="mt-12 mb-8 border-t border-gray-100" />
 
-        {/* ---- 스타터팩 섹션 (소프트 노출) ---- */}
-        <p className="text-xs font-medium text-gray-400 mb-4">더 완성된 결과물이 필요하다면</p>
-        <div className="grid grid-cols-2 gap-3 mb-5">
+        {/* ---- 집중팩 섹션 (메인 유료 전환) ---- */}
+        <p className="text-xs font-medium text-gray-400 mb-4">내 분야에 맞게 더 깊게</p>
+        <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="border border-gray-200 rounded-xl p-4">
             <p className="text-xs text-gray-400 mb-2 font-medium">지금 무료</p>
             <ul className="space-y-1.5">
@@ -120,21 +120,30 @@ export default async function ResultPage({
             </ul>
           </div>
           <div className="border border-indigo-200 bg-indigo-50 rounded-xl p-4">
-            <p className="text-xs font-medium text-indigo-500 mb-2">유료 스타터팩</p>
-            <ul className="space-y-1.5">
-              <li className="text-xs font-medium text-gray-800">작업지시서 50개</li>
-              <li className="text-xs text-gray-600">후속·수정·검수 포함</li>
-              <li className="text-xs font-semibold text-indigo-600">9,900원</li>
+            <p className="text-xs font-medium text-indigo-500 mb-2">카테고리 집중팩</p>
+            <ul className="space-y-1">
+              <li className="text-xs font-medium text-gray-800">앱/웹사이트 개발</li>
+              <li className="text-xs text-gray-700">업무/보고서</li>
+              <li className="text-xs text-gray-700">블로그/콘텐츠</li>
             </ul>
+            <p className="text-xs text-gray-500 mt-1.5">첫 질문·후속·수정·검수 포함</p>
           </div>
         </div>
 
-        {/* 스타터팩 CTA — outline 스타일 (소프트) */}
+        {/* 번들 블록 */}
+        <div className="border border-gray-100 rounded-xl px-4 py-3 mb-4">
+          <p className="text-xs text-gray-400 mb-1">더 넓게 써보고 싶다면</p>
+          <p className="text-xs text-gray-600 leading-relaxed">
+            여러 분야를 한번에 체험할 수 있는 통합 스타터팩 50개 번들도 있어요.
+          </p>
+        </div>
+
+        {/* 번들 CTA */}
         <Link
           href="/starter-pack"
-          className="flex items-center justify-center w-full border-2 border-indigo-600 text-indigo-600 font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-50"
+          className="flex items-center justify-center w-full border-2 border-gray-200 text-gray-600 font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-gray-50"
         >
-          결과물을 완성하는 작업지시서 50개 보기
+          통합 스타터팩 번들 보기
         </Link>
 
       </div>
