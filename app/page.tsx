@@ -1,8 +1,8 @@
 // 홈 랜딩페이지 - 전체 섹션 조합
 import HeroSection from '@/components/home/HeroSection'
 import ProblemSection from '@/components/home/ProblemSection'
-import HowItWorksSection from '@/components/home/HowItWorksSection'
 import SamplePreviewSection from '@/components/home/SamplePreviewSection'
+import QuickGuideSection from '@/components/home/QuickGuideSection'
 import CategoryPreviewSection from '@/components/home/CategoryPreviewSection'
 import PackPreviewSection from '@/components/home/PackPreviewSection'
 import FinalCTASection from '@/components/home/FinalCTASection'
@@ -13,8 +13,8 @@ export default function HomePage() {
     <main>
       <HeroSection />
       <ProblemSection />
-      <HowItWorksSection />
       <SamplePreviewSection />
+      <QuickGuideSection />
       <CategoryPreviewSection />
       <PackPreviewSection />
       <FinalCTASection />
