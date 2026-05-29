@@ -5,6 +5,42 @@ import EmailForm from '@/components/email/EmailForm'
 import { generateInstruction, getAnswerSummary } from '@/lib/result-generator'
 import type { QuizAnswers } from '@/lib/quiz-data'
 
+const CATEGORY_PACK = {
+  dev: {
+    sectionLabel: '개발 요청을 더 명확하게',
+    packTitle: '앱/웹사이트 개발 집중팩',
+    packItems: ['기능 정의·요구사항 정리', '버그 설명·개발자 전달', '화면 흐름·최종 검수'],
+    packNote: '개발자에게 전달 가능한 수준으로 정리할 수 있어요',
+    ctaText: '개발 집중팩 살펴보기',
+    ctaHref: '/focused-pack/dev',
+  },
+  work: {
+    sectionLabel: '보고서와 실무 문서를 더 빠르게',
+    packTitle: '업무/보고서 집중팩',
+    packItems: ['보고서 초안·요약본', '실행안·체크리스트', '이메일·회의록 정리'],
+    packNote: '상사에게 바로 보낼 수 있는 수준으로 다듬을 수 있어요',
+    ctaText: '업무 집중팩 살펴보기',
+    ctaHref: '/focused-pack/work',
+  },
+  blog: {
+    sectionLabel: '제목부터 마무리까지 한 흐름으로',
+    packTitle: '블로그/콘텐츠 집중팩',
+    packItems: ['제목·도입부·구조 잡기', '본문 확장·판매 문구', 'CTA·최종 검수'],
+    packNote: '게시 직전까지 다듬을 수 있는 흐름을 드려요',
+    ctaText: '콘텐츠 집중팩 살펴보기',
+    ctaHref: '/focused-pack/blog',
+  },
+}
+
+const DEFAULT_PACK = {
+  sectionLabel: '내 분야에 맞게 더 깊게',
+  packTitle: '카테고리 집중팩',
+  packItems: ['앱/웹사이트 개발', '업무/보고서', '블로그/콘텐츠'],
+  packNote: '필요한 분야만 선택해 바로 활용할 수 있어요',
+  ctaText: '집중팩 살펴보기',
+  ctaHref: '/starter-pack',
+}
+
 export default async function ResultPage({
   searchParams,
 }: {
@@ -36,6 +72,9 @@ export default async function ResultPage({
 
   const instruction = generateInstruction(answers)
   const summary = getAnswerSummary(answers)
+  const pack = (answers.category && answers.category in CATEGORY_PACK)
+    ? CATEGORY_PACK[answers.category as keyof typeof CATEGORY_PACK]
+    : DEFAULT_PACK
 
   return (
     <main className="flex flex-col px-4 py-10 pb-20">
@@ -109,8 +148,8 @@ export default async function ResultPage({
         {/* 구분 */}
         <div className="mt-12 mb-8 border-t border-gray-100" />
 
-        {/* ---- 집중팩 섹션 (메인 유료 전환) ---- */}
-        <p className="text-xs font-medium text-gray-400 mb-4">내 분야에 맞게 더 깊게</p>
+        {/* ---- 카테고리 분기 집중팩 섹션 (메인 유료 전환) ---- */}
+        <p className="text-xs font-medium text-gray-400 mb-4">{pack.sectionLabel}</p>
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="border border-gray-200 rounded-xl p-4">
             <p className="text-xs text-gray-400 mb-2 font-medium">지금 무료</p>
@@ -120,25 +159,33 @@ export default async function ResultPage({
             </ul>
           </div>
           <div className="border border-indigo-200 bg-indigo-50 rounded-xl p-4">
-            <p className="text-xs font-medium text-indigo-500 mb-2">카테고리 집중팩</p>
+            <p className="text-xs font-medium text-indigo-500 mb-2">{pack.packTitle}</p>
             <ul className="space-y-1">
-              <li className="text-xs font-medium text-gray-800">앱/웹사이트 개발</li>
-              <li className="text-xs text-gray-700">업무/보고서</li>
-              <li className="text-xs text-gray-700">블로그/콘텐츠</li>
+              {pack.packItems.map((item) => (
+                <li key={item} className="text-xs text-gray-700">{item}</li>
+              ))}
             </ul>
-            <p className="text-xs text-gray-500 mt-1.5">첫 질문·후속·수정·검수 포함</p>
+            <p className="text-[10px] text-gray-500 mt-1.5">{pack.packNote}</p>
           </div>
         </div>
 
+        {/* 집중팩 CTA — solid (메인 유료) */}
+        <Link
+          href={pack.ctaHref}
+          className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700 mb-3"
+        >
+          {pack.ctaText}
+        </Link>
+
         {/* 번들 블록 */}
-        <div className="border border-gray-100 rounded-xl px-4 py-3 mb-4">
+        <div className="border border-gray-100 rounded-xl px-4 py-3 mb-3">
           <p className="text-xs text-gray-400 mb-1">더 넓게 써보고 싶다면</p>
           <p className="text-xs text-gray-600 leading-relaxed">
             여러 분야를 한번에 체험할 수 있는 통합 스타터팩 50개 번들도 있어요.
           </p>
         </div>
 
-        {/* 번들 CTA */}
+        {/* 번들 CTA — outline (상위 옵션) */}
         <Link
           href="/starter-pack"
           className="flex items-center justify-center w-full border-2 border-gray-200 text-gray-600 font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-gray-50"

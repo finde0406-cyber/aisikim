@@ -1,12 +1,12 @@
 # AI시킴 프로젝트 상태
 
-갱신: 2026-05-27 / Claude Code (홈 UX 초보자 전환 재구성 + QuickGuide 모바일 개선)
+갱신: 2026-05-27 / Claude Code (결과 페이지 카테고리 분기 + 집중팩 3종 상세 페이지)
 
 ---
 
 ## 현재 단계
 
-**홈 UX 초보자 전환 재구성 완료. 커밋 승인 대기 중.**
+**카테고리 분기 결과 페이지 + 집중팩 3종 상세 페이지 완료. 커밋 승인 대기 중.**
 
 ---
 
@@ -14,11 +14,11 @@
 
 | 해시 | 메시지 | 날짜 |
 |------|--------|------|
+| `5f87bc5` | docs: define focused pack quality and category-aware conversion | 2026-05-27 |
+| `65ccfc5` | ux: rebuild home for beginner conversion flow | 2026-05-27 |
 | `e0b2852` | copy: remove internal status from starter pack page | 2026-05-27 |
 | `52b4f02` | copy: shorten hero subtitle to two lines | 2026-05-27 |
-| `5d84c44` | docs: add hero copy options and update prompt | 2026-05-27 |
 | `aca8ce0` | ux: compress homepage and align result page conversion | 2026-05-27 |
-| `638b1eb` | docs: add homepage and result flow ux guidance | 2026-05-27 |
 
 ---
 
@@ -28,13 +28,12 @@
 브랜치: main
 
 modified (미커밋):
-  app/page.tsx
-  components/home/SamplePreviewSection.tsx
-  docs/handoffs/claude-latest-report.md
-  docs/handoffs/project-status.md
+  app/result/page.tsx
 
 untracked (미커밋):
-  components/home/QuickGuideSection.tsx
+  app/focused-pack/dev/page.tsx
+  app/focused-pack/work/page.tsx
+  app/focused-pack/blog/page.tsx
 ```
 
 ---
@@ -42,23 +41,25 @@ untracked (미커밋):
 ## 완료된 것 (커밋 기준)
 
 - Sprint 0~6: 모두 커밋 완료
-- 홈 카피 `-요`체 통일 + 집중팩 포지셔닝 정합: 커밋 완료
-- 홈 압축 + 결과 페이지 유료 전환 구조 정합: `aca8ce0` 커밋
-- 히어로 보조문구 2줄 축약: `52b4f02` 커밋
-- 스타터팩/홈 내부 상태 문구 제거: `e0b2852` 커밋
-- **홈 UX 초보자 전환 재구성 (미커밋):**
-  - HowItWorks → QuickGuideSection 교체 (모바일 세로 스택 / sm 가로 3단)
-  - SamplePreviewSection: 선택 태그 5개 + 복사 바 추가
+- 홈 UX 초보자 전환 재구성 (QuickGuide + SamplePreview 강화): `65ccfc5` 커밋
+- **결과 페이지 카테고리 분기 (미커밋):**
+  - `answers.category` 기반 집중팩 카드·CTA 자동 분기
+  - 집중팩 CTA solid indigo (메인) + 번들 outline (상위 옵션)
+- **집중팩 3종 상세 페이지 신규 생성 (미커밋):**
+  - `app/focused-pack/dev/page.tsx`: 개발 집중팩
+  - `app/focused-pack/work/page.tsx`: 업무 집중팩
+  - `app/focused-pack/blog/page.tsx`: 콘텐츠 집중팩
+  - spec 8개 섹션 구조, 카테고리별 설득 언어, 전용 env var 체계
 
 ---
 
-## 완료 확인된 항목 (이전 보고 정정)
+## 완료 확인된 항목
 
 | 항목 | 상태 |
 |------|------|
 | 개인정보 처리방침 페이지 | `app/legal/privacy/page.tsx` 존재 |
 | 이용약관 페이지 | `app/legal/terms/page.tsx` 존재 |
-| 샘플팩 5개 콘텐츠 실물 | `deliverables/sample-pack/` 내 PDF + Notion 소스 완비 |
+| 샘플팩 5개 콘텐츠 실물 | `deliverables/sample-pack/` PDF + Notion 완비 |
 
 ---
 
@@ -67,7 +68,8 @@ untracked (미커밋):
 | 항목 | 긴급도 | 비고 |
 |------|--------|------|
 | 이번 변경 커밋 승인 | 높음 | 사용자 승인 후 진행 |
-| 집중팩 3종 상세 페이지 + 실물 콘텐츠 | 높음 | result + home CTA 경로 교체 필요 |
+| 집중팩 3종 실물 콘텐츠 (PDF/Notion) | 높음 | 상세 페이지 완성됨, 실물 미제작 |
+| 집중팩 결제 URL 설정 | 높음 | `.env.local`에 DEV/WORK/BLOG_PACK_URL 필요 |
 | 결제 채널 확정 + `.env.local` 설정 | 높음 | `NEXT_PUBLIC_PAYMENT_URL` 값 필요 |
 | Tally 폼 생성 + `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` 설정 | 높음 | 이메일 수집 미작동 |
 | 스타터팩 50개 콘텐츠 실물 | 높음 | 결제 연결 전 필요 |
@@ -78,9 +80,9 @@ untracked (미커밋):
 
 ## 다음 단계
 
-1. 커밋 승인 → `ux: rebuild home for beginner conversion — quick guide and sample preview`
-2. 집중팩 3종 상세 페이지 제작
-3. Tally 폼 + 결제 채널 설정
+1. 커밋 승인 → `ux: category-aware result conversion and focused pack detail pages`
+2. `.env.local`에 집중팩 결제 URL 3종 설정
+3. 집중팩 3종 실물 콘텐츠 제작
 4. Sprint 7: Vercel 배포
 
 ---
