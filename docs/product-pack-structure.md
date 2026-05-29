@@ -180,3 +180,6 @@ AI에게 한 번에 대충 묻고 끝내는 문장 묶음이 아니라, 결과�
 - 스타터팩 PDF 최종 문안: `docs/starter-pack-pdf-final-copy-v1.md`
 - 스타터팩 Notion 최종 문안: `docs/starter-pack-notion-final-copy-v1.md`
 - 콘텐츠 품질 기준: `docs/content-quality-standard.md`
+- 집중팩 품질 기준: `docs/focused-pack-quality-criteria-v1.md`
+- 카테고리 분기형 결과 구조: `docs/category-aware-result-flow-v1.md`
+- 집중팩 상세 페이지 보강 기준: `docs/focused-pack-detail-page-spec-v1.md`
