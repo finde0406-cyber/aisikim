@@ -88,8 +88,8 @@ export default function DevFocusedPackPage() {
           개발을 몰라도<br />기능 요청을 더 명확하게<br />정리할 수 있어요
         </h1>
         <p className="text-sm text-gray-500 leading-relaxed mb-8">
-          기능 정의부터 요구사항 정리, 버그 설명, 최종 검수까지<br />
-          개발자와의 커뮤니케이션 흐름 전체를 담았어요.
+          개발자에게 뭐라고 말해야 할지 막혔을 때,<br />
+          선택만 하면 기능 정의부터 검수까지 이어갈 수 있어요.
         </p>
 
         {/* 섹션 2: 문제 상황 */}
@@ -109,7 +109,7 @@ export default function DevFocusedPackPage() {
         <div className="mb-10">
           <p className="text-xs font-medium text-gray-400 mb-3">포함 구성</p>
           <h2 className="text-base font-bold text-gray-900 mb-5">
-            기능 정의부터 검수까지 개발 요청 흐름 전체
+            기능 정의부터 검수까지, 이 흐름을 따라가면 돼요
           </h2>
           <div className="space-y-3">
             {PACK_ITEMS.map((item) => (

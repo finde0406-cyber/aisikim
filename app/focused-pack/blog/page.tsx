@@ -89,8 +89,8 @@ export default function BlogFocusedPackPage() {
           제목부터 초안, CTA까지<br />한 흐름으로<br />이어갈 수 있어요
         </h1>
         <p className="text-sm text-gray-500 leading-relaxed mb-8">
-          첫 문장 막힘부터 구조 잡기, 본문 확장, 마무리 검수까지<br />
-          게시 직전까지 다듬을 수 있는 콘텐츠 흐름 전체를 담았어요.
+          첫 문장이 막혔을 때,<br />
+          선택만 하면 제목 잡기부터 CTA 검수까지 이어갈 수 있어요.
         </p>
 
         {/* 섹션 2: 문제 상황 */}
@@ -110,7 +110,7 @@ export default function BlogFocusedPackPage() {
         <div className="mb-10">
           <p className="text-xs font-medium text-gray-400 mb-3">포함 구성</p>
           <h2 className="text-base font-bold text-gray-900 mb-5">
-            제목·도입·본문·CTA 콘텐츠 완성 흐름 전체
+            제목부터 마무리까지, 이 흐름을 따라가면 돼요
           </h2>
           <div className="space-y-3">
             {PACK_ITEMS.map((item) => (

@@ -22,6 +22,7 @@ export default function ProblemSection() {
         <p className="text-sm text-gray-500 leading-relaxed">
           무엇을 물어봐야 할지 몰라도,{' '}
           <strong className="text-gray-700">선택만 하면</strong> 바로 작업지시서를 만들 수 있어요.
+          한 번 묻고 끝나는 게 아니라 후속 질문·수정 요청·검수까지 이어갈 수 있어요.
         </p>
       </div>
     </section>

@@ -119,8 +119,8 @@ export default async function ResultPage({
         {/* 다음 단계 훅 */}
         <div className="mt-6 mb-2">
           <p className="text-sm text-gray-500 leading-relaxed">
-            지금은 <strong className="text-gray-700">첫 번째 작업지시서 1개</strong>만 열려 있어요.
-            실제 결과물을 완성하려면 후속 질문, 수정 요청, 검수 단계가 더 필요해요.
+            이 작업지시서가 <strong className="text-gray-700">시작점</strong>이에요.
+            복사해서 AI에 넣으면 바로 시작할 수 있고, 후속 질문·수정·검수로 결과물을 더 다듬을 수 있어요.
           </p>
         </div>
 
@@ -140,8 +140,8 @@ export default async function ResultPage({
           5개를 더 받아서 다른 상황에서도 바로 써보세요
         </p>
         <p className="text-sm text-gray-500 mb-5 leading-relaxed">
-          무료로 받을 수 있는 샘플 작업지시서 5개입니다.<br />
-          후속 질문·수정 요청·검수 흐름이 포함된 형태로 구성되어 있습니다.
+          무료로 받을 수 있는 샘플 작업지시서 5개예요.<br />
+          후속 질문·수정 요청·검수 흐름까지 포함된 형태로 구성되어 있어요.
         </p>
         <EmailForm />
 
