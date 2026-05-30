@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-05-30 / Claude Code (AI시킴 핵심 차별점 카피 보강)
+갱신: 2026-05-30 / Claude Code (파비콘/아이콘/메타데이터 보강)
 
 ---
 
@@ -9,63 +9,87 @@
 | 항목 | 값 |
 |------|---|
 | 브랜치 | `main` |
-| 최신 커밋 | `cce1556` `ux: add category-aware result conversion and focused pack pages` |
+| 최신 커밋 | `b06f5d8` `brand: add aisikim favicon` |
 | 미커밋 변경 | 아래 파일 목록 참조 |
 
 ---
 
 ## 현재 단계
 
-**핵심 차별점 카피 보강 완료. 커밋 승인 대기 중.**
+**파비콘/아이콘/메타데이터 보강 완료. 커밋 승인 대기 중.**
+
+빌드 결과: `next build` 성공. 신규 라우트 `/apple-icon.png`, `/manifest.webmanifest` 생성 확인.
 
 ---
 
 ## 이번 세션에서 완료한 것
 
-### 핵심 차별점 강화 포인트
+### 수정: `app/layout.tsx`
+- `viewport` export 추가: `themeColor: '#4f46e5'` + `width: 'device-width'` + `initialScale: 1`
+- `metadataBase: new URL('https://aisikim.com')` 추가 (OG URL 해석 기준)
+- `openGraph` 추가: title, description, url, siteName, locale, type
+- `twitter` 카드 추가: summary 카드
+- `appleWebApp` 추가: capable, statusBarStyle, title
 
-AI시킴 = "질문을 못하는 사람도 선택만 하면 바로 시작하고, 한 번으로 끝나지 않고 이어갈 수 있는 서비스"
+### 신규: `app/manifest.ts`
+- Next.js `MetadataRoute.Manifest` 파일 컨벤션 → `/manifest.webmanifest` 자동 서빙
+- icons: `public/icon-192.png` (192×192), `public/icon-512.png` (512×512)
+- theme_color: `#4f46e5`, background_color: `#ffffff`, display: `standalone`
 
-이번 작업으로 강해진 메시지:
-- **"한 번 묻고 끝나는 게 아니라 이어갈 수 있어요"** → ProblemSection에 추가 (홈 전체에서 처음 나오는 자리)
-- **"시작점이에요 + 이어갈 수 있어요"** → 결과 페이지 훅 재프레이밍
-- **"담았어요(자료집)" → "따라가면 돼요(도구)"** → 집중팩 3종 포함구성 h2
-- **"[막힌 상황], 선택만 하면 [시작]부터 [끝]까지 이어갈 수 있어요"** → 집중팩 3종 hero subtitle 패턴 통일
+### 신규: `app/apple-icon.png`
+- `app/icon.png` 복사본
+- Next.js 파일 컨벤션 → `<link rel="apple-touch-icon">` 자동 생성
+- 빌드 결과에서 `/apple-icon.png` 라우트 생성 확인
 
-### 파일별 변경 내용
+### 신규: `public/icon-192.png`, `public/icon-512.png`
+- `app/icon.png` 복사본 → 안정적 정적 URL (`/icon-192.png`, `/icon-512.png`)
+- `app/manifest.ts`의 icons 배열에서 참조
 
-#### `components/home/ProblemSection.tsx`
-- 해소 문장 1→2문장: "무엇을 물어봐야 할지 몰라도..." + **"한 번 묻고 끝나는 게 아니라 후속 질문·수정 요청·검수까지 이어갈 수 있어요."** 추가
+---
 
-#### `app/result/page.tsx`
-- "다음 단계 훅" 재프레이밍: "1개만 열려 있어요 + 더 필요해요(한계)" → "**시작점**이에요 + 이어갈 수 있어요(가능성)"
-- 샘플팩 설명 `-습니다` 2곳 → `-요`체 수정
+## 생성된 HTML head 요소 (빌드 후 예상)
 
-#### `app/focused-pack/dev/page.tsx`
-- Hero subtitle: "전체를 담았어요" → "개발자에게 뭐라고 말해야 할지 막혔을 때, **선택만 하면** 기능 정의부터 검수까지 이어갈 수 있어요"
-- 포함구성 h2: "개발 요청 흐름 전체" → "기능 정의부터 검수까지, **이 흐름을 따라가면 돼요**"
-
-#### `app/focused-pack/work/page.tsx`
-- Hero subtitle: "전체를 담았어요" → "보고서가 막혔을 때, **선택만 하면** 초안 잡기부터 마지막 검수까지 이어갈 수 있어요"
-- 포함구성 h2: "실무 문서 흐름 전체" → "초안부터 검수까지, **이 흐름을 따라가면 돼요**"
-
-#### `app/focused-pack/blog/page.tsx`
-- Hero subtitle: "전체를 담았어요" → "첫 문장이 막혔을 때, **선택만 하면** 제목 잡기부터 CTA 검수까지 이어갈 수 있어요"
-- 포함구성 h2: "콘텐츠 완성 흐름 전체" → "제목부터 마무리까지, **이 흐름을 따라가면 돼요**"
-
-TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
+```html
+<link rel="icon" href="/icon.png?...">
+<link rel="apple-touch-icon" href="/apple-icon.png?...">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#4f46e5">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="AI시킴 — ...">
+<meta property="og:description" content="...">
+<meta property="og:url" content="https://aisikim.com">
+<meta property="og:site_name" content="AI시킴">
+<meta name="twitter:card" content="summary">
+```
 
 ---
 
 ## 변경 파일 목록
 
 ```
- M components/home/ProblemSection.tsx
- M app/result/page.tsx
- M app/focused-pack/dev/page.tsx
- M app/focused-pack/work/page.tsx
- M app/focused-pack/blog/page.tsx
+ M app/layout.tsx
+?? app/apple-icon.png
+?? app/manifest.ts
+?? public/icon-192.png
+?? public/icon-512.png
 ```
+
+## 빌드/검사 결과
+
+| 검사 | 결과 |
+|------|------|
+| `npx tsc --noEmit` | PASS |
+| `npm run lint` | PASS (출력 없음) |
+| `next build` | 성공. `/apple-icon.png`, `/manifest.webmanifest` 라우트 생성 확인 |
+
+---
+
+## 추후 보강 권장 사항
+
+| 항목 | 이유 |
+|------|------|
+| `icon-192.png`, `icon-512.png` 적정 해상도 이미지로 교체 | 현재는 `icon.png` 복사본. 실제 크기에 맞는 PNG 필요 |
+| OG 이미지 (`og-image.png`) 추가 | SNS 공유 시 썸네일 이미지 없음 |
 
 ---
 
@@ -76,8 +100,9 @@ TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 | 이번 변경 커밋 승인 | 높음 |
 | 집중팩 3종 실물 콘텐츠 (PDF/Notion) | 높음 |
 | 집중팩 결제 URL `.env.local` 설정 | 높음 |
-| 결제 채널 확정 + `NEXT_PUBLIC_PAYMENT_URL` | 높음 |
 | Tally 폼 + `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` | 높음 |
+| OG 이미지 제작 | 중간 |
+| icon-192/512 적정 해상도 PNG 교체 | 중간 |
 | Vercel 프로젝트 생성 | 낮음 |
 | 도메인 확보 | 낮음 |
 
@@ -85,7 +110,6 @@ TypeScript 타입 검사 통과 (`npx tsc --noEmit` — 출력 없음).
 
 ## 다음 단계 제안
 
-1. 커밋 승인 → `copy: sharpen ai-sikim differentiator — beginner access and iterative flow`
-2. 집중팩 3종 실물 콘텐츠 제작
-3. 결제 채널 + Tally 폼 설정
-4. Sprint 7: Vercel 배포
+1. 커밋 승인 → `meta: add favicon, manifest, OG and viewport metadata`
+2. Vercel 배포 설정
+3. 집중팩 실물 콘텐츠 제작
