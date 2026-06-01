@@ -143,7 +143,7 @@ export default async function ResultPage({
           무료로 받을 수 있는 샘플 작업지시서 5개예요.<br />
           후속 질문·수정 요청·검수 흐름까지 포함된 형태로 구성되어 있어요.
         </p>
-        <EmailForm />
+        <EmailForm category={answers.category} />
 
         {/* 구분 */}
         <div className="mt-12 mb-8 border-t border-gray-100" />
