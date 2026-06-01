@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-05-30 / Claude Code (파비콘/아이콘/메타데이터 보강)
+갱신: 2026-06-01 / Claude Code (히어로 섹션 구조 개편 — 선택형 미리보기형)
 
 ---
 
@@ -9,87 +9,66 @@
 | 항목 | 값 |
 |------|---|
 | 브랜치 | `main` |
-| 최신 커밋 | `b06f5d8` `brand: add aisikim favicon` |
+| 최신 커밋 | `47e5431` `fix: regenerate favicon.ico with RGBA PNG layers` |
 | 미커밋 변경 | 아래 파일 목록 참조 |
 
 ---
 
 ## 현재 단계
 
-**파비콘/아이콘/메타데이터 보강 완료. 커밋 승인 대기 중.**
-
-빌드 결과: `next build` 성공. 신규 라우트 `/apple-icon.png`, `/manifest.webmanifest` 생성 확인.
+**히어로 섹션 구조 개편 + 데모 카드 가독성 개선 완료. 커밋 승인 대기 중.**
 
 ---
 
 ## 이번 세션에서 완료한 것
 
-### 수정: `app/layout.tsx`
-- `viewport` export 추가: `themeColor: '#4f46e5'` + `width: 'device-width'` + `initialScale: 1`
-- `metadataBase: new URL('https://aisikim.com')` 추가 (OG URL 해석 기준)
-- `openGraph` 추가: title, description, url, siteName, locale, type
-- `twitter` 카드 추가: summary 카드
-- `appleWebApp` 추가: capable, statusBarStyle, title
+### `components/home/HeroSection.tsx` — 전면 재구성
 
-### 신규: `app/manifest.ts`
-- Next.js `MetadataRoute.Manifest` 파일 컨벤션 → `/manifest.webmanifest` 자동 서빙
-- icons: `public/icon-192.png` (192×192), `public/icon-512.png` (512×512)
-- theme_color: `#4f46e5`, background_color: `#ffffff`, display: `standalone`
-
-### 신규: `app/apple-icon.png`
-- `app/icon.png` 복사본
-- Next.js 파일 컨벤션 → `<link rel="apple-touch-icon">` 자동 생성
-- 빌드 결과에서 `/apple-icon.png` 라우트 생성 확인
-
-### 신규: `public/icon-192.png`, `public/icon-512.png`
-- `app/icon.png` 복사본 → 안정적 정적 URL (`/icon-192.png`, `/icon-512.png`)
-- `app/manifest.ts`의 icons 배열에서 참조
-
----
-
-## 생성된 HTML head 요소 (빌드 후 예상)
-
-```html
-<link rel="icon" href="/icon.png?...">
-<link rel="apple-touch-icon" href="/apple-icon.png?...">
-<link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#4f46e5">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="AI시킴 — ...">
-<meta property="og:description" content="...">
-<meta property="og:url" content="https://aisikim.com">
-<meta property="og:site_name" content="AI시킴">
-<meta name="twitter:card" content="summary">
+**이전 구조 (텍스트 소개형):**
 ```
+h1 → p → Button → 작은 p
+```
+
+**개편 후 구조 (선택형 서비스 미리보기형):**
+```
+모바일:  [카피+CTA] → [선택 미리보기 + 결과 프리뷰]
+데스크톱: [카피+CTA] | [선택 미리보기 + 결과 프리뷰] (2열 그리드)
+```
+
+**주요 변경 내용:**
+- 컨테이너: `max-w-sm` → 모바일 `max-w-sm` / 데스크톱 `sm:max-w-2xl sm:grid sm:grid-cols-2`
+- 좌측(또는 상단): 헤드라인 + 보조문구 + CTA 유지 (데스크톱에서는 좌측 정렬 `sm:text-left`)
+- 우측(또는 하단): 정적 선택 데모 블록 추가 (`aria-hidden="true"`)
+  - 선택 3행: 어떤 작업 / 어디서 막혀 / 어떤 결과물
+  - 각 행 3개 칩 — 첫 번째 선택됨 (indigo-600), 나머지 흰 배경 테두리
+  - 결과 프리뷰: 작은 박스에 2단락 샘플 결과
+- `DEMO_ROWS` + `DEMO_RESULT` 상수로 데모 콘텐츠 관리
+
+**데모 카드 가독성 개선 (추가 미세 수정):**
+
+| 변경 | 전 | 후 |
+|------|----|----|
+| 카드 패딩 | `p-4` | `p-5` |
+| 라벨 텍스트 (상단/행/결과) | `text-[10px]` | `text-xs` (12px) |
+| 결과 본문 텍스트 | `text-[10px]` | `text-xs` (12px) |
+| 선택 행 간격 | `space-y-3` | `space-y-4` |
+| 행 라벨 하단 여백 | `mb-1.5` | `mb-2` |
+| 칩 간격 | `gap-1.5` | `gap-2` |
+| 결과 영역 상단 패딩 | `pt-3` | `pt-4` |
+
+**검증:**
+| 검사 | 결과 |
+|------|------|
+| `npx tsc --noEmit` | PASS |
+| `next build` | 성공 |
 
 ---
 
 ## 변경 파일 목록
 
 ```
- M app/layout.tsx
-?? app/apple-icon.png
-?? app/manifest.ts
-?? public/icon-192.png
-?? public/icon-512.png
+ M components/home/HeroSection.tsx
 ```
-
-## 빌드/검사 결과
-
-| 검사 | 결과 |
-|------|------|
-| `npx tsc --noEmit` | PASS |
-| `npm run lint` | PASS (출력 없음) |
-| `next build` | 성공. `/apple-icon.png`, `/manifest.webmanifest` 라우트 생성 확인 |
-
----
-
-## 추후 보강 권장 사항
-
-| 항목 | 이유 |
-|------|------|
-| `icon-192.png`, `icon-512.png` 적정 해상도 이미지로 교체 | 현재는 `icon.png` 복사본. 실제 크기에 맞는 PNG 필요 |
-| OG 이미지 (`og-image.png`) 추가 | SNS 공유 시 썸네일 이미지 없음 |
 
 ---
 
@@ -102,14 +81,11 @@
 | 집중팩 결제 URL `.env.local` 설정 | 높음 |
 | Tally 폼 + `NEXT_PUBLIC_SAMPLE_PACK_FORM_URL` | 높음 |
 | OG 이미지 제작 | 중간 |
-| icon-192/512 적정 해상도 PNG 교체 | 중간 |
-| Vercel 프로젝트 생성 | 낮음 |
-| 도메인 확보 | 낮음 |
 
 ---
 
 ## 다음 단계 제안
 
-1. 커밋 승인 → `meta: add favicon, manifest, OG and viewport metadata`
-2. Vercel 배포 설정
-3. 집중팩 실물 콘텐츠 제작
+1. 커밋 승인 → `ux: redesign hero as selection-preview layout`
+2. 모바일 실제 렌더링 확인 (dev 서버 띄운 뒤 브라우저로 확인)
+3. 필요 시 데모 블록 문구/칩 미세 조정
