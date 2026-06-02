@@ -1,6 +1,6 @@
 # Claude Code 최신 보고
 
-갱신: 2026-06-01 / Claude Code (샘플팩 신청 구조 안전성 보완)
+갱신: 2026-06-02 / Claude Code (유료 구매 전 정보 수집 + 운영자 발송 구조)
 
 ---
 
@@ -9,94 +9,136 @@
 | 항목 | 값 |
 |------|---|
 | 브랜치 | `main` |
-| 최신 커밋 | `f72d4a6` `ux: align hero with mobile-first layout` |
+| 최신 커밋 | `c7de7c8` `assets: publish sample pack download pdf` |
 | 미커밋 변경 | 아래 파일 목록 참조 |
 
 ---
 
 ## 현재 단계
 
-**샘플팩 fallback UX 정직하게 수정 완료. 커밋 승인 대기 중.**
+**유료 구매 흐름 운영 안전성 보완 최종 완료. 커밋 승인 대기 중.**
 
 ---
 
 ## 이번 세션에서 완료한 것
 
-### not_configured fallback UX 정직하게 수정
+### 최종 추가 수정 (운영 누락 방지)
 
-**`components/email/EmailForm.tsx`**
+| 수정 항목 | 파일 | 내용 |
+|----------|------|------|
+| ADMIN_NOTIFY_EMAIL 미설정 차단 | `app/api/purchase-intent/route.ts` | 미설정 시 `503 notify_not_configured` 반환 (기존: success) |
+| PrePaymentForm 503 처리 통일 | `components/purchase/PrePaymentForm.tsx` | 503 전체를 `not_configured` 상태로 처리 |
+| 자료 링크 없으면 발송 차단 | `app/api/internal/send-pack/route.ts` | URL 하나도 없으면 `503 pack_assets_not_configured` |
+| 운영 화면 assets 오류 메시지 | `app/internal/send-pack/page.tsx` | "해당 상품의 발송 링크가 아직 설정되지 않았어요" |
 
-| 항목 | 이전 | 이후 |
-|------|------|------|
-| 상태 제목 | "신청이 접수됐어요" | "현재 샘플팩 신청을 받고 있지 않아요" |
-| 상태 설명 | "운영자가 확인 후 직접 안내드릴게요" | "이메일 발송 연결을 마무리하는 중이에요. 조금 뒤 다시 시도해 주세요." |
-| 목록 표시 | 샘플팩 항목 목록 표시 (접수된 것처럼) | 제거 |
-| 의미 | 접수 완료처럼 보임 (거짓) | 신청 불가 / 발송 준비 전 (정직) |
+**purchase-intent 성공 조건 최종 정리:**
 
-**`not_configured` 상태의 정확한 의미:**
-- `MAIL_PROVIDER` 또는 `RESEND_API_KEY` 미설정
-- 이메일이 실제로 전송되지 않음
-- 신청 데이터가 저장·기록되지 않음
-- = "신청 불가" 상태, 접수 아님
+| 상황 | 결과 |
+|------|------|
+| `ADMIN_NOTIFY_EMAIL` 미설정 | `503 notify_not_configured` → PrePaymentForm: not_configured UI |
+| `ADMIN_NOTIFY_EMAIL` 설정 + `MAIL_PROVIDER` 미설정 | `503 mail_not_configured` → not_configured UI |
+| `ADMIN_NOTIFY_EMAIL` 설정 + 발송 실패 | `500 notify_failed` → error UI |
+| 정상 발송 | `200 success` → ready UI (결제 버튼 표시) |
+
+**internal/send-pack 발송 가능 조건:**
+
+| 조건 | 결과 |
+|------|------|
+| 자료 URL 하나도 없음 | `503 pack_assets_not_configured` → 운영 화면 경고 메시지 |
+| `MAIL_PROVIDER` 미설정 | `503 mail_not_configured` → 운영 화면 경고 메시지 |
+| 정상 발송 | `200 success` |
 
 ---
 
-### (이전 세션) 문제 1: mock 모드에서 거짓 성공 표시 — 수정
+### 이전 추가 수정 (가격 정정 + 안전성 보완)
 
-**`lib/mailer.ts`**
-- mock 모드(`MAIL_PROVIDER` 미설정, `RESEND_API_KEY` 미설정) → `{ ok: false, mock: true }` 반환
-- 이전: `{ ok: true }` (실제 발송 없음에도 성공처럼 처리)
-- 이후: `{ ok: false, mock: true }` — API 레이어에서 mock 여부 구분 가능
+| 수정 항목 | 파일 | 내용 |
+|----------|------|------|
+| 스타터팩 가격 | `app/starter-pack/page.tsx` | `9,900원` → `24,900원` (3곳 전체) |
+| FAQ 문구 | `app/starter-pack/page.tsx` | "결제 시 이메일 주소를 정확히 입력해주세요" → "AI시킴에서 입력한 이메일로 발송돼요" |
+| 연락처 필수화 | `PrePaymentForm.tsx` | phone 클라이언트·서버 필수 검증 추가 |
+| 관리자 알림 실패 처리 | `app/api/purchase-intent/route.ts` | 발송 실패 시 503/500 반환 |
 
-**`app/api/sample-pack/route.ts`**
-- `userResult.mock === true` → `503 mail_not_configured` 반환
-- 이전: mock도 200 success 반환
-- 이후: 발송 설정 전 = 503, 실패 = 500, 성공 = 200
+---
 
-**`components/email/EmailForm.tsx`**
-- `not_configured` 상태 추가: 503 응답 시 "신청이 접수됐어요 / 운영자가 확인 후 직접 안내드릴게요" 표시
-- 이전 success 문구("신청이 완료됐어요 / 이메일로 보내드릴게요")는 실제 발송 성공 시에만 표시
+### 구매 전 전체 흐름
 
-### 문제 2: agreed 서버 미검증 — 수정
+```
+[구매자]
+유료 페이지 → PrePaymentForm 입력(이름·이메일·연락처·동의)
+→ POST /api/purchase-intent (Vercel 로그 + 관리자 알림)
+→ 결제 페이지로 이동 버튼 표시 → 나이스체크아웃 새탭 오픈
+→ 결제 완료
 
-**`app/api/sample-pack/route.ts`**
-- `agreed !== true` → `400 consent_required` 반환
+[운영자]
+관리자 알림 이메일 확인 → 결제 확인
+→ /internal/send-pack 접속 (INTERNAL_ACCESS_KEY 입력)
+→ 상품 선택 + 구매자 이메일 입력 → 발송
+→ 구매자에게 자료 이메일 발송
+```
 
-**`components/email/EmailForm.tsx`**
-- `agreed` 값을 API 요청 body에 포함해서 전송
+### 신규 파일
 
-### 상태 흐름 정리
+| 파일 | 역할 |
+|------|------|
+| `components/purchase/PrePaymentForm.tsx` | 구매 전 연락처 수집 폼 (이름·이메일·연락처·동의 → 결제 이동) |
+| `app/api/purchase-intent/route.ts` | 구매 의향 기록 API (로그 + 관리자 알림) |
+| `app/api/internal/send-pack/route.ts` | 운영자 발송 API (INTERNAL_ACCESS_KEY 보호) |
+| `app/internal/send-pack/page.tsx` | 운영자 발송 UI 화면 |
 
-| 상황 | API 응답 | UI 상태 |
-|------|---------|--------|
-| 동의 없음 | 400 consent_required | 클라이언트 필드 오류 |
-| 메일 설정 없음 | 503 mail_not_configured | `not_configured` — "접수됐어요 / 운영자 확인" |
-| 발송 실패 | 500 delivery_failed | `error` — "잠시 후 다시 시도" |
-| 발송 성공 | 200 success | `success` — "신청 완료됐어요 / 이메일 발송" |
+### 수정 파일
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `app/focused-pack/dev/page.tsx` | CTA 섹션 → PrePaymentForm(dev) 교체 |
+| `app/focused-pack/work/page.tsx` | CTA 섹션 → PrePaymentForm(work) 교체 |
+| `app/focused-pack/blog/page.tsx` | CTA 섹션 → PrePaymentForm(blog) 교체 |
+| `app/starter-pack/page.tsx` | CTA 섹션 → PrePaymentForm(starter_bundle) 교체 |
+| `lib/mail-templates.ts` | purchaseIntentAdminHtml() 함수 추가 |
+| `env.example` | INTERNAL_ACCESS_KEY 항목 추가 |
+
+### 보안
+
+| 항목 | 방식 |
+|------|------|
+| `/internal/send-pack` API | `INTERNAL_ACCESS_KEY` env var vs 요청 body의 `accessKey` 비교 |
+| `/api/purchase-intent` | 이메일 정규식 + 동의 서버 검증 |
+
+### 빌드 확인
+
+| 검사 | 결과 |
+|------|------|
+| `npx tsc --noEmit` | PASS |
+| `next build` | 성공 |
+| 신규 라우트 | `/api/internal/send-pack`, `/api/purchase-intent`, `/internal/send-pack` 생성 확인 |
 
 ---
 
 ## 변경 파일 목록
 
 ```
- M components/email/EmailForm.tsx   (agreed 전송 + not_configured 상태 추가)
- M lib/mailer.ts                    (mock → ok:false mock:true)
- M app/api/sample-pack/route.ts     (agreed 검증 + mock 503 처리)
- M app/result/page.tsx              (category prop — 이전 세션에서 수정됨)
-
-?? app/api/payment-webhook/route.ts
-?? lib/mail-templates.ts
-?? env.example
+ M app/focused-pack/blog/page.tsx
+ M app/focused-pack/dev/page.tsx
+ M app/focused-pack/work/page.tsx
+ M app/starter-pack/page.tsx
+ M env.example
+ M lib/mail-templates.ts
+?? app/api/internal/send-pack/route.ts
+?? app/api/purchase-intent/route.ts
+?? app/internal/send-pack/page.tsx
+?? components/purchase/PrePaymentForm.tsx
 ```
 
 ---
 
-## 빌드/검사 결과
+## 활성화에 필요한 것
 
-| 검사 | 결과 |
-|------|------|
-| `npx tsc --noEmit` | PASS |
-| `next build` | 성공 |
+| 기능 | 필요한 env var |
+|------|--------------|
+| 운영자 발송 화면 인증 | `INTERNAL_ACCESS_KEY=<비밀키>` |
+| 구매 의향 관리자 알림 | `ADMIN_NOTIFY_EMAIL` + `MAIL_PROVIDER=resend` + `RESEND_API_KEY` |
+| 유료팩 자료 발송 | `DEV/WORK/BLOG_PACK_PDF_URL` + `_NOTION_URL` |
+| 번들 자료 발송 | `STARTER_BUNDLE_PDF_URL` + `_NOTION_URL` + `_GUIDE_URL` |
 
 ---
 
@@ -105,17 +147,16 @@
 | 항목 | 긴급도 |
 |------|--------|
 | 이번 변경 커밋 승인 | 높음 |
-| `.env.local`에 메일 provider 설정 (`MAIL_PROVIDER=resend` + `RESEND_API_KEY`) | 높음 |
-| 샘플팩 자료 링크 env 설정 (`SAMPLE_PACK_PDF_URL`, `_NOTION_URL`) | 높음 |
-| 집중팩 3종 실물 콘텐츠 (PDF/Notion) 제작 | 높음 |
-| 결제 provider 연결 + 웹훅 등록 | 높음 |
+| Vercel env 설정 (INTERNAL_ACCESS_KEY 등) | 높음 |
+| 집중팩 3종 실물 콘텐츠 (PDF/Notion) 링크 env 설정 | 높음 |
+| 샘플팩 자료 링크 env 설정 | 높음 |
 | OG 이미지 제작 | 중간 |
 
 ---
 
 ## 다음 단계 제안
 
-1. 커밋 승인 → `feat: replace tally with internal api and mail delivery structure`
-2. `.env.local` 설정 후 실제 발송 테스트
-3. 집중팩 실물 콘텐츠 링크 env 설정
-4. 결제 provider 연결
+1. 커밋 승인 → `feat: add pre-payment form and internal send panel`
+2. Vercel 대시보드 + `.env.local`에 `INTERNAL_ACCESS_KEY` 설정
+3. 각 팩 PDF/Notion URL env 설정
+4. `/internal/send-pack` 접속 테스트

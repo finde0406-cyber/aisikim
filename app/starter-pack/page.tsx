@@ -1,5 +1,6 @@
 // 유료 스타터팩 상세 페이지 - 입문용 유료 상품 포지셔닝
 import Link from 'next/link'
+import PrePaymentForm from '@/components/purchase/PrePaymentForm'
 
 const PACK_CATEGORIES = [
   {
@@ -74,7 +75,7 @@ export default function StarterPackPage() {
     {
       q: '결제와 자료 수령은 어떻게 되나요?',
       a: paymentUrl
-        ? 'PDF 파일과 Notion 링크를 이메일로 보내드립니다. 결제 완료 후 영업일 기준 1~2일 내 발송됩니다. 결제 시 이메일 주소를 정확히 입력해주세요.'
+        ? '구매 전 AI시킴에서 입력하신 이메일 주소로 PDF 파일과 Notion 링크를 보내드려요. 결제 확인 후 영업일 기준 1~2일 내 발송돼요.'
         : '결제 방법과 자료 수령 방법은 구매 페이지에서 확인할 수 있어요.',
     },
     {
@@ -101,7 +102,7 @@ export default function StarterPackPage() {
         <h1 className="text-2xl font-bold text-gray-900 leading-snug mb-2">
           AI 작업지시서 스타터팩
         </h1>
-        <p className="text-3xl font-bold text-indigo-600 mb-3">9,900원</p>
+        <p className="text-3xl font-bold text-indigo-600 mb-3">24,900원</p>
         <p className="text-sm text-gray-600 leading-relaxed mb-1">
           결과물을 완성하기 위한 단계별 작업지시서 50개
         </p>
@@ -209,7 +210,7 @@ export default function StarterPackPage() {
                 <li className="text-xs font-medium text-gray-800">작업지시서 50개</li>
                 <li className="text-xs text-gray-600">후속·수정·검수 포함</li>
                 <li className="text-xs text-gray-600">5개 분야 구성</li>
-                <li className="text-xs font-semibold text-indigo-600">9,900원</li>
+                <li className="text-xs font-semibold text-indigo-600">24,900원</li>
               </ul>
             </div>
           </div>
@@ -217,45 +218,12 @@ export default function StarterPackPage() {
 
         {/* --- 섹션 7: 결제 CTA --- */}
         <div className="mb-10">
-          {paymentUrl ? (
-            <>
-              <a
-                href={paymentUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px]"
-              >
-                9,900원으로 구매하기
-              </a>
-              <div className="mt-4 border border-gray-100 rounded-xl px-4 py-4 space-y-2">
-                <p className="text-xs font-medium text-gray-500">결제 후 자료 수령 방법</p>
-                <ul className="space-y-1.5">
-                  <li className="text-xs text-gray-600">결제 완료 후 영업일 기준 1~2일 내 이메일로 발송됩니다.</li>
-                  <li className="text-xs text-gray-600">PDF 파일 + Notion 보조 링크 형태로 제공됩니다.</li>
-                  <li className="text-xs text-gray-400">본 상품은 디지털 자료입니다. 자료 전달 후 환불이 제한될 수 있습니다.</li>
-                </ul>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="border border-gray-100 rounded-xl py-5 px-4 text-center">
-                <p className="text-sm font-medium text-gray-700 mb-1">
-                  먼저 무료 샘플팩으로 확인해보세요
-                </p>
-                <p className="text-xs text-gray-400 leading-relaxed">
-                  내 작업에 맞는지 먼저 확인한 뒤 선택할 수 있어요.
-                </p>
-              </div>
-              <div className="mt-4 text-center">
-                <Link
-                  href="/quiz"
-                  className="text-sm text-indigo-600 underline underline-offset-2"
-                >
-                  무료 진단 후 샘플팩 신청하기
-                </Link>
-              </div>
-            </>
-          )}
+          <PrePaymentForm
+            packType="starter_bundle"
+            packLabel="통합 스타터팩 번들"
+            price="24,900원"
+            paymentUrl={paymentUrl}
+          />
         </div>
 
         {/* --- 섹션 8: FAQ --- */}

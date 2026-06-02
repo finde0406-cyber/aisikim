@@ -147,3 +147,31 @@ export function adminNotifyHtml(data: {
     </table>
   `)
 }
+
+// ── 구매 의향 접수 관리자 알림 (결제 전 정보 수집)
+export function purchaseIntentAdminHtml(data: {
+  email: string
+  name: string
+  phone?: string
+  packType: string
+}): string {
+  const now = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+  const phoneRow = data.phone
+    ? `<tr><td style="padding:6px 12px;color:#6b7280;">연락처</td><td style="padding:6px 12px;">${data.phone}</td></tr>`
+    : ''
+
+  return baseLayout(`
+    <h2 style="margin:0 0 16px;font-size:18px;color:#111827;">[AI시킴] 유료팩 구매 의향 접수</h2>
+    <p style="margin:0 0 12px;font-size:13px;color:#4b5563;">결제 페이지로 이동한 구매자 정보입니다. 결제 확인 후 자료를 발송해주세요.</p>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <tr><td style="padding:6px 12px;color:#6b7280;">이름</td><td style="padding:6px 12px;">${data.name}</td></tr>
+      <tr><td style="padding:6px 12px;color:#6b7280;">이메일</td><td style="padding:6px 12px;">${data.email}</td></tr>
+      ${phoneRow}
+      <tr><td style="padding:6px 12px;color:#6b7280;">상품</td><td style="padding:6px 12px;font-weight:600;">${PACK_LABEL[data.packType] ?? data.packType}</td></tr>
+      <tr><td style="padding:6px 12px;color:#6b7280;">접수 시각</td><td style="padding:6px 12px;">${now}</td></tr>
+    </table>
+    <div style="margin-top:16px;padding:12px;background:#f0fdf4;border-radius:8px;font-size:13px;color:#166534;">
+      결제 확인 후 /internal/send-pack 에서 자료를 발송해주세요.
+    </div>
+  `)
+}

@@ -1,5 +1,6 @@
 // 블로그/콘텐츠 집중팩 상세 페이지
 import Link from 'next/link'
+import PrePaymentForm from '@/components/purchase/PrePaymentForm'
 
 const PACK_ITEMS = [
   { name: '제목 후보 만들기', desc: '클릭률 높은 제목 후보를 여러 각도로 만들어 비교하기' },
@@ -206,38 +207,12 @@ export default function BlogFocusedPackPage() {
 
         {/* 섹션 8: 구매 CTA */}
         <div className="mb-10">
-          {paymentUrl ? (
-            <>
-              <a
-                href={paymentUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px]"
-              >
-                콘텐츠 집중팩 구매하기
-              </a>
-              <p className="text-xs text-gray-400 text-center mt-3">
-                PDF + Notion 링크로 제공돼요
-              </p>
-            </>
-          ) : (
-            <>
-              <div className="border border-gray-100 rounded-xl py-5 px-4 text-center mb-4">
-                <p className="text-sm font-medium text-gray-700 mb-1">
-                  먼저 무료 샘플팩으로 확인해보세요
-                </p>
-                <p className="text-xs text-gray-400 leading-relaxed">
-                  내 작업에 맞는지 먼저 확인한 뒤 선택할 수 있어요.
-                </p>
-              </div>
-              <Link
-                href="/quiz"
-                className="flex items-center justify-center w-full border-2 border-indigo-600 text-indigo-600 font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-50"
-              >
-                무료 진단 후 샘플팩 신청하기
-              </Link>
-            </>
-          )}
+          <PrePaymentForm
+            packType="blog"
+            packLabel="블로그/콘텐츠 집중팩"
+            price="9,900원"
+            paymentUrl={paymentUrl}
+          />
         </div>
 
         {/* 하단 번들 링크 */}
