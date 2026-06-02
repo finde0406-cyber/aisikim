@@ -1,4 +1,4 @@
-// 유료 스타터팩 상세 페이지 - 입문용 유료 상품 포지셔닝
+﻿// 유료 스타터팩 상세 페이지 - 입문용 유료 상품 포지셔닝
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
 
@@ -216,9 +216,28 @@ export default function StarterPackPage() {
           </div>
         </div>
 
+        {/* --- 섹션 6.5: 집중팩과의 차이 --- */}
+        <div className="mb-10">
+          <p className="text-xs font-medium text-gray-400 mb-4">집중팩과의 차이</p>
+          <div className="border border-indigo-100 rounded-xl p-4 bg-indigo-50">
+            <p className="text-xs font-semibold text-indigo-600 mb-3">스타터팩 번들은 이런 분께 맞아요</p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white rounded-lg p-3 border border-indigo-100">
+                <p className="text-xs font-bold text-gray-800 mb-1">집중팩</p>
+                <p className="text-xs text-gray-500">한 분야, 더 깊게</p>
+              </div>
+              <div className="bg-indigo-600 rounded-lg p-3">
+                <p className="text-xs font-bold text-white mb-1">스타터팩 번들 ★</p>
+                <p className="text-xs text-indigo-100">여러 분야, 더 넓게</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* --- 섹션 7: 결제 CTA --- */}
         <div className="mb-10">
-          <div className="mb-4 rounded-xl bg-gray-50 px-4 py-4">
+          <div className="mb-5 border-l-4 border-indigo-400 bg-indigo-50 rounded-r-xl px-5 py-4">
+            <span className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wide mb-2 block">구매 안내</span>
             <p className="text-sm font-medium text-gray-800 mb-1">
               여러 분야를 넓게 써보고 싶다면 스타터팩 번들이 더 맞아요.
             </p>
@@ -282,3 +301,5 @@ export default function StarterPackPage() {
     </main>
   )
 }
+
+

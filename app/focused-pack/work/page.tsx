@@ -1,4 +1,4 @@
-// 업무/보고서 집중팩 상세 페이지
+﻿// 업무/보고서 집중팩 상세 페이지
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
 
@@ -205,7 +205,8 @@ export default function WorkFocusedPackPage() {
 
         {/* 섹션 8: 구매 CTA */}
         <div className="mb-10">
-          <div className="mb-4 rounded-xl bg-gray-50 px-4 py-4">
+          <div className="mb-5 border-l-4 border-indigo-400 bg-indigo-50 rounded-r-xl px-5 py-4">
+            <span className="text-[10px] font-semibold text-indigo-500 uppercase tracking-wide mb-2 block">구매 안내</span>
             <p className="text-sm font-medium text-gray-800 mb-1">
               보고서와 업무 문서를 한 분야에서 깊게 정리하고 싶다면 이 집중팩이 맞아요.
             </p>
@@ -221,17 +222,27 @@ export default function WorkFocusedPackPage() {
           />
         </div>
 
-        {/* 하단 번들 링크 */}
-        <div className="border-t border-gray-100 pt-6 text-center">
-          <p className="text-xs text-gray-400 mb-2">
-            여러 상황을 넓게 써보고 싶다면 통합 스타터팩 번들이 더 맞아요
-          </p>
-          <Link href="/starter-pack" className="text-sm text-gray-500 underline underline-offset-2">
-            통합 스타터팩 번들 보기
-          </Link>
+        {/* 하단 팩 비교 카드 */}
+        <div className="mt-8 border-t border-gray-100 pt-8">
+          <p className="text-xs font-medium text-gray-400 mb-4">이 팩과 스타터팩 번들의 차이</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="border-2 border-indigo-500 rounded-xl p-4 bg-white">
+              <p className="text-xs font-bold text-indigo-600 mb-2">이 집중팩</p>
+              <p className="text-xs font-medium text-gray-800 mb-1">한 분야를 깊게</p>
+              <p className="text-xs text-gray-500">업무·보고서 작성에 집중한 흐름</p>
+            </div>
+            <Link href="/starter-pack" className="border border-gray-200 rounded-xl p-4 bg-gray-50 block">
+              <p className="text-xs font-medium text-gray-500 mb-2">통합 스타터팩 번들</p>
+              <p className="text-xs font-medium text-gray-800 mb-1">여러 분야를 넓게</p>
+              <p className="text-xs text-gray-500 mb-3">5개 분야 × 10개, 다양한 상황에 두루 활용</p>
+              <p className="text-xs font-semibold text-indigo-500">번들 보기 →</p>
+            </Link>
+          </div>
         </div>
 
       </div>
     </main>
   )
 }
+
+

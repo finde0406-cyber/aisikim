@@ -20,6 +20,14 @@ export const metadata: Metadata = {
   title: 'AI시킴 — AI에게 뭘 시켜야 할지 모르겠다면',
   description:
     '선택만으로 ChatGPT·Claude·Gemini·Codex에 바로 넣을 수 있는 작업지시서를 만들어드립니다.',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    shortcut: ['/favicon.ico'],
+    apple: [{ url: '/apple-icon.png', type: 'image/png' }],
+  },
   openGraph: {
     title: 'AI시킴 — AI에게 뭘 시켜야 할지 모르겠다면',
     description:
