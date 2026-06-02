@@ -47,7 +47,7 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
         <p className="text-sm font-semibold text-gray-900 mb-2">정보가 저장됐어요</p>
         <p className="text-sm text-gray-500 leading-relaxed mb-5">
           아래 버튼으로 결제 페이지로 이동해주세요.<br />
-          결제 완료 후 영업일 기준 1~2일 내 이메일로 자료를 보내드릴게요.
+          결제 완료 후 영업일 기준 1~2일 내 입력하신 이메일로 PDF 자료를 보내드릴게요.
         </p>
         <a
           href={paymentUrl}
@@ -59,6 +59,10 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
         </a>
         <p className="text-xs text-gray-400 text-center mt-3">
           결제 창이 새 탭으로 열려요
+        </p>
+        <p className="text-xs text-gray-400 text-center mt-2 leading-relaxed">
+          메일이 보이지 않으면 스팸함도 함께 확인해 주세요.<br />
+          문의: hello@aisikim.com / 0502-1940-2233
         </p>
       </div>
     )
@@ -138,8 +142,8 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
         구매 연락처
       </p>
       <p className="text-sm text-gray-500 leading-relaxed mb-4">
-        결제 완료 확인 후 이메일로 자료를 보내드려요.<br />
-        아래 정보를 먼저 남겨주세요.
+        결제 전 이름, 이메일, 연락처를 먼저 입력해 주세요.<br />
+        결제 확인 후 입력하신 이메일로 PDF 자료를 보내드려요.
       </p>
 
       {/* 이름 */}
@@ -207,7 +211,11 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
         {status === 'loading' ? '저장 중...' : `정보 저장 후 결제하기 — ${price}`}
       </button>
 
-      <p className="text-xs text-gray-400 text-center mt-3">
+      <p className="text-xs text-gray-400 text-center mt-3 leading-relaxed">
+        메일이 보이지 않으면 스팸함도 함께 확인해 주세요.<br />
+        문의: hello@aisikim.com / 0502-1940-2233
+      </p>
+      <p className="text-xs text-gray-400 text-center mt-2">
         자료 발송 외 목적으로 사용하지 않아요.
       </p>
     </form>

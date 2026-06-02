@@ -66,7 +66,7 @@ export default function StarterPackPage() {
   const FAQ = [
     {
       q: '어떤 형식으로 제공되나요?',
-      a: 'PDF 파일과 Notion 보조 링크로 제공됩니다. PDF는 전달과 보관이 쉽고, Notion은 내용을 탐색하고 복사하기 편합니다.',
+      a: '현재는 PDF 파일로 제공됩니다. 전달과 보관이 쉽고, 바로 열어보며 활용할 수 있습니다.',
     },
     {
       q: '바로 AI에 붙여 넣을 수 있나요?',
@@ -109,7 +109,7 @@ export default function StarterPackPage() {
         <p className="text-xs text-gray-400 mb-2">
           AI시킴 방식이 나와 맞는지 처음 확인해보는 입문용 상품입니다.
         </p>
-        <p className="text-xs text-gray-400 mb-8">PDF + Notion 링크로 제공</p>
+        <p className="text-xs text-gray-400 mb-8">현재는 PDF 파일로 제공</p>
 
         {/* --- 섹션 2: 왜 무료 1개만으로는 부족한가 --- */}
         <div className="mt-2 mb-10 border-t border-gray-100 pt-8">
@@ -218,6 +218,14 @@ export default function StarterPackPage() {
 
         {/* --- 섹션 7: 결제 CTA --- */}
         <div className="mb-10">
+          <div className="mb-4 rounded-xl bg-gray-50 px-4 py-4">
+            <p className="text-sm font-medium text-gray-800 mb-1">
+              여러 분야를 넓게 써보고 싶다면 스타터팩 번들이 더 맞아요.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              결제 전 먼저 정보를 입력해 주세요. 결제 확인 후 입력하신 이메일로 PDF 자료를 보내드려요.
+            </p>
+          </div>
           <PrePaymentForm
             packType="starter_bundle"
             packLabel="통합 스타터팩 번들"

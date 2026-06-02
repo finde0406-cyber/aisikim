@@ -66,7 +66,7 @@ const FAQ = [
   },
   {
     q: '어떤 형태로 제공되나요?',
-    a: 'PDF 파일과 Notion 보조 링크로 제공돼요. PDF는 전달과 보관이 쉽고, Notion은 내용을 탐색하고 복사하기 편해요.',
+    a: '현재는 PDF 파일로 제공돼요. 전달과 보관이 쉽고, 바로 열어보며 활용할 수 있어요.',
   },
   {
     q: '환불은 어떻게 되나요?',
@@ -206,6 +206,14 @@ export default function DevFocusedPackPage() {
 
         {/* 섹션 8: 구매 CTA */}
         <div className="mb-10">
+          <div className="mb-4 rounded-xl bg-gray-50 px-4 py-4">
+            <p className="text-sm font-medium text-gray-800 mb-1">
+              지금 필요한 개발 요청을 깊게 정리하고 싶다면 이 집중팩이 맞아요.
+            </p>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              결제 전 먼저 정보를 입력해 주세요. 결제 확인 후 입력하신 이메일로 PDF 자료를 보내드려요.
+            </p>
+          </div>
           <PrePaymentForm
             packType="dev"
             packLabel="앱/웹사이트 개발 집중팩"
@@ -216,7 +224,9 @@ export default function DevFocusedPackPage() {
 
         {/* 하단 번들 링크 */}
         <div className="border-t border-gray-100 pt-6 text-center">
-          <p className="text-xs text-gray-400 mb-2">여러 분야를 넓게 써보고 싶다면</p>
+          <p className="text-xs text-gray-400 mb-2">
+            여러 상황을 넓게 써보고 싶다면 통합 스타터팩 번들이 더 맞아요
+          </p>
           <Link href="/starter-pack" className="text-sm text-gray-500 underline underline-offset-2">
             통합 스타터팩 번들 보기
           </Link>
