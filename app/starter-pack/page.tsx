@@ -1,6 +1,16 @@
 ﻿// 유료 스타터팩 상세 페이지 - 입문용 유료 상품 포지셔닝
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
+
+export const metadata: Metadata = {
+  title: 'AI시킴 작업지시서 스타터팩 번들 | AI시킴',
+  description:
+    '블로그, 업무, 개발, 검수, 공통 활용까지 5개 분야 50개 작업지시서를 한 번에 받아볼 수 있는 종합 번들입니다.',
+  alternates: {
+    canonical: 'https://aisikim.com/starter-pack',
+  },
+}
 
 const PACK_CATEGORIES = [
   {

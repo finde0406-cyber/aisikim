@@ -1,9 +1,19 @@
 // 무료 결과 페이지 - 선택형 진단 결과로 기본 작업지시서 1개 생성
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import CopyButton from '@/components/result/CopyButton'
 import EmailForm from '@/components/email/EmailForm'
 import { generateInstruction, getAnswerSummary } from '@/lib/result-generator'
 import type { QuizAnswers } from '@/lib/quiz-data'
+
+export const metadata: Metadata = {
+  title: '무료 작업지시서 결과 | AI시킴',
+  description:
+    '선택한 답변을 바탕으로 만든 무료 작업지시서를 바로 확인하고, 샘플팩과 집중팩으로 더 확장해보세요.',
+  alternates: {
+    canonical: 'https://aisikim.com/result',
+  },
+}
 
 const CATEGORY_PACK = {
   dev: {

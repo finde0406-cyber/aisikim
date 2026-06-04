@@ -1,6 +1,16 @@
 ﻿// 업무/보고서 집중팩 상세 페이지
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
+
+export const metadata: Metadata = {
+  title: '업무/보고서 집중팩 | AI시킴',
+  description:
+    '보고서 초안, 요약본, 실행안, 이메일, 회의록까지 실무 문서를 더 빠르게 만드는 업무용 작업지시서를 받아보세요.',
+  alternates: {
+    canonical: 'https://aisikim.com/focused-pack/work',
+  },
+}
 
 const PACK_ITEMS = [
   { name: '보고서 초안', desc: '목적·현황·문제·해결책·다음 단계 구조로 초안 잡기' },

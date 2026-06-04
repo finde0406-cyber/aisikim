@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: 'AI시킴 — AI에게 뭘 시켜야 할지 모르겠다면',
   description:
     '선택만으로 ChatGPT·Claude·Gemini·Codex에 바로 넣을 수 있는 작업지시서를 만들어드립니다.',
+  alternates: {
+    canonical: 'https://aisikim.com',
+  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -36,12 +39,21 @@ export const metadata: Metadata = {
     siteName: 'AI시킴',
     locale: 'ko_KR',
     type: 'website',
+    images: [
+      {
+        url: '/icon.png',
+        width: 512,
+        height: 512,
+        alt: 'AI시킴',
+      },
+    ],
   },
   twitter: {
     card: 'summary',
     title: 'AI시킴 — AI에게 뭘 시켜야 할지 모르겠다면',
     description:
       '선택만으로 ChatGPT·Claude·Gemini에 바로 넣을 수 있는 작업지시서를 만들어드립니다.',
+    images: ['/icon.png'],
   },
   appleWebApp: {
     capable: true,

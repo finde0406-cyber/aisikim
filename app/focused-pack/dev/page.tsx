@@ -1,6 +1,16 @@
 ﻿// 앱/웹사이트 개발 집중팩 상세 페이지
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
+
+export const metadata: Metadata = {
+  title: '앱/웹사이트 개발 집중팩 | AI시킴',
+  description:
+    '개발을 몰라도 기능 정의, 요구사항 정리, 버그 설명, 최종 검수까지 이어지는 개발 요청용 작업지시서를 받아보세요.',
+  alternates: {
+    canonical: 'https://aisikim.com/focused-pack/dev',
+  },
+}
 
 const PACK_ITEMS = [
   { name: '기능 정의 요청', desc: '화면 단위로 기능 목적·동작·예외를 정리하는 지시' },

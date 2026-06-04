@@ -1,6 +1,16 @@
 ﻿// 블로그/콘텐츠 집중팩 상세 페이지
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
+
+export const metadata: Metadata = {
+  title: '블로그/콘텐츠 집중팩 | AI시킴',
+  description:
+    '제목, 도입부, 구조, 본문 확장, CTA, 최종 검수까지 한 흐름으로 이어지는 콘텐츠용 작업지시서를 받아보세요.',
+  alternates: {
+    canonical: 'https://aisikim.com/focused-pack/blog',
+  },
+}
 
 const PACK_ITEMS = [
   { name: '제목 후보 만들기', desc: '클릭률 높은 제목 후보를 여러 각도로 만들어 비교하기' },
