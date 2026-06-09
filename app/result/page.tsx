@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://aisikim.com/result',
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
 }
 
 const CATEGORY_PACK = {
