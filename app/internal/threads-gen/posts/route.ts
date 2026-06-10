@@ -48,13 +48,7 @@ export async function POST(request: Request) {
 
   const topicIds = sanitizeTopicIds(body.topicIds)
   const templateIds = sanitizeTemplateIds(body.templateIds)
-  const posts = buildThreadsPosts(topicIds, templateIds)
+  const posts = buildThreadsPosts(topicIds, templateIds, 3)
 
-  const topicCount = topicIds?.length ?? TOPIC_OPTIONS.length
-  const templateCount = templateIds?.length ?? TEMPLATE_OPTIONS.length
-
-  return NextResponse.json({
-    posts,
-    meta: `주제 ${topicCount}개 · 템플릿 ${templateCount}개 · 총 ${posts.length}개 생성`,
-  })
+  return NextResponse.json({ posts })
 }

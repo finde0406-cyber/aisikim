@@ -11,7 +11,8 @@ export default function ThreadsContentGenerator() {
   const [error, setError] = useState('')
   const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([])
   const [selectedTemplateIds, setSelectedTemplateIds] = useState<TemplateType[]>([])
-  const [generatedMeta, setGeneratedMeta] = useState<string>('')
+  const [lastTopicIds, setLastTopicIds] = useState<number[] | null>(null)
+  const [lastTemplateIds, setLastTemplateIds] = useState<TemplateType[] | null>(null)
 
   const handleVerify = async () => {
     const trimmed = accessKey.trim()
@@ -35,7 +36,7 @@ export default function ThreadsContentGenerator() {
       }
       setError('')
       setIsVerified(true)
-      await generatePosts([], [])
+      setPosts([])
     } catch {
       setError('서버와 통신하지 못했습니다. 잠시 후 다시 시도해주세요.')
       setIsVerified(false)
@@ -56,24 +57,21 @@ export default function ThreadsContentGenerator() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topicIds, templateIds }),
       })
-
-      const result = (await res.json()) as { posts?: ThreadsPost[]; meta?: string; message?: string }
+      const result = (await res.json()) as { posts?: ThreadsPost[]; message?: string }
       if (!res.ok || !result.posts) {
         if (res.status === 401) {
           setIsVerified(false)
           setPosts([])
-          setGeneratedMeta('')
           setError('접근 인증이 만료되었습니다. 다시 확인해주세요.')
           return
         }
-
         setError(result.message ?? '콘텐츠 생성에 실패했습니다. 잠시 후 다시 시도해주세요.')
         return
       }
-
       setError('')
       setPosts(result.posts)
-      setGeneratedMeta(result.meta ?? '')
+      setLastTopicIds(topicIds.length > 0 ? topicIds : null)
+      setLastTemplateIds(templateIds.length > 0 ? templateIds : null)
     } catch {
       setError('콘텐츠 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
     }
@@ -87,6 +85,12 @@ export default function ThreadsContentGenerator() {
     setSelectedTopicIds([])
     setSelectedTemplateIds([])
     generatePosts([], [])
+  }
+
+  const handleRegenerate = () => {
+    const topicIds = lastTopicIds ?? []
+    const templateIds = lastTemplateIds ?? []
+    generatePosts(topicIds, templateIds)
   }
 
   const toggleTopic = (id: number) => {
@@ -122,7 +126,7 @@ export default function ThreadsContentGenerator() {
           <p className="text-xs font-medium text-gray-400 mb-2">내부 운영용 도구</p>
           <h1 className="text-lg font-bold text-gray-900 mb-1">Threads 콘텐츠 생성기</h1>
           <p className="text-xs text-gray-500 mb-5 leading-relaxed">
-            AI시킴 관련 Threads 홍보 콘텐츠를 자동으로 생성합니다.
+            주제와 템플릿을 고른 뒤 글 생성을 누르면, Threads에 바로 올릴 수 있는 초안 2~3개를 만듭니다.
           </p>
 
           <div className="space-y-3">
@@ -156,6 +160,8 @@ export default function ThreadsContentGenerator() {
     )
   }
 
+  const hasPosts = posts.length > 0
+
   return (
     <div className="max-w-sm mx-auto w-full">
       <div className="flex items-center justify-between mb-4">
@@ -169,6 +175,8 @@ export default function ThreadsContentGenerator() {
             setAccessKey('')
             setPosts([])
             setError('')
+            setLastTopicIds(null)
+            setLastTemplateIds(null)
           }}
           className="text-xs text-gray-400 underline underline-offset-2"
         >
@@ -176,8 +184,16 @@ export default function ThreadsContentGenerator() {
         </button>
       </div>
 
+      {!hasPosts && (
+        <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4">
+          <p className="text-xs text-gray-600 leading-relaxed">
+            주제와 템플릿을 고른 뒤 글 생성을 눌러주세요. 한 번에 2~3개의 Threads용 초안을 생성합니다.
+          </p>
+        </div>
+      )}
+
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
-        <p className="text-xs font-medium text-gray-700 mb-2">주제 선택 (최대 5개)</p>
+        <p className="text-xs font-medium text-gray-700 mb-2">주제 선택</p>
         <div className="flex flex-wrap gap-2">
           {TOPIC_OPTIONS.map((topic: TopicOption) => {
             const selected = selectedTopicIds.includes(topic.id)
@@ -197,7 +213,7 @@ export default function ThreadsContentGenerator() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
-        <p className="text-xs font-medium text-gray-700 mb-2">템플릿 선택 (최대 4개)</p>
+        <p className="text-xs font-medium text-gray-700 mb-2">템플릿 선택</p>
         <div className="flex flex-wrap gap-2">
           {TEMPLATE_OPTIONS.map((option) => {
             const selected = selectedTemplateIds.includes(option.id)
@@ -229,18 +245,23 @@ export default function ThreadsContentGenerator() {
         >
           전체에서 랜덤 생성
         </button>
+        {hasPosts && (
+          <button
+            onClick={handleRegenerate}
+            className="w-full rounded-xl border border-gray-200 text-gray-700 px-6 py-3 text-sm font-semibold active:bg-gray-50"
+          >
+            다시 생성
+          </button>
+        )}
       </div>
 
-      {generatedMeta ? <p className="text-[10px] text-gray-400 mb-3">{generatedMeta}</p> : null}
-
-      <div className="space-y-4 mb-4">
+      <div className="space-y-3 mb-4">
         {posts.map((post) => (
           <div key={`${post.id}-${post.template}`} className="border border-gray-200 rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-medium text-gray-400">
-                {post.theme} · {TEMPLATE_OPTIONS.find((t) => t.id === post.template)?.label ?? post.template}
+              <span className="text-[10px] font-medium text-gray-500">
+                {post.theme} · {post.template}
               </span>
-              <span className="text-[10px] text-gray-300">200~400자</span>
             </div>
 
             <div className="bg-gray-50 rounded-lg p-3 mb-3">
@@ -263,7 +284,7 @@ export default function ThreadsContentGenerator() {
 
       <div className="bg-gray-50 rounded-xl px-4 py-3">
         <p className="text-[10px] text-gray-500 leading-relaxed">
-          AI시킴 브랜드가 자동으로 포함됩니다. 복사 후 Threads에 붙여넣기만 하면 됩니다.
+          복사 후 Threads에 붙여넣기만 하면 됩니다.
         </p>
       </div>
     </div>
