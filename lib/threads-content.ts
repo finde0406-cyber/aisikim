@@ -84,7 +84,7 @@ const BRAND_CONFIGS: Record<BrandId, BrandConfig> = {
     id: 'moneyflow-radar',
     name: '머니플로우레이더',
     description: '소비 흐름과 현금흐름 점검 중심 브랜드',
-    mentions: ['머니플로우레이더', '#머니플로우레이더'],
+    mentions: ['moneyflowradar.com', '#머니플로우레이더'],
     ctaVariants: [
       '머니플로우레이더처럼 내 돈 흐름을 자주 점검해보는 게 꽤 도움이 됩니다.',
       '돈이 어디서 새는지 감이 안 오면 머니플로우레이더 같은 관점이 필요할 수 있습니다.',
@@ -107,7 +107,7 @@ const BRAND_CONFIGS: Record<BrandId, BrandConfig> = {
     id: 'risk-check',
     name: '리스크체크',
     description: '금융 리스크와 투자 점검 중심 브랜드',
-    mentions: ['리스크체크', '#리스크체크'],
+    mentions: ['check.financialrisklab.com', '#리스크체크'],
     ctaVariants: [
       '리스크체크처럼 먼저 점검하고 움직이는 습관이 결국 손실을 줄일 수 있습니다.',
       '불확실할수록 리스크체크 관점으로 한 번 더 점검해보는 게 도움이 됩니다.',
