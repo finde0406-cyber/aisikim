@@ -1,22 +1,27 @@
 import { NextResponse } from 'next/server'
 
 import {
+  buildAllBrandThreadsPosts,
   buildThreadsPosts,
+  BRAND_OPTIONS,
+  getTopicsForBrand,
+  isBrandId,
   TEMPLATE_OPTIONS,
+  type BrandId,
   type TemplateType,
-  TOPIC_OPTIONS,
 } from '@/lib/threads-content'
 import { hasVerifiedInternalAccess } from '@/lib/internal-threads-auth'
 
-const VALID_TOPIC_IDS = new Set(TOPIC_OPTIONS.map((topic) => topic.id))
 const VALID_TEMPLATE_IDS = new Set<TemplateType>(TEMPLATE_OPTIONS.map((template) => template.id))
+const VALID_BRAND_IDS = new Set<BrandId>(BRAND_OPTIONS.map((brand) => brand.id as BrandId))
 
-function sanitizeTopicIds(value: unknown) {
+function sanitizeTopicIds(brandId: BrandId, value: unknown) {
   if (!Array.isArray(value)) return undefined
 
+  const validTopicIds = new Set(getTopicsForBrand(brandId).map((topic) => topic.id))
   const ids = value
     .filter((item): item is number => typeof item === 'number' && Number.isInteger(item))
-    .filter((id) => VALID_TOPIC_IDS.has(id))
+    .filter((id) => validTopicIds.has(id))
     .slice(0, 5)
 
   return ids.length > 0 ? ids : undefined
@@ -42,13 +47,30 @@ export async function POST(request: Request) {
   }
 
   const body = (await request.json().catch(() => ({}))) as {
+    brandId?: unknown
+    mode?: unknown
     topicIds?: unknown
     templateIds?: unknown
   }
 
-  const topicIds = sanitizeTopicIds(body.topicIds)
   const templateIds = sanitizeTemplateIds(body.templateIds)
-  const posts = buildThreadsPosts(topicIds, templateIds, 3)
+  const mode = body.mode === 'all-brands' ? 'all-brands' : 'single'
+
+  if (mode === 'all-brands') {
+    const posts = buildAllBrandThreadsPosts(templateIds, 1)
+    return NextResponse.json({ posts })
+  }
+
+  if (typeof body.brandId !== 'string' || !isBrandId(body.brandId) || !VALID_BRAND_IDS.has(body.brandId)) {
+    return NextResponse.json(
+      { error: 'invalid_brand', message: '유효한 브랜드를 선택해주세요.' },
+      { status: 400 },
+    )
+  }
+
+  const brandId = body.brandId
+  const topicIds = sanitizeTopicIds(brandId, body.topicIds)
+  const posts = buildThreadsPosts(brandId, topicIds, templateIds, 3)
 
   return NextResponse.json({ posts })
 }

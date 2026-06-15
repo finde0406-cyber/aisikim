@@ -1,18 +1,37 @@
 'use client'
 
 import { useState } from 'react'
-import { type ThreadsPost, type TopicOption, type TemplateType, TOPIC_OPTIONS, TEMPLATE_OPTIONS } from '@/lib/threads-content'
+import {
+  type BrandId,
+  BRAND_OPTIONS,
+  getTopicsForBrand,
+  type ThreadsPost,
+  type TopicOption,
+  type TemplateType,
+  TEMPLATE_OPTIONS,
+} from '@/lib/threads-content'
+
+type GenerateMode = 'single' | 'all-brands'
+
+interface LastRequest {
+  mode: GenerateMode
+  brandId: BrandId
+  topicIds: number[]
+  templateIds: TemplateType[]
+}
 
 export default function ThreadsContentGenerator() {
   const [accessKey, setAccessKey] = useState('')
   const [isVerified, setIsVerified] = useState(false)
   const [posts, setPosts] = useState<ThreadsPost[]>([])
-  const [copiedId, setCopiedId] = useState<number | null>(null)
+  const [copiedId, setCopiedId] = useState<string | null>(null)
   const [error, setError] = useState('')
+  const [activeBrandId, setActiveBrandId] = useState<BrandId>('aisikim')
   const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([])
   const [selectedTemplateIds, setSelectedTemplateIds] = useState<TemplateType[]>([])
-  const [lastTopicIds, setLastTopicIds] = useState<number[] | null>(null)
-  const [lastTemplateIds, setLastTemplateIds] = useState<TemplateType[] | null>(null)
+  const [lastRequest, setLastRequest] = useState<LastRequest | null>(null)
+
+  const topicOptions = getTopicsForBrand(activeBrandId)
 
   const handleVerify = async () => {
     const trimmed = accessKey.trim()
@@ -50,12 +69,17 @@ export default function ThreadsContentGenerator() {
     }
   }
 
-  const generatePosts = async (topicIds: number[], templateIds: TemplateType[]) => {
+  const generatePosts = async (payload: {
+    mode: GenerateMode
+    brandId: BrandId
+    topicIds: number[]
+    templateIds: TemplateType[]
+  }) => {
     try {
       const res = await fetch('/internal/threads-gen/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topicIds, templateIds }),
+        body: JSON.stringify(payload),
       })
       const result = (await res.json()) as { posts?: ThreadsPost[]; message?: string }
       if (!res.ok || !result.posts) {
@@ -70,27 +94,41 @@ export default function ThreadsContentGenerator() {
       }
       setError('')
       setPosts(result.posts)
-      setLastTopicIds(topicIds.length > 0 ? topicIds : null)
-      setLastTemplateIds(templateIds.length > 0 ? templateIds : null)
+      setLastRequest(payload)
     } catch {
       setError('콘텐츠 생성 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
     }
   }
 
   const handleGenerate = () => {
-    generatePosts(selectedTopicIds, selectedTemplateIds)
+    generatePosts({
+      mode: 'single',
+      brandId: activeBrandId,
+      topicIds: selectedTopicIds,
+      templateIds: selectedTemplateIds,
+    })
   }
 
-  const handleRandom = () => {
-    setSelectedTopicIds([])
-    setSelectedTemplateIds([])
-    generatePosts([], [])
+  const handleGenerateAllBrands = () => {
+    generatePosts({
+      mode: 'all-brands',
+      brandId: activeBrandId,
+      topicIds: [],
+      templateIds: selectedTemplateIds,
+    })
   }
 
   const handleRegenerate = () => {
-    const topicIds = lastTopicIds ?? []
-    const templateIds = lastTemplateIds ?? []
-    generatePosts(topicIds, templateIds)
+    if (!lastRequest) return
+    generatePosts(lastRequest)
+  }
+
+  const handleBrandChange = (brandId: BrandId) => {
+    setActiveBrandId(brandId)
+    setSelectedTopicIds([])
+    setPosts([])
+    setLastRequest(null)
+    setError('')
   }
 
   const toggleTopic = (id: number) => {
@@ -109,7 +147,7 @@ export default function ThreadsContentGenerator() {
     })
   }
 
-  const copyToClipboard = async (text: string, id: number) => {
+  const copyToClipboard = async (text: string, id: string) => {
     try {
       await navigator.clipboard.writeText(text)
       setCopiedId(id)
@@ -126,7 +164,7 @@ export default function ThreadsContentGenerator() {
           <p className="text-xs font-medium text-gray-400 mb-2">내부 운영용 도구</p>
           <h1 className="text-lg font-bold text-gray-900 mb-1">Threads 콘텐츠 생성기</h1>
           <p className="text-xs text-gray-500 mb-5 leading-relaxed">
-            주제와 템플릿을 고른 뒤 글 생성을 누르면, Threads에 바로 올릴 수 있는 초안 2~3개를 만듭니다.
+            브랜드별 Threads 초안을 빠르게 만들어서 바로 복사해 올릴 수 있는 내부 운영용 도구입니다.
           </p>
 
           <div className="space-y-3">
@@ -153,7 +191,7 @@ export default function ThreadsContentGenerator() {
           </div>
 
           <p className="text-[10px] text-gray-400 mt-4 leading-relaxed">
-            이 도구는 내부 운영용입니다. 생성된 콘텐츠에는 AI시킴 브랜드가 자동 포함됩니다.
+            이 도구는 내부 운영용입니다. 선택한 브랜드 기준으로 문체와 CTA가 함께 바뀝니다.
           </p>
         </div>
       </div>
@@ -175,8 +213,10 @@ export default function ThreadsContentGenerator() {
             setAccessKey('')
             setPosts([])
             setError('')
-            setLastTopicIds(null)
-            setLastTemplateIds(null)
+            setLastRequest(null)
+            setSelectedTopicIds([])
+            setSelectedTemplateIds([])
+            setActiveBrandId('aisikim')
           }}
           className="text-xs text-gray-400 underline underline-offset-2"
         >
@@ -187,15 +227,35 @@ export default function ThreadsContentGenerator() {
       {!hasPosts && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4">
           <p className="text-xs text-gray-600 leading-relaxed">
-            주제와 템플릿을 고른 뒤 글 생성을 눌러주세요. 한 번에 2~3개의 Threads용 초안을 생성합니다.
+            선택한 브랜드로 3개 초안을 만들거나, 3개 브랜드 각각 1개씩 바로 생성할 수 있습니다.
           </p>
         </div>
       )}
 
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
+        <p className="text-xs font-medium text-gray-700 mb-2">브랜드 선택</p>
+        <div className="flex flex-wrap gap-2">
+          {BRAND_OPTIONS.map((brand) => {
+            const selected = activeBrandId === brand.id
+            return (
+              <button
+                key={brand.id}
+                onClick={() => handleBrandChange(brand.id)}
+                className={`rounded-full px-3 py-1.5 text-xs border transition-colors ${
+                  selected ? 'bg-gray-900 border-gray-900 text-white' : 'bg-white border-gray-300 text-gray-700'
+                }`}
+              >
+                {brand.label}
+              </button>
+            )
+          })}
+        </div>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
         <p className="text-xs font-medium text-gray-700 mb-2">주제 선택</p>
         <div className="flex flex-wrap gap-2">
-          {TOPIC_OPTIONS.map((topic: TopicOption) => {
+          {topicOptions.map((topic: TopicOption) => {
             const selected = selectedTopicIds.includes(topic.id)
             return (
               <button
@@ -234,16 +294,16 @@ export default function ThreadsContentGenerator() {
 
       <div className="space-y-2 mb-4">
         <button
-          onClick={handleGenerate}
+          onClick={handleGenerateAllBrands}
           className="w-full rounded-xl bg-indigo-600 px-6 py-3 text-sm font-semibold text-white active:bg-indigo-700"
         >
-          선택한 항목으로 생성
+          3개 브랜드 각각 1개 생성
         </button>
         <button
-          onClick={handleRandom}
+          onClick={handleGenerate}
           className="w-full rounded-xl border-2 border-indigo-600 text-indigo-600 px-6 py-3 text-sm font-semibold active:bg-indigo-50"
         >
-          전체에서 랜덤 생성
+          선택한 브랜드로 3개 생성
         </button>
         {hasPosts && (
           <button
@@ -257,7 +317,13 @@ export default function ThreadsContentGenerator() {
 
       <div className="space-y-3 mb-4">
         {posts.map((post) => (
-          <div key={`${post.id}-${post.template}`} className="border border-gray-200 rounded-xl p-4">
+          <div key={`${post.brandId}-${post.id}-${post.template}`} className="border border-gray-200 rounded-xl p-4">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">
+                {post.brandName}
+              </span>
+            </div>
+
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] font-medium text-gray-500">
                 {post.theme} · {post.template}
@@ -269,14 +335,14 @@ export default function ThreadsContentGenerator() {
             </div>
 
             <button
-              onClick={() => copyToClipboard(post.content, post.id)}
+              onClick={() => copyToClipboard(post.content, `${post.brandId}-${post.id}`)}
               className={`w-full rounded-lg px-4 py-2.5 text-xs font-semibold transition-colors ${
-                copiedId === post.id
+                copiedId === `${post.brandId}-${post.id}`
                   ? 'bg-green-50 text-green-600 border border-green-200'
                   : 'bg-indigo-600 text-white active:bg-indigo-700'
               }`}
             >
-              {copiedId === post.id ? '✓ 복사됨' : '클립보드에 복사'}
+              {copiedId === `${post.brandId}-${post.id}` ? '✓ 복사됨' : '클립보드에 복사'}
             </button>
           </div>
         ))}
