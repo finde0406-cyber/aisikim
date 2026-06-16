@@ -167,6 +167,14 @@ function formatClosing(brand: BrandConfig) {
   return `${resolveBrandCta(brand)}\n${resolveBrandMention(brand)}`
 }
 
+function joinParagraphs(...paragraphs: string[]) {
+  return paragraphs.filter(Boolean).join('\n\n')
+}
+
+function pickLine(...items: string[]) {
+  return pickOne(items)
+}
+
 function buildEmpathyPost(brand: BrandConfig, topic: BrandTopic): string {
   const painPoints = {
     aisikim: [
@@ -187,12 +195,27 @@ function buildEmpathyPost(brand: BrandConfig, topic: BrandTopic): string {
   } as const
 
   const selected = pickRandom(painPoints[brand.id], 2)
+  const opener = pickLine(
+    `${topic.hook}`,
+    `${topic.hook} 이거 은근 남 얘기 아님.`,
+    `${topic.hook} 생각보다 이 패턴이 진짜 흔함.`,
+  )
+  const transition = pickLine(
+    `${topic.before} 같은 흐름으로 시간만 날리다가 더 꼬이는 경우 많음.`,
+    `${topic.before} 하다가 끝나버리면 진짜 남는 게 없음.`,
+    `${topic.before} 쪽에서 헤매는 사람들 진짜 많더라.`,
+  )
+  const relief = pickLine(
+    `${topic.after} 쪽으로 빨리 눈 돌리는 게 훨씬 나은데 그걸 너무 늦게 함.`,
+    `그래서 나는 ${topic.after}부터 보게 만드는 쪽이 훨씬 낫다고 봄.`,
+    `결국 ${topic.after}로 넘어가야 덜 헤맴.`,
+  )
 
-  return `${topic.hook}
-
-${selected.join('\n')}
-
-${formatClosing(brand)}`
+  return joinParagraphs(
+    `${opener} ${selected[0] ?? ''} ${selected[1] ?? ''}`.trim(),
+    `${transition} ${relief}`,
+    formatClosing(brand),
+  )
 }
 
 function buildBeforeAfterPost(brand: BrandConfig, topic: BrandTopic): string {
@@ -201,36 +224,80 @@ function buildBeforeAfterPost(brand: BrandConfig, topic: BrandTopic): string {
     'moneyflow-radar': '커뮤니티 보고 바로 진입 → 이미 돈 몰린 섹터에서 대가리 깨짐',
     'risk-check': '계좌 박살나도 존버 외침 → 멘탈은 흔들리는데 현실 진단은 안 함',
   } as const
+  const reaction = pickLine(
+    '이러고 뒤늦게 왜 이렇게 됐지 싶어 함.',
+    '막상 깨지고 나서야 너무 늦었다 싶어짐.',
+    '그리고 나서 멘탈만 더 갈림.',
+  )
+  const shift = pickLine(
+    `${brand.name} 쪽은 ${topic.after}부터 보게 만듦.`,
+    `${brand.name}는 애초에 ${topic.after}를 먼저 보게 하는 쪽임.`,
+    `반대로 ${brand.name}는 ${topic.after}부터 확인하게 만듦.`,
+  )
+  const ending = pickLine(
+    `${topic.saving}도 결국 이런 데서 갈리는 듯.`,
+    `결국 ${topic.saving} 같은 차이가 여기서 벌어짐.`,
+    `이런 차이 하나가 생각보다 크게 남음.`,
+  )
 
-  return `❌ 기존 방식
-${beforeLines[brand.id]}
-
-✅ ${brand.name} 관점
-${topic.after}
-
-${formatClosing(brand)}`
+  return joinParagraphs(
+    `${topic.hook} 보통은 ${beforeLines[brand.id]} 같은 흐름으로 감. ${reaction}`,
+    `${shift} ${ending}`,
+    formatClosing(brand),
+  )
 }
 
 function buildScenarioPost(brand: BrandConfig, topic: BrandTopic): string {
-  return `${topic.hook}
+  const problemLine = brand.id === 'aisikim'
+    ? '질문이 안 나와서 시작 자체가 늦어지는 게 문제임.'
+    : brand.id === 'moneyflow-radar'
+      ? '돈이 어디로 몰리는지도 안 보고 뛰어드는 게 진짜 위험함.'
+      : '멘탈은 흔들리는데 현실 점검을 안 하는 게 더 무서움.'
+  const opener = pickLine(
+    `${topic.hook}`,
+    `${topic.hook} 이럴 때 사람들 제일 많이 꼬이더라.`,
+    `${topic.hook} 보통 여기서 판단이 확 흔들림.`,
+  )
+  const second = pickLine(
+    `${topic.before} 같은 흐름으로 흘러감. ${problemLine}`,
+    `대개는 ${topic.before} 쪽으로 가다가 더 꼬임. ${problemLine}`,
+    `${topic.before} 하다가 타이밍 놓치기 쉬움. ${problemLine}`,
+  )
+  const third = pickLine(
+    `근데 ${brand.name} 쪽으로 보면 ${topic.after}가 먼저 들어옴.`,
+    `여기서 ${brand.name} 쪽으로 시선 돌리면 ${topic.after}부터 보게 됨.`,
+    `${brand.name} 쪽은 ${topic.after}를 먼저 잡게 만든다는 점이 좀 다름.`,
+  )
+  const fourth = pickLine(
+    `그러면 ${topic.saving} 쪽으로 판단이 훨씬 빨라지는 편임.`,
+    `그래서 ${topic.saving} 같은 차이가 꽤 크게 남음.`,
+    `이 흐름 하나로 멘탈이 덜 흔들리는 편임.`,
+  )
 
-상황: ${topic.before}
-문제: ${brand.id === 'aisikim' ? '질문이 안 나와서 시작이 늦어짐' : brand.id === 'moneyflow-radar' ? '돈이 어디로 몰리는지 안 보고 뛰어듦' : '멘탈은 흔들리는데 현실 점검은 안 함'}
-
-${brand.name} 관점이면:
-${topic.after}
-
-기대 변화: ${topic.saving}
-
-${formatClosing(brand)}`
+  return joinParagraphs(
+    `${opener} ${second}`,
+    `${third} ${fourth}`,
+    formatClosing(brand),
+  )
 }
 
 function buildTipPost(brand: BrandConfig, topic: BrandTopic): string {
   const mention = resolveBrandMention(brand)
-  return `💡 ${topic.quickTip}
+  const reaction = pickLine(
+    '별거 아닌 것 같아도 여기서 차이 엄청 남.',
+    '이거 무시하면 꼭 뒤에서 다시 꼬임.',
+    '이런 한 끗 때문에 결과가 갈리는 편임.',
+  )
+  const close = pickLine(
+    `이런 거 혼자 정리 안 되면 ${brand.name} 한 번 보는 게 더 빠름.`,
+    `혼자 버티면서 헤매기보다 ${brand.name} 한 번 보는 게 덜 피곤함.`,
+    `이럴 때는 ${brand.name}처럼 먼저 구조를 보는 편이 훨씬 낫더라.`,
+  )
 
-이런 거 혼자 정리 안 되면 ${brand.name} 한 번 보는 게 더 빠름.
-${mention}`
+  return joinParagraphs(
+    `${topic.quickTip} ${reaction}`,
+    `${close} ${mention}`,
+  )
 }
 
 const TEMPLATE_BUILDERS: Record<TemplateType, (brand: BrandConfig, topic: BrandTopic) => string> = {
