@@ -4,11 +4,11 @@ import { useState } from 'react'
 import {
   type BrandId,
   BRAND_OPTIONS,
+  CONTENT_STYLE_OPTIONS,
   getTopicsForBrand,
+  type ContentStyle,
   type ThreadsPost,
   type TopicOption,
-  type TemplateType,
-  TEMPLATE_OPTIONS,
 } from '@/lib/threads-content'
 
 type GenerateMode = 'single' | 'all-brands'
@@ -17,7 +17,7 @@ interface LastRequest {
   mode: GenerateMode
   brandId: BrandId
   topicIds: number[]
-  templateIds: TemplateType[]
+  contentStyle: ContentStyle
 }
 
 export default function ThreadsContentGenerator() {
@@ -28,7 +28,7 @@ export default function ThreadsContentGenerator() {
   const [error, setError] = useState('')
   const [activeBrandId, setActiveBrandId] = useState<BrandId>('aisikim')
   const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>([])
-  const [selectedTemplateIds, setSelectedTemplateIds] = useState<TemplateType[]>([])
+  const [selectedContentStyle, setSelectedContentStyle] = useState<ContentStyle>('mixed')
   const [lastRequest, setLastRequest] = useState<LastRequest | null>(null)
 
   const topicOptions = getTopicsForBrand(activeBrandId)
@@ -69,12 +69,7 @@ export default function ThreadsContentGenerator() {
     }
   }
 
-  const generatePosts = async (payload: {
-    mode: GenerateMode
-    brandId: BrandId
-    topicIds: number[]
-    templateIds: TemplateType[]
-  }) => {
+  const generatePosts = async (payload: LastRequest) => {
     try {
       const res = await fetch('/internal/threads-gen/posts', {
         method: 'POST',
@@ -105,7 +100,7 @@ export default function ThreadsContentGenerator() {
       mode: 'single',
       brandId: activeBrandId,
       topicIds: selectedTopicIds,
-      templateIds: selectedTemplateIds,
+      contentStyle: selectedContentStyle,
     })
   }
 
@@ -114,7 +109,7 @@ export default function ThreadsContentGenerator() {
       mode: 'all-brands',
       brandId: activeBrandId,
       topicIds: [],
-      templateIds: selectedTemplateIds,
+      contentStyle: selectedContentStyle,
     })
   }
 
@@ -135,14 +130,6 @@ export default function ThreadsContentGenerator() {
     setSelectedTopicIds((prev) => {
       if (prev.includes(id)) return prev.filter((x) => x !== id)
       if (prev.length >= 5) return prev
-      return [...prev, id]
-    })
-  }
-
-  const toggleTemplate = (id: TemplateType) => {
-    setSelectedTemplateIds((prev) => {
-      if (prev.includes(id)) return prev.filter((x) => x !== id)
-      if (prev.length >= 4) return prev
       return [...prev, id]
     })
   }
@@ -191,7 +178,7 @@ export default function ThreadsContentGenerator() {
           </div>
 
           <p className="text-[10px] text-gray-400 mt-4 leading-relaxed">
-            이 도구는 내부 운영용입니다. 선택한 브랜드 기준으로 문체와 CTA가 함께 바뀝니다.
+            혼합 운영은 데이터 해석, 투자자 팩폭, 서비스 언급을 섞어서 생성합니다.
           </p>
         </div>
       </div>
@@ -215,7 +202,7 @@ export default function ThreadsContentGenerator() {
             setError('')
             setLastRequest(null)
             setSelectedTopicIds([])
-            setSelectedTemplateIds([])
+            setSelectedContentStyle('mixed')
             setActiveBrandId('aisikim')
           }}
           className="text-xs text-gray-400 underline underline-offset-2"
@@ -227,7 +214,8 @@ export default function ThreadsContentGenerator() {
       {!hasPosts && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-4">
           <p className="text-xs text-gray-600 leading-relaxed">
-            선택한 브랜드로 3개 초안을 만들거나, 3개 브랜드 각각 1개씩 바로 생성할 수 있습니다.
+            혼합 운영은 인사이트 40%, 투자자 행동 팩폭 30%, 서비스 언급 30% 감각으로 섞습니다.
+            월요일은 팩폭 상황극, 화요일은 데이터 해석, 수요일은 철학 한 마디, 목요일은 서비스 기능 언급처럼 직접 골라도 됩니다.
           </p>
         </div>
       )}
@@ -253,6 +241,29 @@ export default function ThreadsContentGenerator() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
+        <p className="text-xs font-medium text-gray-700 mb-2">콘텐츠 성격 선택</p>
+        <div className="flex flex-wrap gap-2">
+          {CONTENT_STYLE_OPTIONS.map((option) => {
+            const selected = selectedContentStyle === option.id
+            return (
+              <button
+                key={option.id}
+                onClick={() => setSelectedContentStyle(option.id)}
+                className={`rounded-full px-3 py-1.5 text-xs border transition-colors ${
+                  selected ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-gray-300 text-gray-700'
+                }`}
+              >
+                {option.label}
+              </button>
+            )
+          })}
+        </div>
+        <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">
+          선택한 성격에 따라 문체와 호흡을 바꿉니다. 혼합 운영은 채널 톤을 덜 광고처럼 유지할 때 쓰기 좋습니다.
+        </p>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
         <p className="text-xs font-medium text-gray-700 mb-2">주제 선택</p>
         <div className="flex flex-wrap gap-2">
           {topicOptions.map((topic: TopicOption) => {
@@ -266,26 +277,6 @@ export default function ThreadsContentGenerator() {
                 }`}
               >
                 {topic.label}
-              </button>
-            )
-          })}
-        </div>
-      </div>
-
-      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-4">
-        <p className="text-xs font-medium text-gray-700 mb-2">템플릿 선택</p>
-        <div className="flex flex-wrap gap-2">
-          {TEMPLATE_OPTIONS.map((option) => {
-            const selected = selectedTemplateIds.includes(option.id)
-            return (
-              <button
-                key={option.id}
-                onClick={() => toggleTemplate(option.id)}
-                className={`rounded-full px-3 py-1.5 text-xs border transition-colors ${
-                  selected ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-gray-300 text-gray-700'
-                }`}
-              >
-                {option.label}
               </button>
             )
           })}
@@ -317,7 +308,7 @@ export default function ThreadsContentGenerator() {
 
       <div className="space-y-3 mb-4">
         {posts.map((post) => (
-          <div key={`${post.brandId}-${post.id}-${post.template}`} className="border border-gray-200 rounded-xl p-4">
+          <div key={`${post.brandId}-${post.id}-${post.character}`} className="border border-gray-200 rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] font-medium text-gray-500 uppercase tracking-wide">
                 {post.brandName}
@@ -326,7 +317,7 @@ export default function ThreadsContentGenerator() {
 
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] font-medium text-gray-500">
-                {post.theme} · {post.template}
+                {post.theme} · {post.character}
               </span>
             </div>
 
@@ -350,7 +341,7 @@ export default function ThreadsContentGenerator() {
 
       <div className="bg-gray-50 rounded-xl px-4 py-3">
         <p className="text-[10px] text-gray-500 leading-relaxed">
-          복사 후 Threads에 붙여넣기만 하면 됩니다.
+          복사 후 Threads에 붙여넣고, 어투만 한두 군데 손보면 바로 올릴 수 있습니다.
         </p>
       </div>
     </div>

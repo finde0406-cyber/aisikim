@@ -4,16 +4,17 @@ import {
   buildAllBrandThreadsPosts,
   buildThreadsPosts,
   BRAND_OPTIONS,
+  CONTENT_STYLE_OPTIONS,
   getTopicsForBrand,
   isBrandId,
-  TEMPLATE_OPTIONS,
+  isContentStyle,
   type BrandId,
-  type TemplateType,
+  type ContentStyle,
 } from '@/lib/threads-content'
 import { hasVerifiedInternalAccess } from '@/lib/internal-threads-auth'
 
-const VALID_TEMPLATE_IDS = new Set<TemplateType>(TEMPLATE_OPTIONS.map((template) => template.id))
 const VALID_BRAND_IDS = new Set<BrandId>(BRAND_OPTIONS.map((brand) => brand.id as BrandId))
+const VALID_CONTENT_STYLES = new Set<ContentStyle>(CONTENT_STYLE_OPTIONS.map((option) => option.id))
 
 function sanitizeTopicIds(brandId: BrandId, value: unknown) {
   if (!Array.isArray(value)) return undefined
@@ -27,14 +28,12 @@ function sanitizeTopicIds(brandId: BrandId, value: unknown) {
   return ids.length > 0 ? ids : undefined
 }
 
-function sanitizeTemplateIds(value: unknown) {
-  if (!Array.isArray(value)) return undefined
+function sanitizeContentStyle(value: unknown) {
+  if (typeof value !== 'string' || !isContentStyle(value) || !VALID_CONTENT_STYLES.has(value)) {
+    return 'mixed' satisfies ContentStyle
+  }
 
-  const ids = value
-    .filter((item): item is TemplateType => typeof item === 'string' && VALID_TEMPLATE_IDS.has(item as TemplateType))
-    .slice(0, 4)
-
-  return ids.length > 0 ? ids : undefined
+  return value
 }
 
 export async function POST(request: Request) {
@@ -50,14 +49,14 @@ export async function POST(request: Request) {
     brandId?: unknown
     mode?: unknown
     topicIds?: unknown
-    templateIds?: unknown
+    contentStyle?: unknown
   }
 
-  const templateIds = sanitizeTemplateIds(body.templateIds)
   const mode = body.mode === 'all-brands' ? 'all-brands' : 'single'
+  const contentStyle = sanitizeContentStyle(body.contentStyle)
 
   if (mode === 'all-brands') {
-    const posts = buildAllBrandThreadsPosts(templateIds, 1)
+    const posts = buildAllBrandThreadsPosts(contentStyle, 1)
     return NextResponse.json({ posts })
   }
 
@@ -70,7 +69,7 @@ export async function POST(request: Request) {
 
   const brandId = body.brandId
   const topicIds = sanitizeTopicIds(brandId, body.topicIds)
-  const posts = buildThreadsPosts(brandId, topicIds, templateIds, 3)
+  const posts = buildThreadsPosts(brandId, topicIds, contentStyle, 3)
 
   return NextResponse.json({ posts })
 }

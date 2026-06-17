@@ -4,7 +4,7 @@ import ThreadsContentGenerator from '@/components/internal/ThreadsContentGenerat
 
 export const metadata: Metadata = {
   title: 'Threads 콘텐츠 생성기 | AI시킴',
-  description: 'AI시킴 관련 Threads 홍보 콘텐츠를 자동으로 생성하는 내부 운영용 도구입니다.',
+  description: 'AI시킴, 머니플로우레이더, 리스크체크용 Threads 초안을 생성하는 내부 운영용 도구입니다.',
   alternates: {
     canonical: 'https://aisikim.com/internal/threads-gen',
   },
