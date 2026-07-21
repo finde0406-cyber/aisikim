@@ -2,6 +2,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
+import Footer from '@/components/home/Footer'
 
 export const metadata: Metadata = {
   title: '앱/웹사이트 개발 집중팩 | AI시킴',
@@ -88,8 +89,9 @@ export default function DevFocusedPackPage() {
   const paymentUrl = process.env.NEXT_PUBLIC_DEV_PACK_URL ?? null
 
   return (
-    <main className="flex flex-col px-4 py-10 pb-20">
-      <div className="max-w-sm mx-auto w-full">
+    <>
+      <main className="flex flex-col px-4 py-10 pb-20">
+        <div className="max-w-sm mx-auto w-full">
 
         <Link href="/" className="text-gray-400 text-sm block mb-8">← 홈</Link>
 
@@ -251,8 +253,10 @@ export default function DevFocusedPackPage() {
           </div>
         </div>
 
-      </div>
-    </main>
+        </div>
+      </main>
+      <Footer />
+    </>
   )
 }
 

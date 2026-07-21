@@ -28,6 +28,16 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* 사업자정보 */}
+        <div className="border-t border-gray-100 pt-5 mb-5 space-y-1 text-xs text-gray-500 leading-relaxed">
+          <p><span className="font-medium text-gray-700">상호명</span> 에이치앤에이치</p>
+          <p><span className="font-medium text-gray-700">대표자</span> 황정식</p>
+          <p><span className="font-medium text-gray-700">사업자등록번호</span> 601-34-91221</p>
+          <p><span className="font-medium text-gray-700">주소</span> 서울 강남구 논현로115길 28, 가동 201호</p>
+          <p><span className="font-medium text-gray-700">연락처</span> 0502-1940-2233</p>
+          <p><span className="font-medium text-gray-700">이메일</span> hello@aisikim.com</p>
+        </div>
+
         {/* 법적 링크 + 카피라이트 */}
         <div className="flex justify-center gap-4 mb-3">
           <Link href="/legal/privacy" className="text-xs text-gray-400 underline underline-offset-2">
