@@ -21,11 +21,11 @@ export const metadata: Metadata = {
 
 const CATEGORY_PACK = {
   dev: {
-    sectionLabel: '개발 요청을 더 명확하게',
-    packTitle: '앱/웹사이트 개발 집중팩',
-    packItems: ['기능 정의·요구사항 정리', '버그 설명·개발자 전달', '화면 흐름·최종 검수'],
-    packNote: '개발자에게 전달 가능한 수준으로 정리할 수 있어요',
-    ctaText: '개발 집중팩 살펴보기',
+    sectionLabel: '바이브코딩 결과물을 실제로 출시하려면',
+    packTitle: '바이브코딩 웹서비스 출시팩',
+    packItems: ['아이디어·MVP 정리', '개발·오류 수정·검수', '판매 페이지·출시 콘텐츠'],
+    packNote: '만들고 고치고 공개하는 흐름을 이어갈 수 있어요',
+    ctaText: '바이브코딩 출시팩 살펴보기',
     ctaHref: '/focused-pack/dev',
   },
   work: {
