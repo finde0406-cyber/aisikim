@@ -6,6 +6,7 @@ import SamplePreviewSection from '@/components/home/SamplePreviewSection'
 import QuickGuideSection from '@/components/home/QuickGuideSection'
 import CategoryPreviewSection from '@/components/home/CategoryPreviewSection'
 import PackPreviewSection from '@/components/home/PackPreviewSection'
+import CreatorProofSection from '@/components/home/CreatorProofSection'
 import FinalCTASection from '@/components/home/FinalCTASection'
 import Footer from '@/components/home/Footer'
 
@@ -34,6 +35,7 @@ export default function HomePage() {
       <QuickGuideSection />
       <CategoryPreviewSection />
       <PackPreviewSection />
+      <CreatorProofSection />
       <FinalCTASection />
       <Footer />
     </main>

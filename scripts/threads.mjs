@@ -78,7 +78,7 @@ async function publishText(token, text) {
 }
 
 async function status(token) {
-  const me = await verify(token)
+  await verify(token)
   const list = await api('/me/threads', {
     params: {
       fields: 'id,text,permalink,timestamp',
