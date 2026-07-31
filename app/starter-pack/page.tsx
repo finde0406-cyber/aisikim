@@ -252,7 +252,7 @@ export default function StarterPackPage() {
               여러 분야를 넓게 써보고 싶다면 스타터팩 번들이 더 맞아요.
             </p>
             <p className="text-xs text-gray-500 leading-relaxed">
-              결제 전 먼저 정보를 입력해 주세요. 결제 확인 후 입력하신 이메일로 PDF 자료를 보내드려요.
+              결제 전 먼저 정보를 입력해 주세요. 결제가 완료되면 입력하신 이메일로 PDF 자료가 자동 발송돼요.
             </p>
           </div>
           <PrePaymentForm
