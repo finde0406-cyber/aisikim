@@ -7,7 +7,7 @@ const CATEGORY_LABEL: Record<string, string> = {
 }
 
 const PACK_LABEL: Record<string, string> = {
-  dev: '앱/웹사이트 개발 집중팩',
+  dev: '바이브코딩 웹서비스 출시 작업지시서팩',
   work: '업무/보고서 집중팩',
   blog: '블로그/콘텐츠 집중팩',
   starter_bundle: '통합 스타터팩 번들',

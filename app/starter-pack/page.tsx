@@ -84,9 +84,11 @@ export default function StarterPackPage() {
     },
     {
       q: '결제와 자료 수령은 어떻게 되나요?',
-      a: paymentUrl
-        ? '구매 전 AI시킴에서 입력하신 이메일 주소로 PDF 파일과 Notion 링크를 보내드려요. 결제 확인 후 영업일 기준 1~2일 내 발송돼요.'
-        : '결제 방법과 자료 수령 방법은 구매 페이지에서 확인할 수 있어요.',
+      a: process.env.NEXT_PUBLIC_NICEPAY_CLIENT_KEY
+        ? '구매 전 AI시킴에서 입력하신 이메일 주소로 PDF 파일과 Notion 링크를 보내드려요. 결제가 완료되면 자동으로 바로 발송돼요.'
+        : paymentUrl
+          ? '구매 전 AI시킴에서 입력하신 이메일 주소로 PDF 파일과 Notion 링크를 보내드려요. 결제 확인 후 영업일 기준 1~2일 내 발송돼요.'
+          : '결제 방법과 자료 수령 방법은 구매 페이지에서 확인할 수 있어요.',
     },
     {
       q: '디지털 상품 환불은 어떻게 되나요?',

@@ -1,13 +1,54 @@
-﻿'use client'
-// 유료팩 구매 전 연락처 수집 폼 — 결제 이동 전 이메일/이름 저장
+'use client'
+// 유료팩 구매 전 연락처 수집 폼 — 정보 저장 후 나이스페이 결제창 호출
+// NEXT_PUBLIC_NICEPAY_CLIENT_KEY 미설정 시 기존 외부 결제 링크(paymentUrl) 방식으로 동작
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { PACK_PRODUCTS, type PackType } from '@/lib/products'
+
+const NICEPAY_SDK_URL = 'https://pay.nicepay.co.kr/v1/js/'
+
+declare global {
+  interface Window {
+    AUTHNICE?: {
+      requestPay: (options: Record<string, unknown>) => void
+    }
+  }
+}
+
+// 나이스페이 JS SDK를 필요 시점에 1회만 로드
+function loadNicepaySdk(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (window.AUTHNICE) {
+      resolve()
+      return
+    }
+    const existing = document.querySelector(`script[src="${NICEPAY_SDK_URL}"]`)
+    if (existing) {
+      existing.addEventListener('load', () => resolve())
+      existing.addEventListener('error', () => reject(new Error('sdk_load_failed')))
+      return
+    }
+    const script = document.createElement('script')
+    script.src = NICEPAY_SDK_URL
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error('sdk_load_failed'))
+    document.head.appendChild(script)
+  })
+}
+
+// 주문번호와 서명된 주문 정보(mallReserved)는 서버(/api/purchase-intent)가 발급한다.
+// 클라이언트는 값을 만들지 않고 전달만 한다 — 상품·금액 위변조는 서버 검증에서 차단.
+interface PayInfo {
+  orderId: string
+  mallReserved: string
+  buyerEmail: string
+}
 
 function PurchaseSteps({ activeStep }: { activeStep: 1 | 2 | 3 }) {
   const steps = [
     { n: 1, label: '정보 입력' },
-    { n: 2, label: '결제 이동' },
+    { n: 2, label: '결제' },
     { n: 3, label: '이메일 발송' },
   ]
   return (
@@ -20,7 +61,7 @@ function PurchaseSteps({ activeStep }: { activeStep: 1 | 2 | 3 }) {
                 s.n <= activeStep ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-400'
               }`}
             >
-              {s.n < activeStep ? '\u2713' : s.n}
+              {s.n < activeStep ? '✓' : s.n}
             </span>
             <span
               className={`text-[10px] font-medium whitespace-nowrap ${
@@ -48,7 +89,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 type Status = 'idle' | 'loading' | 'ready' | 'not_configured' | 'error'
 
 interface Props {
-  packType: 'dev' | 'work' | 'blog' | 'starter_bundle'
+  packType: PackType
   packLabel: string
   price: string
   paymentUrl: string | null
@@ -61,9 +102,15 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
   const [agreed, setAgreed] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
   const [fieldError, setFieldError] = useState('')
+  const [payError, setPayError] = useState('')
+  const [payLoading, setPayLoading] = useState(false)
+  const [payInfo, setPayInfo] = useState<PayInfo | null>(null)
 
-  // 결제 URL 미설정 상태
-  if (!paymentUrl) {
+  const nicepayClientKey = process.env.NEXT_PUBLIC_NICEPAY_CLIENT_KEY ?? ''
+  const purchasable = Boolean(nicepayClientKey || paymentUrl)
+
+  // 결제 수단 미설정 상태
+  if (!purchasable) {
     return (
       <div className="border border-gray-100 rounded-2xl py-6 px-5 text-center bg-gray-50">
         <p className="text-sm font-medium text-gray-700 mb-1">
@@ -79,33 +126,98 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
     )
   }
 
-  // 정보 저장 완료 → 결제 이동 단계
+  // 나이스페이 결제창 호출
+  async function handleNicepayPay() {
+    setPayError('')
+
+    if (!payInfo) {
+      setPayError('주문 정보가 만료됐어요. 새로고침 후 다시 진행해주세요.')
+      return
+    }
+
+    setPayLoading(true)
+    try {
+      await loadNicepaySdk()
+      if (!window.AUTHNICE) throw new Error('sdk_load_failed')
+
+      // 운영에서는 NEXT_PUBLIC_SITE_URL(https://aisikim.com)로 returnUrl 고정
+      const returnBase = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+
+      window.AUTHNICE.requestPay({
+        clientId: nicepayClientKey,
+        method: 'card',
+        orderId: payInfo.orderId,
+        amount: PACK_PRODUCTS[packType].amount,
+        goodsName: PACK_PRODUCTS[packType].label,
+        buyerName: name.trim(),
+        buyerEmail: payInfo.buyerEmail,
+        buyerTel: phone.replace(/\D/g, ''),
+        returnUrl: `${returnBase}/api/payments/nicepay/return`,
+        mallReserved: payInfo.mallReserved,
+        fnError: (result: { errorMsg?: string }) => {
+          setPayLoading(false)
+          setPayError(result?.errorMsg || '결제창을 여는 중 문제가 생겼어요. 다시 시도해주세요.')
+        },
+      })
+      // 결제창이 열리면 이후 흐름은 returnUrl 리다이렉트로 이어짐
+      setPayLoading(false)
+    } catch {
+      setPayLoading(false)
+      setPayError('결제 모듈을 불러오지 못했어요. 새로고침 후 다시 시도해주세요.')
+    }
+  }
+
+  // 정보 저장 완료 → 결제 단계
   if (status === 'ready') {
     return (
       <div className="border border-indigo-200 bg-indigo-50 rounded-2xl px-5 py-6">
         <PurchaseSteps activeStep={2} />
         <div className="flex items-start gap-3 mb-5">
           <span className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-base">
-            \u2713
+            ✓
           </span>
           <div>
             <p className="text-sm font-semibold text-gray-900 mb-1">정보가 저장됐어요</p>
             <p className="text-sm text-gray-500 leading-relaxed">
-              아래 버튼으로 결제 페이지로 이동해주세요.<br />
-              결제 확인 후 입력하신 이메일로 PDF 자료를 보내드릴게요.
+              {nicepayClientKey ? (
+                <>
+                  아래 버튼을 누르면 결제창이 열려요.<br />
+                  결제가 완료되면 입력하신 이메일로 PDF 자료가 자동 발송돼요.
+                </>
+              ) : (
+                <>
+                  아래 버튼으로 결제 페이지로 이동해주세요.<br />
+                  결제 확인 후 입력하신 이메일로 PDF 자료를 보내드릴게요.
+                </>
+              )}
             </p>
           </div>
         </div>
-        <a
-          href={paymentUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700"
-        >
-          {price}으로 결제하기 →
-        </a>
+
+        {nicepayClientKey ? (
+          <button
+            type="button"
+            onClick={handleNicepayPay}
+            disabled={payLoading}
+            className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700 disabled:opacity-60"
+          >
+            {payLoading ? '결제창 여는 중...' : `${price}으로 결제하기 →`}
+          </button>
+        ) : (
+          <a
+            href={paymentUrl ?? '#'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700"
+          >
+            {price}으로 결제하기 →
+          </a>
+        )}
+
+        {payError && <p className="text-xs text-red-500 text-center mt-3">{payError}</p>}
+
         <p className="text-xs text-gray-400 text-center mt-3">
-          결제 창이 새 탭으로 열려요
+          {nicepayClientKey ? '나이스페이 안전결제를 사용해요' : '결제 창이 새 탭으로 열려요'}
         </p>
         <p className="text-xs text-gray-400 text-center mt-2 leading-relaxed">
           메일이 보이지 않으면 스팸함도 함께 확인해 주세요.<br />
@@ -167,6 +279,10 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
       })
 
       if (res.ok) {
+        const data = await res.json().catch(() => ({}))
+        if (data?.pay?.orderId && data?.pay?.mallReserved && data?.pay?.buyerEmail) {
+          setPayInfo(data.pay as PayInfo)
+        }
         setStatus('ready')
       } else {
         const data = await res.json().catch(() => ({}))
@@ -254,7 +370,7 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
           disabled={status === 'loading'}
           className="w-full bg-indigo-600 text-white font-semibold rounded-xl py-4 text-sm min-h-[52px] active:bg-indigo-700 disabled:opacity-60"
         >
-          {status === 'loading' ? '저장 중...' : `정보 저장 후 결제하기 \u2014 ${price}`}
+          {status === 'loading' ? '저장 중...' : `정보 저장 후 결제하기 — ${price}`}
         </button>
       </form>
 

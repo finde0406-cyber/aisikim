@@ -1,95 +1,97 @@
 # AI시킴 프로젝트 상태
 
-갱신: 2026-06-02 / Claude Code (유료 구매 전 정보 수집 + 운영자 발송 구조)
+갱신: 2026-07-31 / Claude Code (나이스페이 자동결제 + 자동 PDF 발송 구현)
 
 ---
 
 ## 현재 단계
 
-**유료 구매 흐름 운영 안전성 최종 보완 완료. 커밋 승인 대기 중.**
+**나이스페이 신모듈(결제창 + 서버 승인 + 자동 발송) 구현 완료. 커밋 승인 + 키 설정 + 샌드박스 테스트 대기.**
 
 ---
 
-## 커밋 이력
-
-| 해시 | 메시지 | 날짜 |
-|------|--------|------|
-| `c7de7c8` | assets: publish sample pack download pdf | 2026-06-01 |
-| `1b987c4` | feat: add internal sample pack intake and mail flow | 2026-06-01 |
-| `f72d4a6` | ux: align hero with mobile-first layout | 2026-06-01 |
-| `d0c4b03` | ux: redesign hero as selection-preview layout | 2026-06-01 |
-| `47e5431` | fix: regenerate favicon.ico with RGBA PNG layers | 2026-05-30 |
-
----
-
-## 현재 Git 상태
+## 결제 흐름 (구현 완료)
 
 ```
-브랜치: main
-
-modified (미커밋):
-  app/focused-pack/blog/page.tsx
-  app/focused-pack/dev/page.tsx
-  app/focused-pack/work/page.tsx
-  app/starter-pack/page.tsx
-  env.example
-  lib/mail-templates.ts
-
-untracked (미커밋):
-  app/api/internal/send-pack/route.ts
-  app/api/purchase-intent/route.ts
-  app/internal/send-pack/page.tsx
-  components/purchase/PrePaymentForm.tsx
+상품 페이지 → PrePaymentForm(이름·이메일·연락처·동의)
+→ /api/purchase-intent (의향 기록 + 관리자 알림)
+→ 나이스페이 결제창 (AUTHNICE.requestPay, 카드 단건)
+→ /api/payments/nicepay/return (인증 signature → 금액 검증 → 승인 API → 승인 signature)
+→ 구매자 PDF 자동 발송 + 관리자 알림
+→ /purchase/complete (실패 시 /purchase/failed)
 ```
 
----
-
-## 완료된 것 (커밋 기준)
-
-- 파비콘/메타데이터 보강 + Vercel 배포: 완료
-- 히어로 섹션 선택형 미리보기 개편: `d0c4b03`, `f72d4a6`
-- 샘플팩 내부 API 신청 구조 (mailer, templates, API): `1b987c4`
-- 샘플팩 PDF 발행: `c7de7c8`
-- **유료 구매 흐름 (미커밋):**
-  - `PrePaymentForm`: 구매 전 이름·이메일·연락처·동의 수집
-  - `/api/purchase-intent`: 의향 기록 + 관리자 알림
-  - `/internal/send-pack`: 운영자 1클릭 발송 화면 + API
+- `NEXT_PUBLIC_NICEPAY_CLIENT_KEY` 미설정 시 기존 나이스체크아웃 링크 방식으로 자동 fallback
+- 발송 실패 시: 관리자에게 수동 발송 요청 메일 + 구매자에겐 지연 안내 (`/internal/send-pack` 백업 유지)
 
 ---
 
-## 완료 확인된 항목
+## 미커밋 변경 (이번 작업)
 
-| 항목 | 상태 |
-|------|------|
-| 개인정보 처리방침 페이지 | 존재 |
-| 이용약관 페이지 | 존재 |
-| 샘플팩 5개 콘텐츠 실물 | PDF + Notion 완비, 배포됨 |
-| 파비콘 | 올바른 로고 배포 완료 |
-| 집중팩 3종 상세 페이지 | 커밋 완료 |
-| 히어로 섹션 개편 | 커밋 완료 |
-| 샘플팩 신청 내부 API | 커밋 완료 |
-| MAIL_PROVIDER + RESEND_API_KEY | 설정 완료 (샘플팩 발송 동작 확인) |
-| ADMIN_NOTIFY_EMAIL | 설정 완료 |
+```
+신규: lib/products.ts, lib/nicepay.ts, lib/pack-delivery.ts
+신규: app/api/payments/nicepay/return/route.ts
+신규: app/purchase/complete/page.tsx, app/purchase/failed/page.tsx
+수정: components/purchase/PrePaymentForm.tsx, app/api/payment-webhook/route.ts, env.example
+```
+
+※ 이전 세션의 미커밋 변경(홈 컴포넌트, threads 관련, deliverables 등)도 워킹트리에 함께 남아 있음.
 
 ---
 
-## 아직 미완료인 것
+## 포스타트 답변 반영 (2026-07-31)
 
-| 항목 | 긴급도 | 비고 |
-|------|--------|------|
-| 이번 변경 커밋 승인 | 높음 | 사용자 승인 후 진행 |
-| INTERNAL_ACCESS_KEY Vercel 설정 | 높음 | 운영자 발송 화면 인증 |
-| 집중팩 3종 + 번들 자료 링크 env 설정 | 높음 | DEV/WORK/BLOG_PACK_PDF_URL 등 |
-| OG 이미지 제작 | 중간 | SNS 썸네일 없음 |
+- 운영 상점에 테스트 키 없음 → **샌드박스 테스트 불가**
+- 단건결제 카드사 심사·셋팅 완료 → **정식오픈 상태**
+- 검증 방법: **운영 키로 실결제 1건 → 승인·자동 발송 확인 → 당일 자정 전 매출취소** (나이스페이 관리자 화면에서 취소)
 
----
+## 운영 결제 전 최종 점검 결과 (2026-07-31)
+
+코드: 상품명 "바이브코딩 웹서비스 출시 작업지시서팩" / 9,900원 — 페이지·결제창(goodsName)·서버 검증(lib/products.ts)·메일 모두 단일 출처로 일치. lint/tsc/build 통과.
+
+환경변수(.env.local 기준, 값 미출력):
+
+| 항목 | 상태 | 조치 |
+|------|------|------|
+| 나이스페이 클라이언트/시크릿 키 | 설정됨 | — |
+| 메일 (RESEND, MAIL_FROM, ADMIN_NOTIFY_EMAIL) | 설정됨 | — |
+| **NICEPAY_ENV** | `test` | **`production`으로 변경 필요** — 코드가 production일 때만 운영 승인 API(api.nicepay.co.kr) 호출. test면 sandbox로 가서 승인 실패 |
+| **팩 자료 링크 (DEV_PACK_PDF_URL 등)** | **전부 미설정** | 미설정 시 자동 발송 메일에 다운로드 링크가 비어서 감. dev팩 PDF는 `public/downloads/aisikim-vibecoding-launch-pack-v2.pdf`(미커밋)이므로 커밋·배포 후 `https://aisikim.com/downloads/...` 로 설정 |
+| NEXT_PUBLIC_SITE_URL | 미설정 | 운영 배포 env에 `https://aisikim.com` 추가 권장 |
+| INTERNAL_ACCESS_KEY | 미설정 | 백업 수동 발송(/internal/send-pack) 사용하려면 설정 필요 |
+| SAMPLE_PACK_NOTION_URL | 비어있음 | 샘플팩 메일에 Notion 링크 빠짐 (운영 테스트와 무관, 참고) |
+
+Vercel 환경변수는 별도 — 대시보드에서 직접 입력 후 재배포 필요 (시크릿은 채팅/문서에 기록하지 않음).
+
+## 배포 전 최종 점검 완료 (2026-07-31, Codex 재검토 통과 후)
+
+- Codex 재검토: P1 3건 + P2 반영 확인됨 (코드 승인)
+- `.env.local` 정비: `NICEPAY_ENV=production` 변경, `NEXT_PUBLIC_SITE_URL`, `DEV_PACK_PDF_URL` 추가 (시크릿 미변경·미출력)
+- **로컬 스모크 테스트 ALL PASS** (실과금 없음, localhost:3456):
+  1. purchase-intent가 서버 발급 주문(orderId/mallReserved/buyerEmail) 반환 ✓
+  2. 인증 서명 위조 → `reason=signature` 차단 ✓
+  3. 상품 바꿔치기(dev→work) → `reason=invalid_order` 차단 ✓
+  4. 금액 위조(100원) → `reason=amount_mismatch` 차단 ✓
+  5. 정상 형식 + 가짜 tid → **운영 API(api.nicepay.co.kr) 도달, U121 거절** → `reason=approval` ✓
+     (production 라우팅·Basic 인증 정상 작동 증명)
+- 부수 효과: 스모크 테스트 중 관리자 알림 메일 1건 발송됨 (구매 의향: 스모크테스트 — 무시할 것)
+
+## 운영 결제 테스트 절차 (1건 한정)
+
+1. 커밋 승인 → push (Vercel 자동 배포, remote: github.com/finde0406-cyber/aisikim)
+2. Vercel env: 나이스페이 키 2종 + `NICEPAY_ENV=production` + `NEXT_PUBLIC_SITE_URL` + `DEV_PACK_PDF_URL` + (선택) INTERNAL_ACCESS_KEY → 재배포
+3. aisikim.com/focused-pack/dev 에서 실제 카드로 9,900원 결제 1건 (평일 낮 권장)
+4. 확인: /purchase/complete 도착 + 구매자 메일 자동 수신(링크 포함) + 관리자 알림 수신 + Vercel 함수 로그
+5. **당일 자정 전** 나이스페이 관리자 화면에서 매출취소 (주문번호·결제시각 기록해둘 것)
+6. 결과 보고 후에만 추가 배포/운영 전환
 
 ## 다음 단계
 
-1. 커밋 승인 → `feat: add pre-payment form and internal send panel`
-2. `.env.local` + Vercel 대시보드에 env 설정
-3. `/internal/send-pack` 접속 + 발송 테스트
-4. 집중팩 실물 콘텐츠 링크 env 설정
+1. 커밋 승인 → `feat: integrate nicepay payment window with auto pdf delivery`
+2. `.env.local` + Vercel: `NEXT_PUBLIC_NICEPAY_CLIENT_KEY` / `NICEPAY_SECRET_KEY` / `NICEPAY_ENV=sandbox`
+3. 샌드박스 테스트 결제 (평일 낮, 당일 자정 전 취소 — 체크리스트 11장)
+4. 운영 전환: `NICEPAY_ENV=production` + 포스타트 결제경로 캡처 제출 (체크리스트 12장 — /purchase/complete 화면 포함 가능해짐)
+5. 각 팩 자료 링크 env (`DEV/WORK/BLOG_PACK_PDF_URL` 등) 설정 확인
 
 ---
 
@@ -97,5 +99,5 @@ untracked (미커밋):
 
 1. `git status` / `git log --oneline -5`
 2. 이 파일 확인
-3. `docs/handoffs/claude-latest-report.md` 확인
-4. `env.example` — 필요한 env var 목록 확인
+3. `docs/handoffs/claude-latest-report.md` — 이번 구현 상세
+4. `docs/nicepay-integration-checklist-v1.md` — 검증 8단계·테스트 주의사항

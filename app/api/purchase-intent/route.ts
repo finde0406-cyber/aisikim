@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendEmail } from '@/lib/mailer'
 import { purchaseIntentAdminHtml } from '@/lib/mail-templates'
+import { getNicepayConfig, makeOrderId, buildMallReserved } from '@/lib/nicepay'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const VALID_PACK_TYPES = ['dev', 'work', 'blog', 'starter_bundle']
@@ -86,6 +87,19 @@ export async function POST(req: NextRequest) {
   if (!notifyResult.ok) {
     console.error('[purchase-intent] 관리자 알림 발송 실패:', notifyResult.error)
     return NextResponse.json({ error: 'notify_failed' }, { status: 500 })
+  }
+
+  // 나이스페이 사용 시: 서버가 주문번호 + 서명된 주문 정보(mallReserved)를 발급.
+  // 상품·이메일이 결제 과정에서 바뀌면 return 라우트의 HMAC 검증에서 차단된다.
+  if (getNicepayConfig()) {
+    const orderId = makeOrderId(packType)
+    const mallReserved = buildMallReserved(orderId, packType, cleanEmail)
+    if (mallReserved) {
+      return NextResponse.json({
+        success: true,
+        pay: { orderId, mallReserved, buyerEmail: cleanEmail },
+      })
+    }
   }
 
   return NextResponse.json({ success: true })
