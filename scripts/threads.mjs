@@ -77,6 +77,69 @@ async function publishText(token, text) {
   return published
 }
 
+async function status(token) {
+  const me = await verify(token)
+  const list = await api('/me/threads', {
+    params: {
+      fields: 'id,text,permalink,timestamp',
+      limit: '10',
+      access_token: token,
+    },
+  })
+  const posts = list.data ?? []
+  if (posts.length === 0) {
+    console.log('발행된 글이 없습니다')
+    return
+  }
+  for (const p of posts) {
+    let metrics = 'insights 조회 실패'
+    try {
+      const ins = await api(`/${p.id}/insights`, {
+        params: { metric: 'views,likes,replies,reposts,quotes', access_token: token },
+      })
+      const m = {}
+      for (const d of ins.data ?? []) m[d.name] = d.values?.[0]?.value ?? d.total_value?.value ?? 0
+      metrics = `조회 ${m.views ?? 0} · 좋아요 ${m.likes ?? 0} · 답글 ${m.replies ?? 0} · 리포스트 ${m.reposts ?? 0}`
+    } catch (err) {
+      metrics = `insights 오류: ${err.message}`
+    }
+    const preview = (p.text ?? '').replace(/\s+/g, ' ').slice(0, 30)
+    console.log(`[${p.timestamp}] "${preview}..." — ${metrics}`)
+    console.log(`  ${p.permalink}`)
+  }
+}
+
+async function search(token, query) {
+  const res = await api('/keyword_search', {
+    params: {
+      q: query,
+      search_type: 'RECENT',
+      fields: 'id,text,username,permalink,timestamp',
+      access_token: token,
+    },
+  })
+  const posts = (res.data ?? []).slice(0, 8)
+  for (const p of posts) {
+    const preview = (p.text ?? '').replace(/\s+/g, ' ').slice(0, 50)
+    console.log(`[${p.id}] @${p.username}: "${preview}..."`)
+    console.log(`  ${p.permalink}`)
+  }
+  return posts
+}
+
+async function reply(token, replyToId, text) {
+  const container = await api('/me/threads', {
+    method: 'POST',
+    params: { media_type: 'TEXT', text, reply_to_id: replyToId, access_token: token },
+  })
+  await new Promise((r) => setTimeout(r, 2000))
+  const published = await api('/me/threads_publish', {
+    method: 'POST',
+    params: { creation_id: container.id, access_token: token },
+  })
+  console.log(`답글 발행: ${published.id}`)
+}
+
 async function refresh(token) {
   const data = await api('https://graph.threads.net/refresh_access_token', {
     params: { grant_type: 'th_refresh_token', access_token: token },
@@ -109,8 +172,15 @@ try {
     await publishText(token, text)
   } else if (cmd === 'refresh') {
     await refresh(token)
+  } else if (cmd === 'status') {
+    await status(token)
+  } else if (cmd === 'search') {
+    await search(token, args.join(' '))
+  } else if (cmd === 'reply') {
+    const [replyToId, ...rest] = args
+    await reply(token, replyToId, rest.join(' '))
   } else {
-    console.log('사용법: node scripts/threads.mjs verify | publish "내용" | publish-file 경로 | refresh')
+    console.log('사용법: node scripts/threads.mjs verify | publish "내용" | publish-file 경로 | refresh | status | search "키워드" | reply <id> "내용"')
     process.exit(1)
   }
 } catch (err) {
