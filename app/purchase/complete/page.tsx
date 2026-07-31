@@ -47,6 +47,33 @@ export default async function PurchaseCompletePage({
           <p className="text-xs text-gray-400 mb-8">주문번호: {orderId}</p>
         )}
 
+        {/* 업셀 — 구매 직후가 다음 제안의 최적 시점 */}
+        {isPackType(packType) && packType !== 'starter_bundle' ? (
+          <Link
+            href="/starter-pack"
+            className="block border border-indigo-200 bg-indigo-50 rounded-xl p-4 text-left mb-6"
+          >
+            <p className="text-xs font-semibold text-indigo-600 mb-1">이 팩이 잘 맞았다면</p>
+            <p className="text-sm font-medium text-gray-800 mb-1">통합 스타터팩 번들 — 24,900원</p>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              지금 분야를 포함해 5개 분야 × 10개, 작업지시서 50개를 한 번에.
+            </p>
+            <p className="text-xs font-semibold text-indigo-500 mt-2">번들 보기 →</p>
+          </Link>
+        ) : isPackType(packType) ? (
+          <Link
+            href="/focused-pack/dev"
+            className="block border border-indigo-200 bg-indigo-50 rounded-xl p-4 text-left mb-6"
+          >
+            <p className="text-xs font-semibold text-indigo-600 mb-1">번들과 함께 보면 좋은 것</p>
+            <p className="text-sm font-medium text-gray-800 mb-1">바이브코딩 웹서비스 출시 작업지시서팩 — 9,900원</p>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              아이디어부터 실제 출시·홍보까지, 번들에 없는 심화 실행 흐름 15개.
+            </p>
+            <p className="text-xs font-semibold text-indigo-500 mt-2">자세히 보기 →</p>
+          </Link>
+        ) : null}
+
         <Link
           href="/"
           className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700 mb-4"

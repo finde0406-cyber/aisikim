@@ -13,6 +13,13 @@ const PACK_LABEL: Record<string, string> = {
   starter_bundle: '통합 스타터팩 번들',
 }
 
+const PACK_PAGE_URL: Record<string, string> = {
+  dev: 'https://aisikim.com/focused-pack/dev',
+  work: 'https://aisikim.com/focused-pack/work',
+  blog: 'https://aisikim.com/focused-pack/blog',
+  starter_bundle: 'https://aisikim.com/starter-pack',
+}
+
 function baseLayout(content: string): string {
   return `<!DOCTYPE html>
 <html lang="ko">
@@ -70,10 +77,26 @@ export function samplePackEmailHtml(data: {
       </ul>
     </div>
     ${links}
-    <p style="margin:16px 0 0;font-size:13px;color:#6b7280;line-height:1.7;">
-      샘플팩을 써보신 뒤, 더 깊게 활용하고 싶은 분야가 생기면<br />
-      카테고리 집중팩으로 이어가실 수 있어요.
-    </p>
+    <div style="background:#eef2ff;border-radius:8px;padding:16px;margin-top:16px;">
+      <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#4338ca;">써보기 전에 딱 하나만 기억하세요</p>
+      <p style="margin:0;font-size:13px;color:#4b5563;line-height:1.7;">
+        AI에게 "잘 써줘"라고 막연하게 부탁하면 뻔한 답이 나와요.<br />
+        샘플팩처럼 <strong>상황·요청·원하는 결과물</strong>을 정해서 시키면 결과가 완전히 달라져요.
+      </p>
+    </div>
+    <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-top:16px;">
+      <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#374151;">
+        ${data.category && PACK_LABEL[data.category] ? `${categoryLabel} 분야를 더 깊게 쓰고 싶다면` : '샘플이 잘 맞았다면'}
+      </p>
+      <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.7;">
+        ${
+          data.category && PACK_LABEL[data.category]
+            ? `<strong>${PACK_LABEL[data.category]}</strong> — 첫 질문부터 수정·검수까지 이어지는 실행 흐름 (9,900원)`
+            : `<strong>통합 스타터팩 번들</strong> — 5개 분야 × 10개, 작업지시서 50개 (24,900원)`
+        }
+      </p>
+      <a href="${(data.category && PACK_PAGE_URL[data.category]) ?? 'https://aisikim.com/starter-pack'}" style="display:inline-block;background:#4f46e5;color:#fff;text-decoration:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;">자세히 보기</a>
+    </div>
   `)
 }
 
@@ -116,6 +139,26 @@ export function packDeliveryEmailHtml(data: {
         <li>상황에 맞게 변수(서비스명, 주제 등)만 바꾸면 돼요</li>
       </ol>
     </div>
+    ${
+      data.packType === 'starter_bundle'
+        ? `<div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-top:16px;">
+            <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#374151;">번들과 함께 보면 좋은 것</p>
+            <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.7;">
+              <strong>바이브코딩 웹서비스 출시 작업지시서팩</strong> — 아이디어부터 실제 출시·홍보까지, 번들에 없는 심화 실행 흐름 15개 (9,900원)
+            </p>
+            <a href="${PACK_PAGE_URL.dev}" style="display:inline-block;background:#4f46e5;color:#fff;text-decoration:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;">자세히 보기</a>
+          </div>`
+        : `<div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-top:16px;">
+            <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#374151;">이 팩이 잘 맞았다면</p>
+            <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.7;">
+              <strong>통합 스타터팩 번들</strong> — 지금 분야를 포함해 5개 분야 × 10개, 작업지시서 50개를 한 번에 (24,900원)
+            </p>
+            <a href="${PACK_PAGE_URL.starter_bundle}" style="display:inline-block;background:#4f46e5;color:#fff;text-decoration:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;">번들 보기</a>
+          </div>`
+    }
+    <p style="margin:16px 0 0;font-size:13px;color:#6b7280;line-height:1.7;">
+      쓰다가 막히는 부분이 있으면 이 메일에 답장으로 물어보세요. 직접 답변드려요.
+    </p>
   `)
 }
 
