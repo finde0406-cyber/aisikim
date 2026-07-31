@@ -162,7 +162,7 @@ export function purchaseIntentAdminHtml(data: {
 
   return baseLayout(`
     <h2 style="margin:0 0 16px;font-size:18px;color:#111827;">[AI시킴] 유료팩 구매 의향 접수</h2>
-    <p style="margin:0 0 12px;font-size:13px;color:#4b5563;">결제 페이지로 이동한 구매자 정보입니다. 결제 확인 후 자료를 발송해주세요.</p>
+    <p style="margin:0 0 12px;font-size:13px;color:#4b5563;">결제 단계로 이동한 구매자 정보입니다. 아직 결제 전이며, 결제가 완료되면 별도의 결제 완료 알림이 도착합니다.</p>
     <table style="width:100%;border-collapse:collapse;font-size:14px;">
       <tr><td style="padding:6px 12px;color:#6b7280;">이름</td><td style="padding:6px 12px;">${data.name}</td></tr>
       <tr><td style="padding:6px 12px;color:#6b7280;">이메일</td><td style="padding:6px 12px;">${data.email}</td></tr>
@@ -171,7 +171,8 @@ export function purchaseIntentAdminHtml(data: {
       <tr><td style="padding:6px 12px;color:#6b7280;">접수 시각</td><td style="padding:6px 12px;">${now}</td></tr>
     </table>
     <div style="margin-top:16px;padding:12px;background:#f0fdf4;border-radius:8px;font-size:13px;color:#166534;">
-      결제 확인 후 /internal/send-pack 에서 자료를 발송해주세요.
+      결제가 완료되면 자료가 이메일로 자동 발송됩니다. 별도 조치는 필요 없어요.<br />
+      단, 결제 완료 알림에 발송 실패 안내가 있을 때만 /internal/send-pack 에서 수동 발송해주세요.
     </div>
   `)
 }
