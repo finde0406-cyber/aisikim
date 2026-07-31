@@ -89,8 +89,6 @@ const FAQ = [
 ]
 
 export default function DevFocusedPackPage() {
-  const paymentUrl = process.env.NEXT_PUBLIC_DEV_PACK_URL ?? null
-
   return (
     <>
       <main className="flex flex-col px-4 py-10 pb-20">
@@ -235,7 +233,6 @@ export default function DevFocusedPackPage() {
             packType="dev"
             packLabel="바이브코딩 웹서비스 출시 작업지시서팩"
             price="9,900원"
-            paymentUrl={paymentUrl}
           />
         </div>
 

@@ -86,7 +86,6 @@ const FAQ = [
 ]
 
 export default function BlogFocusedPackPage() {
-  const paymentUrl = process.env.NEXT_PUBLIC_BLOG_PACK_URL ?? null
 
   return (
     <main className="flex flex-col px-4 py-10 pb-20">
@@ -230,7 +229,6 @@ export default function BlogFocusedPackPage() {
             packType="blog"
             packLabel="블로그/콘텐츠 집중팩"
             price="9,900원"
-            paymentUrl={paymentUrl}
           />
         </div>
 

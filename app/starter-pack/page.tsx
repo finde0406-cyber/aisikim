@@ -72,7 +72,7 @@ const WHO_NEEDS = [
 ]
 
 export default function StarterPackPage() {
-  const paymentUrl = process.env.NEXT_PUBLIC_PAYMENT_URL ?? null
+  const purchasable = Boolean(process.env.NEXT_PUBLIC_NICEPAY_CLIENT_KEY)
   const FAQ = [
     {
       q: '어떤 형식으로 제공되나요?',
@@ -84,11 +84,9 @@ export default function StarterPackPage() {
     },
     {
       q: '결제와 자료 수령은 어떻게 되나요?',
-      a: process.env.NEXT_PUBLIC_NICEPAY_CLIENT_KEY
+      a: purchasable
         ? '구매 전 AI시킴에서 입력하신 이메일 주소로 PDF 파일과 Notion 링크를 보내드려요. 결제가 완료되면 자동으로 바로 발송돼요.'
-        : paymentUrl
-          ? '구매 전 AI시킴에서 입력하신 이메일 주소로 PDF 파일과 Notion 링크를 보내드려요. 결제 확인 후 영업일 기준 1~2일 내 발송돼요.'
-          : '결제 방법과 자료 수령 방법은 구매 페이지에서 확인할 수 있어요.',
+        : '결제 방법과 자료 수령 방법은 구매 페이지에서 확인할 수 있어요.',
     },
     {
       q: '디지털 상품 환불은 어떻게 되나요?',
@@ -106,7 +104,7 @@ export default function StarterPackPage() {
         </Link>
 
         {/* --- 섹션 1: 히어로 --- */}
-        {paymentUrl && (
+        {purchasable && (
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium mb-4 bg-indigo-100 text-indigo-700">
             구매하기
           </span>
@@ -261,7 +259,6 @@ export default function StarterPackPage() {
             packType="starter_bundle"
             packLabel="통합 스타터팩 번들"
             price="24,900원"
-            paymentUrl={paymentUrl}
           />
         </div>
 

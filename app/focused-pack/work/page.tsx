@@ -84,7 +84,6 @@ const FAQ = [
 ]
 
 export default function WorkFocusedPackPage() {
-  const paymentUrl = process.env.NEXT_PUBLIC_WORK_PACK_URL ?? null
 
   return (
     <main className="flex flex-col px-4 py-10 pb-20">
@@ -228,7 +227,6 @@ export default function WorkFocusedPackPage() {
             packType="work"
             packLabel="업무/보고서 집중팩"
             price="9,900원"
-            paymentUrl={paymentUrl}
           />
         </div>
 

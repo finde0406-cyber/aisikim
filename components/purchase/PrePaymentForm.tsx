@@ -1,6 +1,6 @@
 'use client'
 // 유료팩 구매 전 연락처 수집 폼 — 정보 저장 후 나이스페이 결제창 호출
-// NEXT_PUBLIC_NICEPAY_CLIENT_KEY 미설정 시 기존 외부 결제 링크(paymentUrl) 방식으로 동작
+// NEXT_PUBLIC_NICEPAY_CLIENT_KEY 미설정 시 구매 불가 안내로 안전하게 전환
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -92,10 +92,9 @@ interface Props {
   packType: PackType
   packLabel: string
   price: string
-  paymentUrl: string | null
 }
 
-export default function PrePaymentForm({ packType, packLabel, price, paymentUrl }: Props) {
+export default function PrePaymentForm({ packType, packLabel, price }: Props) {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -107,10 +106,9 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
   const [payInfo, setPayInfo] = useState<PayInfo | null>(null)
 
   const nicepayClientKey = process.env.NEXT_PUBLIC_NICEPAY_CLIENT_KEY ?? ''
-  const purchasable = Boolean(nicepayClientKey || paymentUrl)
 
   // 결제 수단 미설정 상태
-  if (!purchasable) {
+  if (!nicepayClientKey) {
     return (
       <div className="border border-gray-100 rounded-2xl py-6 px-5 text-center bg-gray-50">
         <p className="text-sm font-medium text-gray-700 mb-1">
@@ -179,45 +177,25 @@ export default function PrePaymentForm({ packType, packLabel, price, paymentUrl 
           <div>
             <p className="text-sm font-semibold text-gray-900 mb-1">정보가 저장됐어요</p>
             <p className="text-sm text-gray-500 leading-relaxed">
-              {nicepayClientKey ? (
-                <>
-                  아래 버튼을 누르면 결제창이 열려요.<br />
-                  결제가 완료되면 입력하신 이메일로 PDF 자료가 자동 발송돼요.
-                </>
-              ) : (
-                <>
-                  아래 버튼으로 결제 페이지로 이동해주세요.<br />
-                  결제 확인 후 입력하신 이메일로 PDF 자료를 보내드릴게요.
-                </>
-              )}
+              아래 버튼을 누르면 결제창이 열려요.<br />
+              결제가 완료되면 입력하신 이메일로 PDF 자료가 자동 발송돼요.
             </p>
           </div>
         </div>
 
-        {nicepayClientKey ? (
-          <button
-            type="button"
-            onClick={handleNicepayPay}
-            disabled={payLoading}
-            className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700 disabled:opacity-60"
-          >
-            {payLoading ? '결제창 여는 중...' : `${price}으로 결제하기 →`}
-          </button>
-        ) : (
-          <a
-            href={paymentUrl ?? '#'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700"
-          >
-            {price}으로 결제하기 →
-          </a>
-        )}
+        <button
+          type="button"
+          onClick={handleNicepayPay}
+          disabled={payLoading}
+          className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700 disabled:opacity-60"
+        >
+          {payLoading ? '결제창 여는 중...' : `${price}으로 결제하기 →`}
+        </button>
 
         {payError && <p className="text-xs text-red-500 text-center mt-3">{payError}</p>}
 
         <p className="text-xs text-gray-400 text-center mt-3">
-          {nicepayClientKey ? '나이스페이 안전결제를 사용해요' : '결제 창이 새 탭으로 열려요'}
+          나이스페이 안전결제를 사용해요
         </p>
         <p className="text-xs text-gray-400 text-center mt-2 leading-relaxed">
           메일이 보이지 않으면 스팸함도 함께 확인해 주세요.<br />

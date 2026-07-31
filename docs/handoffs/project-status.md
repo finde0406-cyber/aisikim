@@ -1,12 +1,23 @@
 # AI시킴 프로젝트 상태
 
-갱신: 2026-07-31 / Claude Code (나이스페이 자동결제 + 자동 PDF 발송 구현)
+갱신: 2026-07-31 / Claude Code (실결제 검증 성공 + 법적 페이지 작성)
 
 ---
 
 ## 현재 단계
 
-**나이스페이 신모듈(결제창 + 서버 승인 + 자동 발송) 구현 완료. 커밋 승인 + 키 설정 + 샌드박스 테스트 대기.**
+**✅ 실결제 1건으로 전 구간 검증 성공 (2026-07-31 15:58, 승인번호 18901505, 주문 aisikim-dev-20260731065601-bj7387 — 당일 자정 전 취소 필수).**
+결제창 → 카드 인증 → 서버 승인 → signature 검증 → PDF 자동 발송 → 관리자 알림 → 완료 페이지 전부 정상.
+
+트러블슈팅 기록: 최초 결제창에서 "가맹점 식별코드(clientId) 오류" — 원인은 PowerShell 파이프로 Vercel env 등록 시 값 앞에 BOM(﻿)이 붙은 것. Node spawnSync(input)로 8개 변수 재등록 + 재배포로 해결. 이후 env 등록은 반드시 BOM 없는 방식 사용.
+
+2026-07-31 추가: 실결제 테스트 건 당일 매출취소 완료. 약관·개인정보처리방침 커밋됨(02651b6).
+
+**나이스체크아웃 해지 (2026-07-31):** 사용자가 체크아웃 스토어 해지 신청 (나이스페이 결제창과 별개 서비스 확인). 이에 따라:
+- Vercel·.env.local에서 옛 체크아웃 링크 env 4종 제거 (NEXT_PUBLIC_PAYMENT_URL, NEXT_PUBLIC_DEV/WORK/BLOG_PACK_URL)
+- PrePaymentForm에서 paymentUrl prop·fallback 링크 분기 제거 — 나이스페이 단일 경로, 키 미설정 시 "구매 불가" 안내
+- 4개 상품 페이지에서 paymentUrl 전달 제거, env.example 정리
+- 미커밋 상태 — 커밋 승인 대기 (lint/build 통과)
 
 ---
 
@@ -76,14 +87,23 @@ Vercel 환경변수는 별도 — 대시보드에서 직접 입력 후 재배포
      (production 라우팅·Basic 인증 정상 작동 증명)
 - 부수 효과: 스모크 테스트 중 관리자 알림 메일 1건 발송됨 (구매 의향: 스모크테스트 — 무시할 것)
 
-## 운영 결제 테스트 절차 (1건 한정)
+## 배포·환경 설정 완료 (2026-07-31)
 
-1. 커밋 승인 → push (Vercel 자동 배포, remote: github.com/finde0406-cyber/aisikim)
-2. Vercel env: 나이스페이 키 2종 + `NICEPAY_ENV=production` + `NEXT_PUBLIC_SITE_URL` + `DEV_PACK_PDF_URL` + (선택) INTERNAL_ACCESS_KEY → 재배포
-3. aisikim.com/focused-pack/dev 에서 실제 카드로 9,900원 결제 1건 (평일 낮 권장)
-4. 확인: /purchase/complete 도착 + 구매자 메일 자동 수신(링크 포함) + 관리자 알림 수신 + Vercel 함수 로그
-5. **당일 자정 전** 나이스페이 관리자 화면에서 매출취소 (주문번호·결제시각 기록해둘 것)
-6. 결과 보고 후에만 추가 배포/운영 전환
+- 커밋 `9f853f0` push → GitHub 연동 자동 배포 확인
+- Vercel CLI(계정 finde0406-cyber)로 Production env 등록: `NEXT_PUBLIC_NICEPAY_CLIENT_KEY`, `NICEPAY_SECRET_KEY`, `NICEPAY_ENV=production`, `NEXT_PUBLIC_SITE_URL` (값 비출력, Sensitive 타입)
+- `DEV_PACK_PDF_URL`(59일 전 값) → `https://aisikim.com/downloads/aisikim-vibecoding-launch-pack-v2.pdf` 로 교체
+- v2 PDF 운영 서빙 확인 (200, application/pdf, 170KB)
+- `vercel redeploy` 완료 → aisikim.com 별칭 연결
+- 운영 프로브: return 엔드포인트가 `reason=auth` 응답 → **키 설정 게이트 통과 확인** (미설정 시 not_configured)
+- 참고: `vercel link`가 `.gitignore` 수정(미커밋) + `.env.local`에 VERCEL_OIDC_TOKEN 추가 (무해)
+
+## 운영 결제 테스트 절차 (1건 한정 — 사용자 실행 대기)
+
+1. aisikim.com/focused-pack/dev → 정보 입력 → "9,900원으로 결제하기" 클릭 시 **나이스페이 결제창이 뜨는지** 확인 (카드 입력 전까지 과금 없음)
+2. 실제 카드로 9,900원 결제 1건 (평일 낮 권장)
+3. 확인 3종: /purchase/complete 도착 + 구매자 메일(PDF 링크 포함) + 관리자 알림
+4. **당일 자정 전** 나이스페이 관리자 화면에서 매출취소 (주문번호·결제시각 기록)
+5. 결과 보고 후 정식 운영 전환
 
 ## 다음 단계
 
