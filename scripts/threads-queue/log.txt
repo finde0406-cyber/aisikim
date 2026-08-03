@@ -1,1 +1,5 @@
 [2026-07-31T08:55:29.694Z] [DRY] 발행 예정 파일: 002.txt (269자) — 실제 발행 안 함
+[2026-07-31T23:40:18.542Z] 발행 완료: 002.txt → https://www.threads.com/@system_flow_official/post/Dbed0IUE4_i (큐 잔여 6개)
+[2026-08-01T23:40:02.989Z] 토큰 갱신 완료 (60일 유효)
+[2026-08-01T23:40:10.173Z] 발행 완료: 003.txt → https://www.threads.com/@system_flow_official/post/DbhCm8OE5a2 (큐 잔여 5개)
+[2026-08-02T23:40:11.223Z] 발행 완료: 004.txt → https://www.threads.com/@system_flow_official/post/DbjnZzlk0xQ (큐 잔여 4개)

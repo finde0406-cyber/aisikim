@@ -17,6 +17,11 @@ const ARTICLES = [
     title: 'AI에게 보고서 초안을 쓰게 하는 법',
     desc: '"보고서 써줘"가 실패하는 이유와, 실무 수준 초안을 받는 작업지시서 4요소',
   },
+  {
+    href: '/guide/ai-blog',
+    title: 'ChatGPT로 블로그 글 쓰면 다 비슷해지는 이유',
+    desc: '검색 유입이 붙는 글과 안 붙는 글의 차이, 작업지시서로 바꾸는 법',
+  },
 ]
 
 export default function GuideIndexPage() {
