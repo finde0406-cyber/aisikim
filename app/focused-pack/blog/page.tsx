@@ -232,7 +232,6 @@ export default function BlogFocusedPackPage() {
           <PrePaymentForm
             packType="blog"
             packLabel="블로그/콘텐츠 집중팩"
-            price="9,900원"
           />
         </div>
 

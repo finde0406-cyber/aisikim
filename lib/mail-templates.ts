@@ -1,5 +1,7 @@
 // 이메일 HTML 템플릿 생성 함수 — 샘플팩·유료팩·관리자 알림
 
+import { getEffectivePackProduct } from '@/lib/products'
+
 const CATEGORY_LABEL: Record<string, string> = {
   blog: '블로그/콘텐츠',
   work: '업무/보고서',
@@ -51,6 +53,10 @@ export function samplePackEmailHtml(data: {
   const categoryLabel = (data.category && CATEGORY_LABEL[data.category]) ?? '전체'
   const pdfUrl = process.env.SAMPLE_PACK_PDF_URL
   const notionUrl = process.env.SAMPLE_PACK_NOTION_URL
+  const devPriceNote =
+    getEffectivePackProduct('dev').priceText === '9,900원'
+      ? '9,900원'
+      : `${getEffectivePackProduct('dev').priceText}, 지금 런칭 특가`
 
   const links =
     pdfUrl || notionUrl
@@ -91,7 +97,7 @@ export function samplePackEmailHtml(data: {
       <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.7;">
         ${
           data.category && PACK_LABEL[data.category]
-            ? `<strong>${PACK_LABEL[data.category]}</strong> — 첫 질문부터 수정·검수까지 이어지는 실행 흐름 (9,900원)`
+            ? `<strong>${PACK_LABEL[data.category]}</strong> — 첫 질문부터 수정·검수까지 이어지는 실행 흐름 (${data.category === 'dev' ? devPriceNote : '9,900원'})`
             : `<strong>통합 스타터팩 번들</strong> — 5개 분야 × 10개, 작업지시서 50개 (24,900원)`
         }
       </p>
@@ -109,6 +115,10 @@ export function packDeliveryEmailHtml(data: {
   guideUrl?: string
 }): string {
   const packLabel = PACK_LABEL[data.packType] ?? '작업지시서팩'
+  const devPriceNote =
+    getEffectivePackProduct('dev').priceText === '9,900원'
+      ? '9,900원'
+      : `${getEffectivePackProduct('dev').priceText}, 지금 런칭 특가`
 
   const links = [
     data.pdfUrl
@@ -144,7 +154,7 @@ export function packDeliveryEmailHtml(data: {
         ? `<div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-top:16px;">
             <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#374151;">번들과 함께 보면 좋은 것</p>
             <p style="margin:0 0 12px;font-size:13px;color:#6b7280;line-height:1.7;">
-              <strong>바이브코딩 웹서비스 출시 작업지시서팩</strong> — 아이디어부터 실제 출시·홍보까지, 번들에 없는 심화 실행 흐름 15개 (9,900원)
+              <strong>바이브코딩 웹서비스 출시 작업지시서팩</strong> — 아이디어부터 실제 출시·홍보까지, 번들에 없는 심화 실행 흐름 15개 (${devPriceNote})
             </p>
             <a href="${PACK_PAGE_URL.dev}" style="display:inline-block;background:#4f46e5;color:#fff;text-decoration:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;">자세히 보기</a>
           </div>`

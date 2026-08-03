@@ -1,7 +1,7 @@
 // 결제 완료 안내 페이지 — 나이스페이 승인 + 자동 발송 후 도착
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { PACK_PRODUCTS, isPackType } from '@/lib/products'
+import { PACK_PRODUCTS, isPackType, getEffectivePackProduct } from '@/lib/products'
 
 export const metadata: Metadata = {
   title: '결제 완료 | AI시킴',
@@ -66,7 +66,9 @@ export default async function PurchaseCompletePage({
             className="block border border-indigo-200 bg-indigo-50 rounded-xl p-4 text-left mb-6"
           >
             <p className="text-xs font-semibold text-indigo-600 mb-1">번들과 함께 보면 좋은 것</p>
-            <p className="text-sm font-medium text-gray-800 mb-1">바이브코딩 웹서비스 출시 작업지시서팩 — 9,900원</p>
+            <p className="text-sm font-medium text-gray-800 mb-1">
+              바이브코딩 웹서비스 출시 작업지시서팩 — {getEffectivePackProduct('dev').priceText}
+            </p>
             <p className="text-xs text-gray-500 leading-relaxed">
               아이디어부터 실제 출시·홍보까지, 번들에 없는 심화 실행 흐름 15개.
             </p>

@@ -37,3 +37,24 @@ export const VALID_PACK_TYPES = Object.keys(PACK_PRODUCTS) as PackType[]
 export function isPackType(value: string | undefined | null): value is PackType {
   return !!value && VALID_PACK_TYPES.includes(value as PackType)
 }
+
+// 런칭 특가 — 첫 판매·후기 확보 목적. 기간 종료 후에는 코드 수정 없이 자동으로 정가로 복귀한다.
+const LAUNCH_PROMO = {
+  packType: 'dev' as PackType,
+  amount: 1900,
+  priceText: '1,900원',
+  until: new Date('2026-08-11T00:00:00+09:00'),
+}
+
+export function isLaunchPromoActive(packType: PackType): boolean {
+  return packType === LAUNCH_PROMO.packType && new Date() < LAUNCH_PROMO.until
+}
+
+// 결제창·서버 검증·화면 표시가 전부 이 함수를 거쳐야 런칭 특가가 일관되게 반영된다.
+export function getEffectivePackProduct(packType: PackType): PackProduct {
+  const base = PACK_PRODUCTS[packType]
+  if (isLaunchPromoActive(packType)) {
+    return { label: base.label, amount: LAUNCH_PROMO.amount, priceText: LAUNCH_PROMO.priceText }
+  }
+  return base
+}

@@ -230,7 +230,6 @@ export default function WorkFocusedPackPage() {
           <PrePaymentForm
             packType="work"
             packLabel="업무/보고서 집중팩"
-            price="9,900원"
           />
         </div>
 

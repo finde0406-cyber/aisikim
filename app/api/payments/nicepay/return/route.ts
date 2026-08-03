@@ -12,7 +12,7 @@ import {
   approvePayment,
   parseAndVerifyMallReserved,
 } from '@/lib/nicepay'
-import { PACK_PRODUCTS, isPackType } from '@/lib/products'
+import { PACK_PRODUCTS, isPackType, getEffectivePackProduct } from '@/lib/products'
 import { deliverPack, notifyAdminIssue } from '@/lib/pack-delivery'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
     return redirectTo(req, '/purchase/failed', { reason: 'invalid_order' })
   }
 
-  const expectedAmount = PACK_PRODUCTS[packType].amount
+  const expectedAmount = getEffectivePackProduct(packType).amount
   if (Number(amount) !== expectedAmount) {
     console.error('[nicepay-return] 금액 불일치:', orderId, amount, '기대값:', expectedAmount)
     return redirectTo(req, '/purchase/failed', { reason: 'amount_mismatch' })

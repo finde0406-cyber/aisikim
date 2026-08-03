@@ -4,7 +4,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { PACK_PRODUCTS, type PackType } from '@/lib/products'
+import { getEffectivePackProduct, isLaunchPromoActive, type PackType } from '@/lib/products'
 
 const NICEPAY_SDK_URL = 'https://pay.nicepay.co.kr/v1/js/'
 
@@ -91,10 +91,12 @@ type Status = 'idle' | 'loading' | 'ready' | 'not_configured' | 'error'
 interface Props {
   packType: PackType
   packLabel: string
-  price: string
 }
 
-export default function PrePaymentForm({ packType, packLabel, price }: Props) {
+export default function PrePaymentForm({ packType, packLabel }: Props) {
+  const product = getEffectivePackProduct(packType)
+  const price = product.priceText
+  const promoActive = isLaunchPromoActive(packType)
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -145,8 +147,8 @@ export default function PrePaymentForm({ packType, packLabel, price }: Props) {
         clientId: nicepayClientKey,
         method: 'card',
         orderId: payInfo.orderId,
-        amount: PACK_PRODUCTS[packType].amount,
-        goodsName: PACK_PRODUCTS[packType].label,
+        amount: product.amount,
+        goodsName: product.label,
         buyerName: name.trim(),
         buyerEmail: payInfo.buyerEmail,
         buyerTel: phone.replace(/\D/g, ''),
@@ -170,6 +172,11 @@ export default function PrePaymentForm({ packType, packLabel, price }: Props) {
     return (
       <div className="border border-indigo-200 bg-indigo-50 rounded-2xl px-5 py-6">
         <PurchaseSteps activeStep={2} />
+        {promoActive && (
+          <div className="bg-amber-100 text-amber-700 text-xs font-semibold rounded-lg px-3 py-2 mb-4 text-center">
+            🎉 런칭 특가 · 8월 10일까지 {price}
+          </div>
+        )}
         <div className="flex items-start gap-3 mb-5">
           <span className="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-base">
             ✓
@@ -282,6 +289,11 @@ export default function PrePaymentForm({ packType, packLabel, price }: Props) {
       {/* 폼 헤더 — 구매 흐름 표시 */}
       <div className="bg-indigo-50 px-5 pt-5 pb-4 border-b border-indigo-100">
         <PurchaseSteps activeStep={1} />
+        {promoActive && (
+          <div className="bg-amber-100 text-amber-700 text-xs font-semibold rounded-lg px-3 py-2 mb-3 text-center">
+            🎉 런칭 특가 · 8월 10일까지 {price}
+          </div>
+        )}
         <p className="text-sm font-semibold text-gray-900 mb-1">구매 전 정보 입력</p>
         <p className="text-xs text-gray-500 leading-relaxed">
           결제 확인 후 아래 이메일로 PDF 자료를 보내드려요.

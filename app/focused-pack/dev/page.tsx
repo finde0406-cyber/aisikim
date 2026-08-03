@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import PrePaymentForm from '@/components/purchase/PrePaymentForm'
 import Footer from '@/components/home/Footer'
+import { getEffectivePackProduct, isLaunchPromoActive } from '@/lib/products'
 
 export const metadata: Metadata = {
   title: '바이브코딩 웹서비스 출시 작업지시서팩 | AI시킴',
@@ -89,12 +90,21 @@ const FAQ = [
 ]
 
 export default function DevFocusedPackPage() {
+  const product = getEffectivePackProduct('dev')
+  const promoActive = isLaunchPromoActive('dev')
+
   return (
     <>
       <main className="flex flex-col px-4 py-10 pb-20">
         <div className="max-w-sm mx-auto w-full">
 
         <Link href="/" className="text-gray-400 text-sm block mb-8">← 홈</Link>
+
+        {promoActive && (
+          <div className="bg-amber-100 text-amber-700 text-xs font-semibold rounded-lg px-3 py-2 mb-4 text-center">
+            🎉 런칭 특가 · 8월 10일까지 {product.priceText} (정가 9,900원)
+          </div>
+        )}
 
         {/* 섹션 1: 히어로 */}
         <p className="text-xs font-medium text-indigo-500 mb-3">바이브코딩 웹서비스 출시 작업지시서팩</p>
@@ -232,7 +242,6 @@ export default function DevFocusedPackPage() {
           <PrePaymentForm
             packType="dev"
             packLabel="바이브코딩 웹서비스 출시 작업지시서팩"
-            price="9,900원"
           />
         </div>
 

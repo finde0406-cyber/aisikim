@@ -258,7 +258,6 @@ export default function StarterPackPage() {
           <PrePaymentForm
             packType="starter_bundle"
             packLabel="통합 스타터팩 번들"
-            price="24,900원"
           />
         </div>
 
