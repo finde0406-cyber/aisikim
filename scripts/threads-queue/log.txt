@@ -3,3 +3,5 @@
 [2026-08-01T23:40:02.989Z] 토큰 갱신 완료 (60일 유효)
 [2026-08-01T23:40:10.173Z] 발행 완료: 003.txt → https://www.threads.com/@system_flow_official/post/DbhCm8OE5a2 (큐 잔여 5개)
 [2026-08-02T23:40:11.223Z] 발행 완료: 004.txt → https://www.threads.com/@system_flow_official/post/DbjnZzlk0xQ (큐 잔여 4개)
+[2026-08-03T23:40:11.525Z] 발행 완료: 005.txt → https://www.threads.com/@system_flow_official/post/DbmMMtHE83o (큐 잔여 5개)
+[2026-08-04T07:31:26.800Z] [DRY] 발행 예정 파일: 006.txt (349자) — 실제 발행 안 함
