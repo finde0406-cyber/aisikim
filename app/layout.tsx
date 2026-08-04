@@ -1,6 +1,7 @@
 // 앱 루트 레이아웃 - 폰트·메타데이터 설정
 import type { Metadata, Viewport } from 'next'
 import { Noto_Sans_KR } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 const notoSansKr = Noto_Sans_KR({
@@ -73,6 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`${notoSansKr.className} antialiased bg-white text-gray-900`}>
         {children}
+        <Analytics />
       </body>
     </html>
   )
