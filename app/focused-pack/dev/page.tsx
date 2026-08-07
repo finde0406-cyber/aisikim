@@ -130,6 +130,15 @@ export default function DevFocusedPackPage() {
           </div>
         </div>
 
+        {/* 관련 무료 가이드 링크 */}
+        <Link
+          href="/guide/ai-dev-request"
+          className="flex items-center justify-between border border-gray-100 bg-gray-50 rounded-xl px-4 py-3 mb-10"
+        >
+          <p className="text-xs text-gray-500">무료 가이드: 코딩 몰라도 AI로 앱 만들기</p>
+          <span className="text-xs text-indigo-500 flex-shrink-0 ml-2">읽기 →</span>
+        </Link>
+
         {/* 섹션 3: 포함 구성 */}
         <div className="mb-10">
           <p className="text-xs font-medium text-gray-400 mb-3">포함 구성 — 15개 상황별 작업지시서</p>
