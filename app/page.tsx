@@ -4,6 +4,7 @@ import HeroSection from '@/components/home/HeroSection'
 import ProblemSection from '@/components/home/ProblemSection'
 import SamplePreviewSection from '@/components/home/SamplePreviewSection'
 import QuickGuideSection from '@/components/home/QuickGuideSection'
+import GuideTeaserSection from '@/components/home/GuideTeaserSection'
 import CategoryPreviewSection from '@/components/home/CategoryPreviewSection'
 import PackPreviewSection from '@/components/home/PackPreviewSection'
 import CreatorProofSection from '@/components/home/CreatorProofSection'
@@ -33,6 +34,7 @@ export default function HomePage() {
       <ProblemSection />
       <SamplePreviewSection />
       <QuickGuideSection />
+      <GuideTeaserSection />
       <CategoryPreviewSection />
       <PackPreviewSection />
       <CreatorProofSection />

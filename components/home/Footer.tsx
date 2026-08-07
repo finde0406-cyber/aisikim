@@ -40,6 +40,9 @@ export default function Footer() {
 
         {/* 법적 링크 + 카피라이트 */}
         <div className="flex justify-center gap-4 mb-3">
+          <Link href="/guide" className="text-xs text-gray-400 underline underline-offset-2">
+            가이드
+          </Link>
           <Link href="/legal/privacy" className="text-xs text-gray-400 underline underline-offset-2">
             개인정보 처리방침
           </Link>
