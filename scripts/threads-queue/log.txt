@@ -5,3 +5,11 @@
 [2026-08-02T23:40:11.223Z] 발행 완료: 004.txt → https://www.threads.com/@system_flow_official/post/DbjnZzlk0xQ (큐 잔여 4개)
 [2026-08-03T23:40:11.525Z] 발행 완료: 005.txt → https://www.threads.com/@system_flow_official/post/DbmMMtHE83o (큐 잔여 5개)
 [2026-08-04T07:31:26.800Z] [DRY] 발행 예정 파일: 006.txt (349자) — 실제 발행 안 함
+[2026-08-04T11:30:07.986Z] 발행 완료: 006.txt → https://www.threads.com/@system_flow_official/post/DbndcgeCSFZ (큐 잔여 16개)
+[2026-08-04T23:40:10.537Z] 발행 완료: 007.txt → https://www.threads.com/@system_flow_official/post/Dbow_Ykk5pM (큐 잔여 15개)
+[2026-08-05T04:15:10.028Z] 발행 완료: 008.txt → https://www.threads.com/@system_flow_official/post/DbpQdoXibMs (큐 잔여 14개)
+[2026-08-05T11:30:09.776Z] 발행 완료: 009.txt → https://www.threads.com/@system_flow_official/post/DbqCPp-Cbtu (큐 잔여 13개)
+[2026-08-05T23:40:10.812Z] 발행 완료: 010.txt → https://www.threads.com/@system_flow_official/post/DbrVyYOk-e7 (큐 잔여 12개)
+[2026-08-06T04:15:10.085Z] 발행 완료: 011.txt → https://www.threads.com/@system_flow_official/post/Dbr1QkXCdjo (큐 잔여 11개)
+[2026-08-06T11:30:10.005Z] 발행 완료: 012.txt → https://www.threads.com/@system_flow_official/post/DbsnCkFiXRw (큐 잔여 10개)
+[2026-08-06T23:40:12.692Z] 발행 완료: 013.txt → https://www.threads.com/@system_flow_official/post/Dbt6lUtE3P1 (큐 잔여 9개)
