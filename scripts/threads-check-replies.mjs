@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const ENV_PATH = path.join(ROOT, '.env.local')
 const STATE_PATH = path.join(ROOT, 'scripts', 'threads-queue', 'reply-state.json')
+const WATCHED_PATH = path.join(ROOT, 'scripts', 'threads-queue', 'watched-ids.json')
 const API = 'https://graph.threads.net/v1.0'
 
 function readEnv() {
@@ -50,27 +51,38 @@ async function main() {
   const list = await api('/me/threads', { fields: 'id,permalink', limit: '15', access_token: token })
   const posts = list.data ?? []
 
+  let watchedIds = []
+  try {
+    watchedIds = JSON.parse(fs.readFileSync(WATCHED_PATH, 'utf8'))
+  } catch {}
+
+  // 원글 + 우리가 단 답글(대화가 이어질 수 있는 지점) 전부 확인
+  const targets = [
+    ...posts.map((p) => ({ id: p.id, permalink: p.permalink })),
+    ...watchedIds.map((id) => ({ id, permalink: `(내 답글 id:${id})` })),
+  ]
+
   let foundNew = false
-  for (const p of posts) {
+  for (const t of targets) {
     let repliesData
     try {
-      repliesData = await api(`/${p.id}/replies`, {
+      repliesData = await api(`/${t.id}/replies`, {
         fields: 'id,text,username,timestamp',
         access_token: token,
       })
     } catch {
       continue
     }
-    const seen = new Set(state[p.id] ?? [])
+    const seen = new Set(state[t.id] ?? [])
     const newReplies = (repliesData.data ?? []).filter((r) => !seen.has(r.id))
     if (newReplies.length > 0) {
       foundNew = true
-      console.log(`NEW_REPLY on ${p.permalink}`)
+      console.log(`NEW_REPLY on ${t.permalink}`)
       for (const r of newReplies) {
         console.log(`  [id:${r.id}] @${r.username}: ${r.text}`)
       }
     }
-    state[p.id] = (repliesData.data ?? []).map((r) => r.id)
+    state[t.id] = (repliesData.data ?? []).map((r) => r.id)
   }
 
   saveState(state)

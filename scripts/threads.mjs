@@ -138,6 +138,18 @@ async function reply(token, replyToId, text) {
     params: { creation_id: container.id, access_token: token },
   })
   console.log(`답글 발행: ${published.id}`)
+  addWatchedId(published.id) // 이 답글에 또 답이 달릴 수 있으므로 감시 목록에 추가
+}
+
+function addWatchedId(id) {
+  const p = path.join(ROOT, 'scripts', 'threads-queue', 'watched-ids.json')
+  let ids = []
+  try {
+    ids = JSON.parse(fs.readFileSync(p, 'utf8'))
+  } catch {}
+  if (!ids.includes(id)) ids.push(id)
+  fs.mkdirSync(path.dirname(p), { recursive: true })
+  fs.writeFileSync(p, JSON.stringify(ids, null, 2), 'utf8')
 }
 
 async function replies(token, postId) {
