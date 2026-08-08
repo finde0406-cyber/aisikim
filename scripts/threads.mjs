@@ -140,6 +140,21 @@ async function reply(token, replyToId, text) {
   console.log(`답글 발행: ${published.id}`)
 }
 
+async function replies(token, postId) {
+  const res = await api(`/${postId}/replies`, {
+    params: { fields: 'id,text,username,timestamp,permalink', access_token: token },
+  })
+  const list = res.data ?? []
+  if (list.length === 0) {
+    console.log('답글 없음')
+    return
+  }
+  for (const r of list) {
+    console.log(`[${r.id}] @${r.username} (${r.timestamp}): ${r.text}`)
+    console.log(`  ${r.permalink}`)
+  }
+}
+
 async function refresh(token) {
   const data = await api('https://graph.threads.net/refresh_access_token', {
     params: { grant_type: 'th_refresh_token', access_token: token },
@@ -179,6 +194,8 @@ try {
   } else if (cmd === 'reply') {
     const [replyToId, ...rest] = args
     await reply(token, replyToId, rest.join(' '))
+  } else if (cmd === 'replies') {
+    await replies(token, args[0])
   } else {
     console.log('사용법: node scripts/threads.mjs verify | publish "내용" | publish-file 경로 | refresh | status | search "키워드" | reply <id> "내용"')
     process.exit(1)
