@@ -76,7 +76,7 @@ async function main() {
   // 큐에서 다음 글 선택
   const files = fs
     .readdirSync(QUEUE)
-    .filter((f) => f.endsWith('.txt'))
+    .filter((f) => /^\d+\.txt$/.test(f)) // 숫자 파일명만 큐 대상 (log.txt 등 제외)
     .sort()
   if (files.length === 0) {
     log('큐 비어있음 — 발행할 글 없음 (세션에서 큐 보충 필요)')

@@ -13,3 +13,17 @@
 [2026-08-06T04:15:10.085Z] 발행 완료: 011.txt → https://www.threads.com/@system_flow_official/post/Dbr1QkXCdjo (큐 잔여 11개)
 [2026-08-06T11:30:10.005Z] 발행 완료: 012.txt → https://www.threads.com/@system_flow_official/post/DbsnCkFiXRw (큐 잔여 10개)
 [2026-08-06T23:40:12.692Z] 발행 완료: 013.txt → https://www.threads.com/@system_flow_official/post/Dbt6lUtE3P1 (큐 잔여 9개)
+[2026-08-07T04:15:10.005Z] 발행 완료: 014.txt → https://www.threads.com/@system_flow_official/post/DbuaDb8iV5A (큐 잔여 8개)
+[2026-08-07T11:30:11.643Z] 발행 완료: 015.txt → https://www.threads.com/@system_flow_official/post/DbvL1eDCVkP (큐 잔여 7개)
+[2026-08-07T23:40:11.489Z] 발행 완료: 016.txt → https://www.threads.com/@system_flow_official/post/DbwfYLxkzey (큐 잔여 6개)
+[2026-08-08T04:15:10.690Z] 발행 완료: 017.txt → https://www.threads.com/@system_flow_official/post/Dbw-2UpCfKt (큐 잔여 5개)
+[2026-08-08T11:30:10.810Z] 발행 완료: 018.txt → https://www.threads.com/@system_flow_official/post/DbxwoVOiTqj (큐 잔여 4개)
+[2026-08-08T23:40:03.089Z] 토큰 갱신 완료 (60일 유효)
+[2026-08-08T23:40:11.548Z] 발행 완료: 019.txt → https://www.threads.com/@system_flow_official/post/DbzELGjE8A- (큐 잔여 3개)
+[2026-08-09T04:15:03.178Z] 토큰 갱신 완료 (60일 유효)
+[2026-08-09T04:15:10.828Z] 발행 완료: 020.txt → https://www.threads.com/@system_flow_official/post/DbzjpJ2CRHl (큐 잔여 2개)
+[2026-08-09T11:30:03.181Z] 토큰 갱신 완료 (60일 유효)
+[2026-08-09T11:30:10.687Z] 발행 완료: 021.txt → https://www.threads.com/@system_flow_official/post/Db0VbMgCbHQ (큐 잔여 1개)
+[2026-08-09T23:40:03.363Z] 오류: Param text must be at most 500 characters long.
+[2026-08-10T00:00:09.078Z] 큐 비어있음 — 발행할 글 없음 (세션에서 큐 보충 필요)
+[2026-08-10T00:02:57.874Z] [DRY] 발행 예정 파일: 100.txt (216자) — 실제 발행 안 함
