@@ -93,7 +93,7 @@ async function main() {
   // 발행
   const container = await api('/me/threads', {
     method: 'POST',
-    params: { media_type: 'TEXT', text, access_token: token },
+    params: { media_type: 'TEXT', text, topic_tag: 'AI자동화', access_token: token },
   })
   await new Promise((r) => setTimeout(r, 2000))
   const published = await api('/me/threads_publish', {

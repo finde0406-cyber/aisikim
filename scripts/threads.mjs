@@ -62,7 +62,7 @@ async function publishText(token, text) {
 
   const container = await api('/me/threads', {
     method: 'POST',
-    params: { media_type: 'TEXT', text, access_token: token },
+    params: { media_type: 'TEXT', text, topic_tag: 'AI자동화', access_token: token },
   })
   // 컨테이너 처리 대기 (텍스트는 보통 즉시 가능하지만 안전하게 잠시 대기)
   await new Promise((r) => setTimeout(r, 2000))
