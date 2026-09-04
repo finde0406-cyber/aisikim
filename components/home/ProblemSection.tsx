@@ -1,9 +1,9 @@
 // 문제 공감 섹션 - AI 초보자가 겪는 주요 막힘 상황
 const PROBLEMS = [
-  'AI를 열었는데 뭐부터 물어봐야 할지 막막해요',
-  '질문을 넣어봤는데 답변이 너무 뻔하게 나와요',
-  '수정 요청을 어떻게 써야 할지 모르겠어요',
-  '결국 "AI도 별거 없네" 하고 꺼버려요',
+  '아이디어는 있는데 첫 기능을 어디서부터 만들어야 할지 막막해요',
+  'AI에게 기능을 시켰는데 결과가 엉키고 수정할수록 망가져요',
+  '만들기는 했는데 모바일 검수와 출시 준비에서 멈춰요',
+  '판매 페이지와 홍보 글을 어떻게 시작할지 모르겠어요',
 ]
 
 export default function ProblemSection() {
@@ -20,9 +20,9 @@ export default function ProblemSection() {
           ))}
         </ul>
         <p className="text-sm text-gray-500 leading-relaxed">
-          무엇을 물어봐야 할지 몰라도,{' '}
-          <strong className="text-gray-700">선택만 하면</strong> 바로 작업지시서를 만들 수 있어요.
-          한 번 묻고 끝나는 게 아니라 후속 질문·수정 요청·검수까지 이어갈 수 있어요.
+          막히는 단계가 달라도,{' '}
+          <strong className="text-gray-700">지금 필요한 순서부터</strong> 시작할 수 있어요.
+          무료 결과는 시작점이고, 유료팩은 만들고 공개하는 전체 흐름을 이어줍니다.
         </p>
       </div>
     </section>

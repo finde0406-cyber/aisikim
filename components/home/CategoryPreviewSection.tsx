@@ -2,16 +2,19 @@
 
 const CATEGORIES = [
   {
+    title: '앱·웹사이트 개발',
+    examples: '아이디어 · MVP · 출시 준비',
+    primary: true,
+  },
+  {
     title: '블로그·콘텐츠',
     examples: '글 초안 · 제목 · 판매 문구',
+    primary: false,
   },
   {
     title: '업무·보고서',
     examples: '보고서 · 체크리스트 · 기획서',
-  },
-  {
-    title: '앱·웹사이트 개발',
-    examples: '기능 정의 · 개발 지시문',
+    primary: false,
   },
 ]
 
@@ -30,7 +33,7 @@ export default function CategoryPreviewSection() {
                 i < CATEGORIES.length - 1 ? 'border-b border-gray-200' : ''
               }`}
             >
-              <span className="font-semibold text-gray-900 text-sm flex-shrink-0">
+              <span className={`font-semibold text-sm flex-shrink-0 ${cat.primary ? 'text-indigo-600' : 'text-gray-900'}`}>
                 {cat.title}
               </span>
               <span className="text-gray-400 text-xs text-right">{cat.examples}</span>
@@ -39,7 +42,7 @@ export default function CategoryPreviewSection() {
         </div>
         <div className="text-center">
           <a href="/quiz" className="text-sm text-indigo-600 underline underline-offset-2">
-            내 작업지시서 만들기 →
+            지금 내 막힘 진단하기 →
           </a>
         </div>
       </div>

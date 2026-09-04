@@ -3,27 +3,27 @@ const DEMO_ROWS = [
   {
     label: '어떤 작업이에요?',
     chips: ['블로그 글쓰기', '업무/보고서', '앱/웹 개발'],
-    selected: 0,
+    selected: 2,
   },
   {
     label: '어디서 막히나요?',
     chips: ['시작을 모르겠어요', 'AI 답변이 뻔해요', '설명이 어려워요'],
-    selected: 0,
+    selected: 1,
   },
   {
     label: '어떤 결과물?',
-    chips: ['글 초안', '보고서', '기획서'],
+    chips: ['첫 화면과 기능', '오류 수정', '출시 준비'],
     selected: 0,
   },
 ]
 
 const DEMO_RESULT = `## 작업 상황
-블로그 글 작업 중입니다.
-어디서 시작할지 먼저 잡아드릴게요.
+AI로 앱을 만들어보고 싶지만
+무엇부터 시작해야 할지 모르겠습니다.
 
 ## 막힌 부분과 요청
-아직 어디서 시작해야 할지 모르겠습니다.
-필요한 것들을 먼저 물어봐 주세요.`
+AI에게 무엇부터 시켜야 할지 모르겠습니다.
+이번 작업의 범위와 완료 기준부터 잡아주세요.`
 
 export default function HeroSection() {
   return (
@@ -37,13 +37,13 @@ export default function HeroSection() {
 
         {/* ── 2. 공감 헤드라인 ── */}
         <h1 className="text-[1.75rem] font-extrabold text-gray-900 leading-[1.3] tracking-tight mb-4">
-          AI를 켰는데<br />
-          &ldquo;뭐부터 물어보지?&rdquo;<br />
-          하고 닫은 적 있나요?
+          AI에게 뭘 시켜야 할지<br />
+          막막해서 그냥 닫은 적<br />
+          있나요?
         </h1>
         <p className="text-sm text-gray-500 leading-relaxed mb-8">
-          질문을 잘 못해도 괜찮아요.<br />
-          AI시킴은 선택만 하면 작업지시서를 만들어드려요.
+          블로그 글쓰기, 업무·보고서, 앱·웹 개발 중<br />
+          지금 필요한 작업지시서를 선택만으로 시작해보세요.
         </p>
 
         {/* ── 3. Before / After 대비 카드 ── */}
@@ -76,7 +76,7 @@ export default function HeroSection() {
                 <span className="text-indigo-400 flex-shrink-0 mt-0.5">·</span>후속·수정·검수까지 이어짐
               </li>
               <li className="text-xs font-bold text-indigo-800 flex items-start gap-1.5">
-                <span className="text-indigo-500 flex-shrink-0 mt-0.5">·</span>결과물이 완성됨
+                <span className="text-indigo-500 flex-shrink-0 mt-0.5">·</span>만들고 공개하는 흐름
               </li>
             </ul>
           </div>
@@ -133,7 +133,7 @@ export default function HeroSection() {
           무료 작업지시서 만들기 →
         </a>
         <p className="mt-3 text-xs text-gray-500 text-center">
-          이메일·회원가입 없이 바로 시작할 수 있어요
+          이메일과 회원가입 없이 먼저 결과를 확인해요
         </p>
 
       </div>
