@@ -1,35 +1,35 @@
 // 작업지시서 결과물 미리보기 섹션 — 선택→결과 연결 시각화
 
 const SAMPLE_TAGS = [
-  '블로그·콘텐츠',
+  '앱·웹 개발',
   '시작이 막힘',
-  '글 초안',
-  'ChatGPT',
-  '친절하게',
+  'MVP 범위',
+  'Claude Code',
+  '단계별로',
 ]
 
 const SAMPLE_TEXT = `## 작업 상황
-블로그 글 작업 중입니다.
-글 초안 형태의 결과물을 만들어야 합니다.
+앱을 만들어보고 싶은데
+아직 아이디어만 있고 범위는 못 정했습니다.
 
 ## 막힌 부분과 요청
-아직 어디서 시작해야 할지 모르겠습니다.
+어떤 기능부터 만들어야 할지 모르겠습니다.
 먼저 필요한 것들을 물어봐 주세요. 제 상황에
 맞는 시작점을 같이 잡아주시면 좋겠습니다.
 
 ## 원하는 결과물
-유형: 글 초안 (ChatGPT에 바로 붙여 쓸 수 있는 형태)
-제목과 소제목을 먼저 잡아주고,
-각 섹션의 본문을 채워주세요.
+유형: MVP 기능 목록 (Claude Code에 바로 붙여 쓸 수 있는 형태)
+핵심 기능 3개와 우선순위를 먼저 잡아주고,
+구현 순서까지 정리해주세요.
 
 ## 답변 방식
 쉽고 친절하게 안내해 주세요 ...
 
 ## 시작 전 확인할 것
 아래 내용을 먼저 물어봐 주세요:
-- 주제나 키워드
-- 이 글을 읽을 대상 독자
-- 글의 목적 (정보 제공, 제품 소개 등) ...`
+- 만들고 싶은 서비스와 사용자
+- 1~2주 안에 완성 가능한 범위인지
+- 기술 스택 제약이 있는지 ...`
 
 export default function SamplePreviewSection() {
   return (
@@ -67,7 +67,7 @@ export default function SamplePreviewSection() {
           </div>
           {/* 복사 바 — 사용 방식 시각화 */}
           <div className="border-t border-gray-100 px-4 py-3 bg-gray-50 flex items-center justify-between">
-            <p className="text-[10px] text-gray-400">ChatGPT · Claude · Gemini에 바로 사용</p>
+            <p className="text-[10px] text-gray-400">Claude Code · Codex · ChatGPT 어디서든 동일하게 작동</p>
             <span className="text-xs font-semibold text-indigo-600">복사하기 →</span>
           </div>
         </div>
