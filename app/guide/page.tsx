@@ -27,6 +27,11 @@ const ARTICLES = [
     title: '코딩 몰라도 AI로 앱 만들기, 시작 전에 알아야 할 것',
     desc: 'MVP 범위 정하기부터 오류 전달, 검수까지 — 바이브코딩 실전 요청법',
   },
+  {
+    href: '/guide/ai-launch-promotion',
+    title: '만들긴 했는데 아무도 안 봐요',
+    desc: '기능 자랑이 아니라 불편을 찌르는 홍보 문구 — AI로 첫 문장 훅부터 채널별 재작성까지',
+  },
 ]
 
 export default function GuideIndexPage() {

@@ -8,6 +8,8 @@
 
 홈페이지(Hero/Problem/Category/FinalCTA) 카피를 "앱·웹 개발 집중팩" 중심으로 재정렬해 커밋·푸시(자동 배포). 상세는 `claude-latest-report.md` 참고. **후속 필요**: `SamplePreviewSection`이 아직 "블로그·콘텐츠"를 대표 예시로 보여줘 위 섹션들과 어긋남 — 다음에 맞출 것. 배포 후 조회·구매 신호 며칠 지켜볼 것.
 
+새 SEO 가이드 글 추가: `/guide/ai-launch-promotion` ("만들긴 했는데 아무도 안 봐요" — 출시 후 홍보 문구 작성법). 기존 가이드 2개(`ai-dev-request`, `ai-blog`)는 만들기/글쓰기 단계만 다루고 판매·홍보 단계가 완전히 빠져 있어서 그 공백을 채움. `/guide` 목록·`sitemap.ts`에 등록 완료.
+
 ---
 
 ## 현재 단계
