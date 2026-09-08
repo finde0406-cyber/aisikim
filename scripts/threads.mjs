@@ -77,6 +77,42 @@ async function publishText(token, text) {
   return published
 }
 
+async function publishCarousel(token, imageUrls, caption) {
+  if (!imageUrls || imageUrls.length < 2) throw new Error('캐러셀은 이미지 2장 이상 필요합니다')
+  if (imageUrls.length > 20) throw new Error('캐러셀은 이미지 최대 20장까지입니다')
+
+  const childIds = []
+  for (const url of imageUrls) {
+    const child = await api('/me/threads', {
+      method: 'POST',
+      params: { media_type: 'IMAGE', image_url: url, is_carousel_item: 'true', access_token: token },
+    })
+    childIds.push(child.id)
+  }
+  await new Promise((r) => setTimeout(r, 3000)) // 이미지 여러 장이라 텍스트보다 여유 있게 대기
+
+  const parent = await api('/me/threads', {
+    method: 'POST',
+    params: {
+      media_type: 'CAROUSEL',
+      children: childIds.join(','),
+      text: caption ?? '',
+      topic_tag: 'AI자동화',
+      access_token: token,
+    },
+  })
+  await new Promise((r) => setTimeout(r, 3000))
+  const published = await api('/me/threads_publish', {
+    method: 'POST',
+    params: { creation_id: parent.id, access_token: token },
+  })
+  const detail = await api(`/${published.id}`, {
+    params: { fields: 'id,permalink', access_token: token },
+  })
+  console.log(`캐러셀 발행 완료: ${detail.permalink ?? published.id}`)
+  return published
+}
+
 async function status(token) {
   await verify(token)
   const list = await api('/me/threads', {
@@ -208,8 +244,13 @@ try {
     await reply(token, replyToId, rest.join(' '))
   } else if (cmd === 'replies') {
     await replies(token, args[0])
+  } else if (cmd === 'publish-carousel') {
+    // 사용법: publish-carousel "캡션" url1 url2 url3 ...
+    await verify(token)
+    const [caption, ...urls] = args
+    await publishCarousel(token, urls, caption)
   } else {
-    console.log('사용법: node scripts/threads.mjs verify | publish "내용" | publish-file 경로 | refresh | status | search "키워드" | reply <id> "내용"')
+    console.log('사용법: node scripts/threads.mjs verify | publish "내용" | publish-file 경로 | publish-carousel "캡션" url1 url2... | refresh | status | search "키워드" | reply <id> "내용"')
     process.exit(1)
   }
 } catch (err) {
