@@ -5,6 +5,7 @@ import CopyButton from '@/components/result/CopyButton'
 import EmailForm from '@/components/email/EmailForm'
 import { generateInstruction, getAnswerSummary } from '@/lib/result-generator'
 import type { QuizAnswers } from '@/lib/quiz-data'
+import { getEffectivePackProduct, isPackType } from '@/lib/products'
 
 export const metadata: Metadata = {
   title: '무료 작업지시서 결과 | AI시킴',
@@ -89,6 +90,10 @@ export default async function ResultPage({
   const pack = (answers.category && answers.category in CATEGORY_PACK)
     ? CATEGORY_PACK[answers.category as keyof typeof CATEGORY_PACK]
     : DEFAULT_PACK
+  // 버튼에 가격을 함께 보여줘 클릭 전 망설임을 줄인다 (가격은 products.ts 단일 출처)
+  const packPrice = isPackType(answers.category)
+    ? getEffectivePackProduct(answers.category).priceText
+    : null
 
   return (
     <main className="flex flex-col px-4 py-10 pb-20">
@@ -188,7 +193,7 @@ export default async function ResultPage({
           href={pack.ctaHref}
           className="flex items-center justify-center w-full bg-indigo-600 text-white font-semibold rounded-xl px-6 py-4 text-sm min-h-[52px] active:bg-indigo-700 mb-3"
         >
-          {pack.ctaText}
+          {pack.ctaText}{packPrice ? ` · ${packPrice}` : ''}
         </Link>
 
         {/* 번들 블록 */}
