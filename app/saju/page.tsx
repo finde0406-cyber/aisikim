@@ -7,7 +7,7 @@ export default function SajuHome() {
     <div className={styles.wrap}>
       <header className={styles.site}>
         <a className={styles.brand} href="/saju">Hanji Saju <span>四柱</span></a>
-        <span className={styles.label}>Made in Seoul</span>
+        <span className={styles.label}>Made in Korea</span>
       </header>
 
       <section className={styles.hero}>
