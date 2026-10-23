@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { computeSaju, STEMS, BRANCHES, STEM_ROMAN, BRANCH_ROMAN, STEM_ELEMENT, BRANCH_ELEMENT, type Element, type Pillar } from '@/lib/saju/calc'
 import { DAY_MASTERS, ELEMENT_INFO, ZODIAC, CITIES } from '@/lib/saju/content'
 import WaitlistForm from '@/components/saju/WaitlistForm'
+import { buildHooks } from '@/lib/saju/hooks'
 import styles from '../saju.module.css'
 
 export const metadata: Metadata = {
@@ -63,6 +64,7 @@ export default async function Reading({ searchParams }: { searchParams: Promise<
   const strongest = ORDER.find((e) => chart.elements[e] === max)!
   const quietest = ORDER.find((e) => chart.elements[e] === min)!
   const zodiac = ZODIAC[chart.year.branch]
+  const hooks = buildHooks(chart, min < max ? quietest : null)
   const bornLabel = new Date(Date.UTC(Number(dm[1]), Number(dm[2]) - 1, Number(dm[3]))).toLocaleDateString('en-US', {
     month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC',
   })
@@ -144,20 +146,37 @@ export default async function Reading({ searchParams }: { searchParams: Promise<
         {min < max && <p className={`${styles.p} ${styles.muted}`}>{ELEMENT_INFO[quietest].lack}</p>}
       </section>
 
+      <section className={styles.sheet} aria-labelledby="hidden-title">
+        <span className={styles.label}>Read from your chart</span>
+        <h2 id="hidden-title" className={styles.h2}>What your pillars are hiding</h2>
+        <div className={styles.hooks}>
+          {hooks.map((h) => (
+            <article key={h.key} className={styles.hook}>
+              <div className={`${styles.hookGlyph} ${styles[h.glyphElement]}`} aria-hidden="true">{h.glyph}</div>
+              <div className={styles.hookBody}>
+                <span className={styles.label}>{h.label}</span>
+                <h3 className={styles.hookTitle}>{h.headline}</h3>
+                <p className={`${styles.p} ${styles.muted}`}>{h.teaser}</p>
+                <p className={styles.lockLine}>
+                  <span className={styles.blurInline} aria-hidden="true">What this means for you is that the next</span>
+                  <span className={styles.lockTag}>In your full reading</span>
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className={`${styles.sheet} ${styles.locked}`} aria-labelledby="full-title">
         <span className={styles.label}>Full reading · coming soon</span>
-        <h2 id="full-title" className={styles.h2}>What your pillars say next</h2>
+        <h2 id="full-title" className={styles.h2}>Get the whole story</h2>
         <ul>
+          <li><span>What each hidden sign above means for you</span><span>Full reading</span></li>
           <li><span>Love, and the kind of partner your chart draws in</span><span>Full reading</span></li>
           <li><span>Work and money: where your {ELEMENT_INFO[meEl].name.toLowerCase()} grows best</span><span>Full reading</span></li>
           <li><span>Your 10-year luck cycles (daeun)</span><span>Full reading</span></li>
           <li><span>2027 month by month</span><span>Full reading</span></li>
-          <li><span>Lucky colors, directions, and elements to carry</span><span>Full reading</span></li>
         </ul>
-        <p className={styles.blur} aria-hidden="true">
-          The fire year meets your day master and brings attention you did not plan for. Spring favors beginnings,
-          especially anything you have put off since
-        </p>
         <p className={styles.p}>
           We are finishing the English edition of the full reading. Leave your email and you&apos;ll get it first, at the
           launch price of <b>$4.99</b> instead of $9.99.

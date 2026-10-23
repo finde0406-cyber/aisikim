@@ -24,6 +24,24 @@ export default function SajuHome() {
         </div>
       </section>
 
+      <div className={styles.preview} aria-label="Example of a reading">
+        <div className={styles.previewRow}>
+          {[
+            ['Hour', '戊', 'earth', '辰', 'earth'],
+            ['Day · You', '甲', 'wood', '午', 'fire'],
+            ['Month', '辛', 'metal', '卯', 'wood'],
+            ['Year', '丙', 'fire', '子', 'water'],
+          ].map(([label, s1, e1, s2, e2], i) => (
+            <div key={label} className={`${styles.pillar} ${i === 1 ? styles.me : ''}`}>
+              <span className={styles.pl}>{label}</span>
+              <span className={`${styles.glyph} ${styles[e1]}`}>{s1}</span>
+              <span className={`${styles.glyph} ${styles[e2]}`}>{s2}</span>
+            </div>
+          ))}
+        </div>
+        <p className={styles.previewCap}>Example: a Gap Wood day master, &ldquo;The Tall Tree&rdquo;. Yours takes 40 seconds.</p>
+      </div>
+
       <section className={styles.sheet} aria-labelledby="form-title">
         <h2 id="form-title" className={styles.h2}>Your birth moment</h2>
         <BirthForm />
