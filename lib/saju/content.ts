@@ -217,3 +217,74 @@ export const CITIES: { label: string; tz: string; lon: number }[] = [
   { label: 'Melbourne, Australia', tz: 'Australia/Melbourne', lon: 144.96 },
   { label: 'Auckland, New Zealand', tz: 'Pacific/Auckland', lon: 174.76 },
 ]
+
+// ── 조선 시대의 나 (일간 기준 역할) — STEMS 순서 ─────────────────
+export interface JoseonRole {
+  title: string // 영어 역할명
+  hanja: string
+  korean: string // 로마자 발음
+  line: string // 무료 한 줄
+  match: string // 궁합 카드용: 이 일간이 상대로서 어떤 사람인지
+}
+
+export const JOSEON: JoseonRole[] = [
+  {
+    title: 'Royal Library Scholar', hanja: '奎章閣 學者', korean: 'Gyujanggak scholar',
+    line: 'The king handpicked you for his private library, where the brightest minds in the country wrote the rules everyone else would follow.',
+    match: 'Steady and principled. Says what they mean and builds things that last.',
+  },
+  {
+    title: 'Court Interpreter', hanja: '譯官', korean: 'yeokgwan',
+    line: 'You travelled with royal envoys to Beijing and Edo, reading the room in three languages while everyone else was still being introduced.',
+    match: 'Warm, adaptable, and quietly clever. Makes every room feel easier.',
+  },
+  {
+    title: 'Pansori Singer', hanja: '판소리 소리꾼', korean: 'sorikkun',
+    line: 'With one drum and one fan, you held a whole market square for hours, making strangers laugh and cry in the same song.',
+    match: 'Bright and expressive. Lights up a room and makes you feel seen.',
+  },
+  {
+    title: 'Royal Physician', hanja: '御醫', korean: 'eoui',
+    line: 'Only a handful of people were trusted to touch the king. You were one of them, because you noticed what everyone else missed.',
+    match: 'Attentive and loyal. Remembers the small things and shows love in details.',
+  },
+  {
+    title: 'Frontier Commander', hanja: '邊方 武官', korean: 'byeonbang mugwan',
+    line: 'You held the northern border through winters that broke other men, and your soldiers would have followed you anywhere.',
+    match: 'Calm and dependable. The person you call when everything goes wrong.',
+  },
+  {
+    title: 'Royal Kitchen Cook', hanja: '水剌間 熟手', korean: 'suragan suksu',
+    line: 'Every meal the king ate passed through your hands. In a palace full of intrigue, you were the one person he never doubted.',
+    match: 'Nurturing and practical. Takes care of you without being asked.',
+  },
+  {
+    title: 'Secret Royal Inspector', hanja: '暗行御史', korean: 'amhaeng-eosa',
+    line: 'Disguised as a traveller, you carried the king\'s horse medallion from town to town and brought down corrupt officials who thought no one was watching.',
+    match: 'Direct and fiercely fair. Protects the people they love.',
+  },
+  {
+    title: 'Court Painter', hanja: '圖畫署 畫員', korean: 'dohwaseo hwawon',
+    line: 'When the king needed his portrait painted or a royal parade recorded, he sent for you. Your eye for detail was trusted more than any minister\'s report.',
+    match: 'Refined and perceptive. Has great taste and notices how you feel.',
+  },
+  {
+    title: 'Sea Merchant', hanja: '大商', korean: 'daesang',
+    line: 'You sailed ginseng and silk across the Yellow Sea and came home richer every season, with stories no one in the capital believed.',
+    match: 'Adventurous and big-hearted. Turns ordinary weekends into stories.',
+  },
+  {
+    title: 'Royal Astronomer', hanja: '觀象監 天文官', korean: 'gwansanggam',
+    line: 'You watched the night sky for the king and read in the stars what was coming. Even the palace waited for your word before a royal wedding.',
+    match: 'Intuitive and deep. Understands you before you finish the sentence.',
+  },
+]
+
+// 원소 강세별 한 줄 수식 (카드 문장 다양화)
+export const JOSEON_FLAVOR: Record<Element, string> = {
+  wood: 'You were always the first to try something new.',
+  fire: 'People remembered your name long after you left.',
+  earth: 'People trusted you with things they told no one else.',
+  metal: 'You never once took a bribe, and everyone knew it.',
+  water: 'You knew more than you ever said out loud.',
+}

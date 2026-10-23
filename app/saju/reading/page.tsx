@@ -1,7 +1,10 @@
 // Hanji Saju 무료 풀이 — 서버에서 계산해 바로 그린다 (저장 없음)
 import type { Metadata } from 'next'
 import { computeSaju, STEMS, BRANCHES, STEM_ROMAN, BRANCH_ROMAN, STEM_ELEMENT, BRANCH_ELEMENT, type Element, type Pillar } from '@/lib/saju/calc'
-import { DAY_MASTERS, ELEMENT_INFO, ZODIAC, CITIES } from '@/lib/saju/content'
+import { DAY_MASTERS, ELEMENT_INFO, ZODIAC, CITIES, JOSEON, JOSEON_FLAVOR } from '@/lib/saju/content'
+import JoseonCard from '@/components/saju/JoseonCard'
+import ZodiacIcon from '@/components/saju/ZodiacIcon'
+import { STEM_PARTNER, bestMatchYears, solarYearOf } from '@/lib/saju/match'
 import WaitlistForm from '@/components/saju/WaitlistForm'
 import { buildHooks } from '@/lib/saju/hooks'
 import styles from '../saju.module.css'
@@ -65,6 +68,17 @@ export default async function Reading({ searchParams }: { searchParams: Promise<
   const quietest = ORDER.find((e) => chart.elements[e] === min)!
   const zodiac = ZODIAC[chart.year.branch]
   const hooks = buildHooks(chart, min < max ? quietest : null)
+
+  // 조선 카드
+  const STAT_LABEL: Record<Element, string> = { wood: 'Growth', fire: 'Charm', earth: 'Grit', metal: 'Resolve', water: 'Insight' }
+  const statOf = (n: number) => Math.min(99, 50 + 12 * n)
+  const rarity = max >= 4 ? 'Legendary' : max === 3 ? 'Epic' : min >= 1 ? 'Harmony' : 'Rare'
+  const role = JOSEON[chart.day.stem]
+
+  // 궁합
+  const partnerStem = STEM_PARTNER[chart.day.stem]
+  const partnerEl = STEM_ELEMENT[partnerStem]
+  const matches = bestMatchYears(chart, solarYearOf(chart, Number(dm[1])))
   const bornLabel = new Date(Date.UTC(Number(dm[1]), Number(dm[2]) - 1, Number(dm[3]))).toLocaleDateString('en-US', {
     month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC',
   })
@@ -128,6 +142,35 @@ export default async function Reading({ searchParams }: { searchParams: Promise<
         </dl>
       </section>
 
+      <section className={styles.sheet} aria-labelledby="joseon-title">
+        <span className={styles.label}>Your life in Joseon · 1392–1897</span>
+        <h2 id="joseon-title" className={styles.h2}>If you had been born in Joseon Korea</h2>
+        <div className={styles.cardWrap}>
+          <JoseonCard
+            stem={chart.day.stem}
+            title={role.title}
+            hanjaLine={`${role.hanja} · ${role.korean}`}
+            dayMasterLabel={`${STEM_ROMAN[chart.day.stem]} ${ELEMENT_INFO[meEl].name} · ${me.title}`}
+            rating={statOf(max)}
+            ratingHanja={ELEMENT_INFO[strongest].hanja}
+            ratingLabel={STAT_LABEL[strongest]}
+            rarity={rarity}
+            stats={ORDER.map((e) => ({ element: e, label: STAT_LABEL[e], value: statOf(chart.elements[e]) }))}
+          />
+        </div>
+        <p className={styles.p}>
+          <b>You would have been a {role.title.toLowerCase()}.</b> {role.line} {JOSEON_FLAVOR[strongest]}
+        </p>
+        <p className={styles.small}>
+          Joseon was the dynasty that ruled Korea for five centuries, the world of most Korean historical dramas.
+          Your card stats come from the five elements in your chart.
+        </p>
+        <p className={styles.lockLine}>
+          <span className={styles.blurInline} aria-hidden="true">How that life unfolded, and the work it points to</span>
+          <span className={styles.lockTag}>In your full reading</span>
+        </p>
+      </section>
+
       <section className={styles.sheet} aria-labelledby="el-title">
         <span className={styles.label}>Five elements · 오행</span>
         <h2 id="el-title" className={styles.h2}>Your balance</h2>
@@ -144,6 +187,41 @@ export default async function Reading({ searchParams }: { searchParams: Promise<
         </div>
         <p className={styles.p}>{ELEMENT_INFO[strongest].strong}</p>
         {min < max && <p className={`${styles.p} ${styles.muted}`}>{ELEMENT_INFO[quietest].lack}</p>}
+      </section>
+
+      <section className={styles.sheet} aria-labelledby="match-title">
+        <span className={styles.label}>Gunghap · 궁합 · compatibility</span>
+        <h2 id="match-title" className={styles.h2}>Who you match best with</h2>
+        <div className={styles.matchHead}>
+          <div className={`${styles.seal} ${styles['seal' + partnerEl]}`} aria-hidden="true">{STEMS[partnerStem]}</div>
+          <div>
+            <span className={styles.label}>Your heavenly match</span>
+            <h3 className={styles.h3}>{STEM_ROMAN[partnerStem]} {ELEMENT_INFO[partnerEl].name} · {DAY_MASTERS[partnerStem].title}</h3>
+            <p className={`${styles.p} ${styles.muted}`}>{JOSEON[partnerStem].match}</p>
+          </div>
+        </div>
+        <p className={styles.small}>
+          In saju, some day masters pull toward each other like magnets. Yours, {STEM_ROMAN[chart.day.stem]} {ELEMENT_INFO[meEl].name.toLowerCase()},
+          forms a natural pair with {STEM_ROMAN[partnerStem]} {ELEMENT_INFO[partnerEl].name.toLowerCase()}.
+        </p>
+        <div className={styles.matchYears}>
+          {matches.map((m) => (
+            <div key={m.diff} className={styles.matchYear}>
+              <ZodiacIcon branch={m.branch} size={64} />
+              <b>{ZODIAC[m.branch].animal}</b>
+              <span>{m.diff < 0 ? '4 years older' : '4 years younger'}</span>
+              <span className={styles.small}>born {m.birthYear}</span>
+            </div>
+          ))}
+        </div>
+        <p className={styles.small}>
+          Your {ZODIAC[chart.year.branch].animal.toLowerCase()} year sits in a triangle of three animals that support each other. The other two
+          are exactly four years apart from you.
+        </p>
+        <p className={styles.lockLine}>
+          <span className={styles.blurInline} aria-hidden="true">Enter their birthday to see where you clash and</span>
+          <span className={styles.lockTag}>Check a real match in the full reading</span>
+        </p>
       </section>
 
       <section className={styles.sheet} aria-labelledby="hidden-title">
@@ -172,6 +250,8 @@ export default async function Reading({ searchParams }: { searchParams: Promise<
         <h2 id="full-title" className={styles.h2}>Get the whole story</h2>
         <ul>
           <li><span>What each hidden sign above means for you</span><span>Full reading</span></li>
+          <li><span>Your Joseon life story, and the modern work it points to</span><span>Full reading</span></li>
+          <li><span>Compatibility with someone specific</span><span>Full reading</span></li>
           <li><span>Love, and the kind of partner your chart draws in</span><span>Full reading</span></li>
           <li><span>Work and money: where your {ELEMENT_INFO[meEl].name.toLowerCase()} grows best</span><span>Full reading</span></li>
           <li><span>Your 10-year luck cycles (daeun)</span><span>Full reading</span></li>
