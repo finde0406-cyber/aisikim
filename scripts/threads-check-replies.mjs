@@ -82,7 +82,8 @@ async function main() {
         console.log(`  [id:${r.id}] @${r.username}: ${r.text}`)
       }
     }
-    state[t.id] = (repliesData.data ?? []).map((r) => r.id)
+    // 덮어쓰지 않고 누적 — API가 일시적으로 답글을 숨겼다가 다시 보여줘도 새 답글로 재보고하지 않게
+    state[t.id] = [...new Set([...seen, ...(repliesData.data ?? []).map((r) => r.id)])]
   }
 
   saveState(state)
